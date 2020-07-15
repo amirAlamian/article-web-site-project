@@ -1,11 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <%- include("../partials/header") %>  
-</head>
-<body>
-    <h1>hi</h1>
 
-    <%- include("../partials/scripts") %>  
+<head>
+    <%- include("../partials/header") %>
+</head>
+
+<body>
+    <form action="/api/dark/signUp" method="GET">
+        <button class="theme" style="display: inline;">click me</button>
+    </form>
+    
+    <section class="signUpBox-<%= theme %>">
+        
+
+        <article class="input-box">
+            <h2>Sign Up</h2>
+            <div class="<%= className %>" role="alert">
+                <%= message %> 
+            </div>
+            <div class="input-box-container"> <input type="text" placeholder="First name"></div>
+            <div class="input-box-container"> <input type="text" placeholder="Last name"></div>
+            <div class="input-box-container"> <input type="text" placeholder="User name"></div>
+            <div class="input-box-container"> <input type="password" placeholder="Password(at least 8 characters)" maxlength="36"></div>
+            <div class="input-box-container"> <input type="email" placeholder="Email"></div>
+            <div class="input-box-container"> <input type="text" placeholder="Phone number"></div>
+            <div class="input-box-radio"> <input type="radio" name="gender" value="male">Male<br> <input type="radio"
+                    name="gender" value="female">Female </div>
+            <div id="recap" class="<%= theme %>"></div>
+            <button class="signUpBTN">Sign Up</button>
+        </article>
+
+    </section>
+
+
+    <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit&hl" async defer>
+    </script>
+    <%- include("../partials/scripts") %>
+    <script src="/javascripts/client.js"></script>
+
 </body>
+
 </html>
