@@ -28,8 +28,14 @@ const UserSchema= new Schema ({
         type:String,
         require:true,
         trim:true,
-        maxlength: 30,
+        maxlength: 36,
         minlength: 8,
+    },
+    email:{
+        type:String,
+        require:true,
+        trim:true,
+        unique:true
     },
     gender:{
         type:String,
@@ -60,6 +66,7 @@ const UserSchema= new Schema ({
 },{
     collation:"blogger"
 })
+
 
 
 module.exports = mongoose.model('User', UserSchema);
