@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include("../partials/header") %>
+</head>
+<body>
+    <form action="/api/dark/signIn" method="GET">
+        <button class="theme" style="display: inline;">click me</button>
+    </form>
+    <% if (theme) { %>
+        <section class="signInbox-<%= theme %>">
+    <% } %>
+    <% if (!theme) { %>
+        <section class="signInbox-light">
+    <% } %>
+    
+        <article class="input-box">
+            <h2>Sign In</h2>
+            <div class="<%= className %>" role="alert">
+                <%= message %> 
+            </div>
+            <form action="/api/signIn" method="POST">
+            <div class="input-box-container"> <input type="text" placeholder="username" name="userName"></div>
+            <div class="input-box-container"> <input type="password" placeholder="password" name="password"></div>
+            <button class="signInBTN">Sign In</button>
+        </form>
+
+        <small>forget your password?&nbsp<a href="#">click here</a></small>
+
+        </article>
+    </section>
+    
+
+
+
+
+
+    <%- include("../partials/scripts") %>
+</body>
+</html>

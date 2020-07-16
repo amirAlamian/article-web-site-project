@@ -9,10 +9,13 @@
     <form action="/api/dark/signUp" method="GET">
         <button class="theme" style="display: inline;">click me</button>
     </form>
+    <% if (theme) { %>
+        <section class="signUpBox-<%= theme %>">
+    <% } %>
+    <% if (!theme) { %>
+        <section class="signUpBox-light">
+    <% } %>
     
-    <section class="signUpBox-<%= theme %>">
-        
-
         <article class="input-box">
             <h2>Sign Up</h2>
             <div class="<%= className %>" role="alert">

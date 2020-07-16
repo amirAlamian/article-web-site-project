@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include("../partials/header") %>
+</head>
+<body>
+    <%- include("../partials/navbar",{theme}) %>
+    <section class="introduce">
+        <div class="introduce-details">
+            <h1>Welcome</h1>
+            <h1>Over +1000 Article on</h1>
+            <h1>My site</h1>
+        </div>
+        <div class="introduce-links">
+            <form class="form-inline my-2 my-lg-0" method="GET" action="/api/signIn">
+                <button class="btn  my-2 my-sm-0" type="submit">Sign In</button>
+              </form>
+              <form class="form-inline my-2 my-lg-0" method="GET" action="/api/signUp">
+                <button class="btn my-2 my-sm-0" type="submit">Sign Up</button>
+              </form>
+        </div>
+    </section>
+
+    <section id="search">
+        <form class="form-inline my-2 my-lg-0">
+            <input class="form-control mr-sm-2 "  id="search-input" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0 " id="search-btn" type="submit">Search</button>
+        </form>
+    </section>
+
+
+    <%- include("../partials/footer") %> 
+    <%- include("../partials/scripts") %>
+    <script src="/javascripts/signIn.js">
+    </script>
+</body>
+</html>

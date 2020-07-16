@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include("../partials/header") %>
+</head>
+<body>
+    <span id="passage-holder" data-article="<%= article.body %> "></span>
+    <section id="passage"></section>
+   
+
+    <%- include("../partials/scripts") %>
+    <script src="/javascripts/signIn.js"></script>
+<script>
+    let passage=document.getElementById("passage-holder").getAttribute("data-article");
+    document.getElementById("passage").innerHTML=passage;
+
+
+</script>
+</body>
+</html>
