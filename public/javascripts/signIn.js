@@ -94,12 +94,12 @@ $(".create-btn").click(() => {
     $.ajax({// post to add new article
 
       type: "POST",
-      url: "/api/dashboard/addArticle",
+      url: "/api/dashboard/article/add",
       data: articleInfo,
       success: (response) => {
         console.log(response);
         if (response.title) {
-          $(".alert").removeClass("alert-danger hide").addClass("alert-primary").html(`Article has been successfully created. you have 1 day permission to compelete your article otherwise it will be removed.to compelete your article click <a href='/api/dashboard/addArticle/${response._id}'>here</a>`);
+          $(".alert").removeClass("alert-danger hide").addClass("alert-primary").html(`Article has been successfully created. you have 1 day permission to compelete your article otherwise it will be removed.to compelete your article click <a href='/api/dashboard/article/add/${response._id}'>here</a>`);
         }
         else {
           $(".alert").removeClass("hide").html(response)
@@ -239,7 +239,7 @@ $(".send-article-btn").click(() => {
   $.ajax({// sending article passage into data base
 
     type: "POST",
-    url: `/api/dashboard/addArticle/${$(".send-article-btn").attr("data-id")}`,
+    url: `/api/dashboard/article/add/${$(".send-article-btn").attr("data-id")}`,
     data: article,
     success: (response) => {
       console.log(response);
