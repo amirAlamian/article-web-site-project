@@ -17,7 +17,7 @@ const checkSession = (req, res, next) => {
 }
 
 
-router.use('/dashboard', userDashboard);
+router.use('/dashboard',checkSession, userDashboard);
 router.use('/article', checkSession, userDashboard);
 router.use('/comment', checkSession, userDashboard);
 

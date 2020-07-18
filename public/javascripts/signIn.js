@@ -34,7 +34,7 @@ let i;
 // })
 
 // let addCard = (articles) => {
-  
+
 
 //   for (i = 0, length = articles.length; i < length; i++) {
 //     if (articles[i].published) {
@@ -119,55 +119,16 @@ $(".create-btn").click(() => {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////text editor///////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////
-
-let toolbarOptions = [
-  [{ 'font': [] }],
-  [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
-  [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-  ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
-  ['blockquote', 'code-block'],
-
-  [{ 'header': 1 }, { 'header': 2 }],               // custom button values
-  [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-  [{ 'script': 'sub' }, { 'script': 'super' }],      // superscript/subscript
-  [{ 'indent': '-1' }, { 'indent': '+1' }],          // outdent/indent
-  [{ 'direction': 'rtl' }],                         // text direction
-
-
-
-
-  [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
-
-  [{ 'align': [] }],
-
-  ['clean'], ['image']];
-let quill = new Quill('#editor2', {
-  history: {
-    delay: 1000,
-    maxStack: 50,
-    userOnly: false
-  },
-  imageDrop: true,
-  imageResize: {
-    displayStyles: {
-      backgroundColor: 'black',
-      border: 'none',
-      color: 'white'
-    },
-    modules: ['Resize', 'DisplaySize', 'Toolbar']
-  },
-  modules: {
-    toolbar: toolbarOptions
-  },
-  theme: 'snow',
-  placeholder: 'Write your passage here',
-});
-
-
-
-
+let passage = $("#article-passage").attr("data-passage");
 
 tinymce.init({
+  selector: '#full-featured-non-premium',
+  
+  setup: function (editor) {
+    editor.on('init', function (e) {
+      editor.setContent(passage);
+    });
+  },
   selector: 'textarea#full-featured-non-premium',
   plugins: 'print preview paste importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern noneditable help charmap quickbars emoticons',
   imagetools_cors_hosts: ['picsum.photos'],
@@ -211,7 +172,7 @@ tinymce.init({
     }
   },
   templates: [
-        { title: 'New Table', description: 'creates a new table', content: '<div class="mceTmpl"><table width="98%%"  border="0" cellspacing="0" cellpadding="0"><tr><th scope="col"> </th><th scope="col"> </th></tr><tr><td> </td><td> </td></tr></table></div>' },
+    { title: 'New Table', description: 'creates a new table', content: '<div class="mceTmpl"><table width="98%%"  border="0" cellspacing="0" cellpadding="0"><tr><th scope="col"> </th><th scope="col"> </th></tr><tr><td> </td><td> </td></tr></table></div>' },
     { title: 'Starting my story', description: 'A cure for writers block', content: 'Once upon a time...' },
     { title: 'New list with dates', description: 'New List with dates', content: '<div class="mceTmpl"><span class="cdate">cdate</span><br /><span class="mdate">mdate</span><h2>My List</h2><ul><li></li><li></li></ul></div>' }
   ],
@@ -223,8 +184,7 @@ tinymce.init({
   noneditable_noneditable_class: "mceNonEditable",
   toolbar_mode: 'sliding',
   contextmenu: "link image imagetools table",
- });
-
+});
 
 
 
@@ -244,7 +204,7 @@ $(".send-article-btn").click(() => {
     success: (response) => {
       console.log(response);
       if (response === "done") {
-        $(".alert").removeClass("alert-danger hide").addClass("alert-primary").html("Article has been successfully updated.");
+        $(".alert").removeClass("alert-danger hide").addClass("alert-primary").html("Article has been successfully updated.click <a href='/api/dashboard'>here</a> to go to your dashboard ");
       }
       else {
         $(".alert").removeClass("hide").html(response)
@@ -260,7 +220,7 @@ $(".send-article-btn").click(() => {
 })
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////// read article button /////////////////////////////////
+/////////////////////////////////// user picture click button ////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 
