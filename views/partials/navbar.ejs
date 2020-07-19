@@ -27,10 +27,16 @@
         </form>
       <% } %>
       <% if (user.userName) { %>
+        <div class="user-information">
+          <a href="/api/logOut" class="text-light user-information-options "> Log&nbsp;out</a>
+          <a href="/api/dashboard" class="text-light user-information-options">Dashboard</a>
+          <a href="/api/dashboard/userAccount" class="text-light user-information-options">Account</a>
+
+        </div>
        <div class="rounded-circle user">
          <img  class="user-image rounded-circle" src="/images/<%= user.avatar %> " alt="<%= user.userName %>">
        </div>
       <% } %>
-     <div class="hide user-information"></div>
+     
     </div>
   </nav>

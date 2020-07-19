@@ -8,7 +8,7 @@ router.get("/", (req, res) => {
 
 
     Article.find({}, (err, data) => {
-    
+        
     })
     res.render
 })
