@@ -8,9 +8,12 @@ router.get("/", (req, res) => {
 
 
     Article.find({}, (err, data) => {
+        res.render("pages/admin.js",{
+            articles:data.reverse()
+        })
         
     })
-    res.render
+    
 })
 
 
