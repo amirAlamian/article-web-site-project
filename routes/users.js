@@ -2,39 +2,26 @@ const express = require('express');
 const router = express.Router();
 const { renderSync } = require('node-sass');
 const Article = require("../models/article");
-const { json } = require('express');
-const $ =require("jquery")
+const articleRouter = require("./article");
+const multer = require('multer');
+const User = require("../models/blogger");
+const fs=require("fs")
 
-
-///////////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////// function for finding articles by id //////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////////////
-const findArticle = async (req, res,url) => {
-    //promise to find article and send for adding passage
-    try {
-        let article = await new Promise((resolve, reject) => {
-
-            Article.findById(req.params.article_id, (err, data) => {
-
-                if (err) reject(err);
-
-                resolve(data);
-            })
-        })
-        if (!article) {
-            throw new Error("there is no article with this informations")
-        }
-        return res.render(url, { article })
-    } catch (error) {
-        console.log(error.message);
-        return res.render("pages/error", {
-            message: "404 NOT FOUND"
-        });
+class Response{
+    constructor(status,message,date){
+        this.status=status;
+        this.message=message;
+        this.modified_time =date;
     }
-};
+}
+
+
+router.use("/article", articleRouter)
 ///////////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////// end pints ///////////////////////////////////////////////////
+/////////////////////////////// get dashboard end points /////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////
+
+
 router.get("/", (req, res) => {
     (async () => {//promise to find article and send for adding passage
         try {
@@ -51,7 +38,7 @@ router.get("/", (req, res) => {
             return res.render("pages/dashboard", {
                 user: req.session.user,
                 theme: req.cookies.theme,
-                articles: article
+                articles: article.reverse()
             })
         } catch (error) {
             console.log(error.message);
@@ -62,100 +49,86 @@ router.get("/", (req, res) => {
 
 })
 ///////////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////// end pints ///////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////////////
-router.get("/getArticles", (req, res) => {
-    (async () => {//promise to find article and send for adding passage
-        try {
-            let article = await new Promise((resolve, reject) => {
-
-                Article.find({ author: req.session.user.userName }, (err, data) => {
-
-                    if (err) reject(err);
-
-                    resolve(data);
-                })
-            })
-
-            res.json(article)
-        } catch (error) {
-            console.log(error.message);
-            res.send("something went wrong")
-        }
-    })();
-})
-///////////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////// end pints ///////////////////////////////////////////////////
+/////////////////////////////// get dashboard end points /////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-router.post("/addArticle", async (req, res) => {
-    try {
-        if (!req.body.title || !req.body.description) {
-            throw new Error("you have an empty input")
-        }
-        const newArticle = new Article({
-            title: req.body.title,
-            description: req.body.description,
-            author: req.session.user.userName
-        })
-        let article = await newArticle.save()
-        if (!article) {
-            throw new Error("something went wrong")
-        }
-        return res.status(201).json(article);
 
+router.get("/userAccount", (req, res) => {
 
-    } catch (error) {
-        console.log(error);
-        return res.send(error.message)
-
-    }
-})
-
-
-
-
-///////////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////// end pints ///////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////////////
-router.get("/addArticle/:article_id", (req, res) => {
+    res.render("pages/userAccount",{
+        user:req.session.user,
+        theme: req.cookies.theme
+    })
    
-    findArticle(req,res,"pages/addArticle")
+
 
 })
+
+
+
+
+
+
 ///////////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////// end pints ///////////////////////////////////////////////////
+////////////////////// multer package usage and apload avatar end point //////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////
-router.post("/addArticle/:article_id", async (req, res) => {
-    console.log("dfjsdfhsdjhjdsh");
-    try {// prmise for adding passage to article
-        console.log(req.params.article_id);
-        if (!req.body.passage) {
-            throw new Error("your article is empty")
-        }
-        let article = await Article.findByIdAndUpdate(req.params.article_id, { body: req.body.passage }, { new: true })
-        console.log(article);
-        if (!article) {
-            throw new Error("something went wrong")
-        }
-        return res.status(201).json("done");
-
-
-    } catch (error) {
-        console.log(error.message);
-        return res.send(error.message)
-
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, 'public/images');
+    },
+    filename: function (req, file, cb) {
+        let fileType=file.originalname.split(".");// this is file type name
+        cb(null, new Buffer.from(req.session.user.userName).toString('base64') + ".png")
     }
 })
+
+const uploadAvatar = multer({ storage: storage });
+
+
+router.post('/uploadAvatar', (req, res) => {
+    console.log(req.body,"req");
+    
+    const upload = uploadAvatar.single('avatar');
+
+    upload(req, res, function (err) {
+        if (err) return res.status(400).send('something went wrong.please try again later');
+
+        User.findByIdAndUpdate(req.session.user._id, { avatar: req.file.filename }, { new: true }, (err, user) => {
+
+            if (err) return res.status(400).send('something went wrong.please try again later');
+
+            req.session.user.avatar = req.file.filename;
+            res.send(new  Response(true,"updated",Date.now));
+        })
+
+
+    })
+})
+
+
 ///////////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////// end pints ///////////////////////////////////////////////////
+//////////////////////////// user information update end point ///////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-router.get("/readArticle/:article_id", (req, res) => {
-    console.log("dsfdfdsf");
+router.put("/updateUser", async (req,res)=>{
+    try{
+        if ( !req.body.password || !req.body.firstName || !req.body.lastName || !req.body.email  || !req.body.phoneNumber) {
+            throw new Error('You have an empty input.')
+        };
+       let user = await User.findByIdAndUpdate(req.session.user._id , req.body, {new:true} );
+       console.log(user,"dsfdsjfjsdk");
+       if(!user){
+           throw new Error("something went wrong. please try again later")
+       }
+       req.session.user=user;
+       res.json(new Response(true,"your account has been updated successfully",Date.now))
 
-    findArticle(req,res,"pages/readArticle")
+    }catch(error){
+        console.log(error.message);
+        res.json(new Response(false,error.message ,Date.now))
 
+    }
+    
 })
 
 module.exports = router;

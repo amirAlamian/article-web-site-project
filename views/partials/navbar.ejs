@@ -18,12 +18,25 @@
           <a class="nav-link btn " href="#">Link</a>
         </li>
       </ul>
-      <form class="form-inline my-2 my-lg-0" method="GET" action="/api/signIn">
-        <button class="btn  my-2 my-sm-0" type="submit">Sign In</button>
-      </form>
-      <form class="form-inline my-2 my-lg-0" method="GET" action="/api/signUp">
-        <button class="btn my-2 my-sm-0" type="submit">Sign Up</button>
-      </form>
-      <!-- > -->
+      <% if (!user.userName) { %>
+        <form class="form-inline my-2 my-lg-0" method="GET" action="/api/signIn">
+          <button class="btn  my-2 my-sm-0" type="submit">Sign In</button>
+        </form>
+        <form class="form-inline my-2 my-lg-0" method="GET" action="/api/signUp">
+          <button class="btn my-2 my-sm-0" type="submit">Sign Up</button>
+        </form>
+      <% } %>
+      <% if (user.userName) { %>
+        <div class="user-information">
+          <a href="/api/logOut" class="text-light user-information-options "> Log&nbsp;out</a>
+          <a href="/api/dashboard" class="text-light user-information-options">Dashboard</a>
+          <a href="/api/dashboard/userAccount" class="text-light user-information-options">Account</a>
+
+        </div>
+       <div class="rounded-circle user">
+         <img  class="user-image rounded-circle" src="/images/<%= user.avatar %> " alt="<%= user.userName %>">
+       </div>
+      <% } %>
+     
     </div>
   </nav>

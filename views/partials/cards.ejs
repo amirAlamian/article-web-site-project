@@ -1,8 +1,11 @@
 <div class="card" style="width: 18rem;">
-    <img class="card-img-top" src="..." alt="Card image cap">
-    <div class="card-body">
-      <h5 class="card-title"><%= article.title%></h5>
-      <p class="card-text"><%= article.description%></p>
-      <a href="dashboard/readArticle/<%= article._id %>" class="btn btn-primary">read</a>
-    </div>
+  <img class="card-img-top" src="..." alt="Card image cap">
+  <div class="card-body">
+    <h5 class="card-title"><%= article.title%></h5>
+    <p class="card-text"><%= article.description%></p>
+    <a href="dashboard/article/read/<%= article._id %>" class="btn btn-primary">read</a>
+    <a href="dashboard/article/edit/<%= article._id %>" class="btn btn-warning">edit</a>
+    <button class="btn btn-danger btn-remove "  data-toggle="modal" data-target="#removeModal" data-whatever="@mdo" data-article-id="<%= article._id %>" data-article-title="<%= article.title%>">remove</button>
   </div>
+</div>
+

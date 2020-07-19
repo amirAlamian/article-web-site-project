@@ -17,7 +17,7 @@ const checkSession = (req, res, next) => {
 }
 
 
-router.use('/dashboard', userDashboard);
+router.use('/dashboard',checkSession, userDashboard);
 router.use('/article', checkSession, userDashboard);
 router.use('/comment', checkSession, userDashboard);
 
@@ -179,6 +179,17 @@ router.get("/dark/signIn", (req, res) => {//dark mode
         theme: req.cookies.theme,
         className: "alert alert-light"
     })
+})
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////setting up log out requests///////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+router.get("/logOut", (req, res) => {//dark mode
+
+    req.session.destroy();
+
+    res.redirect("/api/signIn")
 })
 
 
