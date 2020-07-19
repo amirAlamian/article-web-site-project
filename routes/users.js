@@ -7,8 +7,13 @@ const multer = require('multer');
 const User = require("../models/blogger");
 const fs=require("fs")
 
-
-
+class Response{
+    constructor(status,message,date){
+        this.status=status;
+        this.message=message;
+        this.modified_time =date;
+    }
+}
 
 
 router.use("/article", articleRouter)
@@ -33,7 +38,7 @@ router.get("/", (req, res) => {
             return res.render("pages/dashboard", {
                 user: req.session.user,
                 theme: req.cookies.theme,
-                articles: article
+                articles: article.reverse()
             })
         } catch (error) {
             console.log(error.message);
@@ -43,6 +48,26 @@ router.get("/", (req, res) => {
 
 
 })
+///////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////// get dashboard end points /////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+
+router.get("/userAccount", (req, res) => {
+
+    res.render("pages/userAccount",{
+        user:req.session.user,
+        theme: req.cookies.theme
+    })
+   
+
+
+})
+
+
+
+
+
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////// multer package usage and apload avatar end point //////////////////////
@@ -61,6 +86,8 @@ const uploadAvatar = multer({ storage: storage });
 
 
 router.post('/uploadAvatar', (req, res) => {
+    console.log(req.body,"req");
+    
     const upload = uploadAvatar.single('avatar');
 
     upload(req, res, function (err) {
@@ -71,11 +98,37 @@ router.post('/uploadAvatar', (req, res) => {
             if (err) return res.status(400).send('something went wrong.please try again later');
 
             req.session.user.avatar = req.file.filename;
-            res.send(user)
+            res.send(new  Response(true,"updated",Date.now));
         })
 
 
     })
+})
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////// user information update end point ///////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+router.put("/updateUser", async (req,res)=>{
+    try{
+        if ( !req.body.password || !req.body.firstName || !req.body.lastName || !req.body.email  || !req.body.phoneNumber) {
+            throw new Error('You have an empty input.')
+        };
+       let user = await User.findByIdAndUpdate(req.session.user._id , req.body, {new:true} );
+       console.log(user,"dsfdsjfjsdk");
+       if(!user){
+           throw new Error("something went wrong. please try again later")
+       }
+       req.session.user=user;
+       res.json(new Response(true,"your account has been updated successfully",Date.now))
+
+    }catch(error){
+        console.log(error.message);
+        res.json(new Response(false,error.message ,Date.now))
+
+    }
+    
 })
 
 module.exports = router;

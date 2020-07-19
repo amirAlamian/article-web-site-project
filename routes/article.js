@@ -4,6 +4,14 @@ const { renderSync } = require('node-sass');
 const Article = require("../models/article");
 
 
+class Response{
+    constructor(status,message,date){
+        this.status=status;
+        this.message=message;
+        this.modified_time =date;
+    }
+}
+
 ///////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////// function for finding articles by id //////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -44,10 +52,10 @@ const removeArticle = async (req, res) => {
                 resolve(data);
             })
         })
-        return res.send("done")
+        return res.json(new Response(true,"article has been removed successfully.",Date.now))
     } catch (error) {
         console.log(error.message);
-        return res.send("404 not found")
+        return res.json(new Response(false,"something went wrong. please try again later",Date.now))
     }
 };
 
@@ -56,6 +64,7 @@ const removeArticle = async (req, res) => {
 //////////////////////////////////////// get all articles end points /////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////
 router.get("/get", (req, res) => {
+    console.log("dsfdsfh");
     (async () => {//promise to find article and send for adding passage
         try {
             let article = await new Promise((resolve, reject) => {
@@ -121,7 +130,6 @@ router.get("/add/:article_id", (req, res) => {
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 router.post("/add/:article_id", async (req, res) => {
-    console.log("dfjsdfhsdjhjdsh");
     try {// prmise for adding passage to article
         console.log(req.params.article_id);
         if (!req.body.passage) {
@@ -165,10 +173,26 @@ router.get("/edit/:article_id", (req, res) => {
 //////////////////////////////////////// remove end points /////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-router.get("/remove/:article_id", (req, res) => {
+router.post("/remove/:article_id", (req, res) => {
     removeArticle(req,res);
 
 })
 
+///////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////// get all article page end point //////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////
 
+router.get("/allArticles/:published",(req,res)=>{
+    if(req.params.published==="published"){
+        res.render("pages/allArticle.ejs",{published:true})
+
+    }
+    else{
+
+        res.render("pages/allArticle.ejs",{published:false})
+    
+    }
+    
+    
+})
 module.exports = router;
