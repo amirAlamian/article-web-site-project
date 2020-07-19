@@ -8,14 +8,9 @@ router.get("/", (req, res) => {
 
 
     Article.find({}, (err, data) => {
-
-        res.render("pages/admin",{
-            articles:data,
-            
-        })
-        
-    })
     
+    })
+    res.render
 })
 
 

@@ -81,8 +81,6 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 app.use('/api', api);
-app.use('/admin', admin);
-
 
 
 app.listen("8080",()=>{
