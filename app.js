@@ -6,7 +6,7 @@ const logger = require('morgan');
 const mongoose =require("mongoose");
 const api = require('./routes/api');
 const session = require('express-session');
-
+const admin=require("./routes/admin")
 const app = express();
 
 
@@ -81,6 +81,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 app.use('/api', api);
+app.use('/admin', admin);
 
 
 

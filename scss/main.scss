@@ -274,16 +274,149 @@ footer{
 .user{//in dashboard
   width:40px;
   height:40px;
-  background-color: red;
+  overflow: hidden;
   cursor: pointer;
+  
   &-image{
     width: 100%;
     height: 100%;
+    transition: transform 300ms ease-in-out;
+    &:hover{
+      transform: scale(1.2)
+    }
   }
 
 }
+
 .user-information{
-  width: 70px;
-  height: 200px;
-  background-color: black;
+  @include flexstuff(row, center);
+  justify-content: space-around;
+  flex-wrap: nowrap;
+  overflow: hidden;
+  width: 0;
+  height: 40px;
+  border-radius: 5px;
+  margin-right: 10px;
+}
+
+.userAccount{
+  margin-top: 20px;
+  width: 100%;
+  @include flexstuff(column, center);
+  hr{
+    width: 100%;
+    // margin-top: 100px;
+  }
+  &-box-image{
+    @include flexstuff(column, center);
+    flex-wrap: nowrap;
+    width: 80%;
+    div{
+      width:400px ;
+      height: 400px;
+      margin: 10px 0;
+      
+      img{
+        width: 100%;
+        height: 100%;
+
+      }
+    }
+    }
+   
+
+  &-box-information{
+    @include flexstuff(row, center);
+    justify-content: space-around;
+    width: 80%;
+    .information-box{
+      font-size:20px;
+      width: 45%;
+      @include flexstuff(column, center);
+      justify-content: flex-start;
+      &-holder{
+        width: 100%;
+        margin: 10px;
+        input{
+          border:none;
+          outline: none;
+          padding: 10px;
+          width: 50%;
+          background-color: inherit;
+
+        }
+        button{
+          float: right;
+        }
+      }
+    }
+  }
+}
+.showMore{
+  width: 100%;
+  height: 20px;
+  a{
+    float: right;
+    
+  }
+}
+
+.table-holder{
+  width: 100%;
+
+  .table{
+    width: 80%;
+
+
+    &-title{
+      width :20%
+    }
+    &-description{
+      width: 50%;
+    }
+  }
+  
+
+}
+
+.fa-pencil-square-o{
+  font-size: 16px; 
+  color: orange;
+  cursor: pointer;
+  margin-left: 10px;
+}
+.fa-trash{
+  font-size: 16px; 
+  color: red;
+  cursor: pointer;
+  margin-left: 10px;
+}
+.fa-book{
+  font-size: 15px; 
+  color: black;
+  cursor: pointer;
+
+}
+td{
+  text-align: center;
+  font-size: 18px;
+}
+tr{
+  background: rgba(140, 140, 140,0.1);
+}
+.addInput ,.editInput{
+  display: block;
+  padding: 5px;
+  width: 60%;
+  margin: 10px;
+  outline: none;
+  border:lightgray 1px solid;
+  border-radius: 4px;
+}
+.box{
+  float: right;
+  margin: 20px;
+  margin-left: 0;
+  width: 200px;
+  display: inline-block;
 }

@@ -7,91 +7,47 @@
 
 <body>
     <%- include("../partials/navbar",{theme,user}) %>
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"
-        data-whatever="@mdo">+</button>
-
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">New Article</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="alert alert-danger hide" role="alert">
-                        
-                    </div>
-                    <form>
-                        <div class="form-group">
-                            <label for="recipient-name" class="col-form-label">Title:</label>
-                            <input type="text" class="form-control" id="passage-name">
-                        </div>
-                        <div class="form-group">
-                            <label for="message-text" class="col-form-label">
-                                Description:</label>
-                            <textarea class="form-control" id="passage-text"></textarea>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary create-btn">Create</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal fade" id="removeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Are you sure about this? if you are, please type <span class="text-danger" ></span> to remove it </h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            
-            <div class="modal-body">
-              <div class="alert alert-danger hide" role="alert">
-                              
-              </div>
-              <form>
-                <div class="form-group">
-                  <input type="text" class="form-control remove-input" id="recipient-name" >
-                </div>
-              </form>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-danger remove-BTN" >remove</button>
-              
-            </div>
-          </div>
-        </div>
-      </div>
-
+    
+    <%- include("../partials/modals",{theme,user}) %>
     <section class="article">
         <hr>
         <article class="article-not-done">
-            
-            <% for( let index = 0; index < articles.length; index++ ) { %>
+            <% let counter=0 %> 
+            <% for( let index = 0; index <articles.length; index++ ) { %>
                 <% if (articles[index].published) { %>
                     <%- include("../partials/cards",{article:articles[index]}) %> 
+                    <%  counter++ %> 
+                    <% if (counter===3) { %>
+                        <%  counter=0 %>
+                        <%  break %>  
+                     
+                    <% } %>
                 <% } %>
+
                 
             <% } %>
+            <div class="showMore">
+                <a href="/api/dashboard/article/allArticles/published" class="btn-light btn">Show more</a>
+            </div>
         </article>
         <hr>
         <article class="article-done">
             <% for( let index = 0; index < articles.length; index++ ) { %>
                 <% if (!articles[index].published) { %>
                     <%- include("../partials/cards",{article:articles[index]}) %> 
+                    <%  counter++ %> 
+                    <% if (counter===3) { %>
+                        <%  counter=0 %>
+                        <%  break %>  
+                     
+                    <% } %>
+                    
                 <% } %>
                 
             <% } %>
+            <div class="showMore">
+                <a href="/api/dashboard/article/allArticles/nopublished" class="btn-light btn">Show more</a>
+            </div>
         </article>
         <hr>
     </section>
@@ -103,8 +59,8 @@
 
     <%- include("../partials/footer") %>
     <%- include("../partials/scripts") %>
-    <script src="/javascripts/signIn.js"></script>
     <script src="/javascripts/article.js"></script>
+    <script src="/javascripts/signIn.js"></script>
 </body>
 
 </html>
