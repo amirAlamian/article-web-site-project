@@ -5,15 +5,8 @@ const Article = require("../models/article");
 const articleRouter = require("./article");
 const multer = require('multer');
 const User = require("../models/blogger");
-const fs=require("fs")
+const Response = require("../tools/response")
 
-class Response{
-    constructor(status,message,date){
-        this.status=status;
-        this.message=message;
-        this.modified_time =date;
-    }
-}
 
 
 router.use("/article", articleRouter)
@@ -55,11 +48,11 @@ router.get("/", (req, res) => {
 
 router.get("/userAccount", (req, res) => {
 
-    res.render("pages/userAccount",{
-        user:req.session.user,
+    res.render("pages/userAccount", {
+        user: req.session.user,
         theme: req.cookies.theme
     })
-   
+
 
 
 })
@@ -72,12 +65,13 @@ router.get("/userAccount", (req, res) => {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////// multer package usage and apload avatar end point //////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////
+
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
         cb(null, 'public/images');
     },
     filename: function (req, file, cb) {
-        let fileType=file.originalname.split(".");// this is file type name
+        let fileType = file.originalname.split(".");// this is file type name
         cb(null, new Buffer.from(req.session.user.userName).toString('base64') + ".png")
     }
 })
@@ -85,24 +79,31 @@ const storage = multer.diskStorage({
 const uploadAvatar = multer({ storage: storage });
 
 
-router.post('/uploadAvatar', (req, res) => {
-    console.log(req.body,"req");
-    
-    const upload = uploadAvatar.single('avatar');
+router.post('/uploadAvatar', async (req, res) => {
 
-    upload(req, res, function (err) {
-        if (err) return res.status(400).send('something went wrong.please try again later');
+    try {
 
-        User.findByIdAndUpdate(req.session.user._id, { avatar: req.file.filename }, { new: true }, (err, user) => {
+        const upload = uploadAvatar.single('avatar');
 
+        upload(req, res, async function (err) {
             if (err) return res.status(400).send('something went wrong.please try again later');
 
-            req.session.user.avatar = req.file.filename;
-            res.send(new  Response(true,"updated",Date.now));
+           let user= await User.findByIdAndUpdate(req.session.user._id, { avatar: req.file.filename }, { new: true })
+
+                if (!user) throw new Error('something went wrong.please try again later');
+
+                req.session.user.avatar = req.file.filename;
+                res.status(201).send(new Response(true, "updated", Date.now));
+            
+
+
         })
 
+    } catch (error) {
+        console.log(error.message);
+        res.json(new Response(false, error.message, Date.now))
+    }
 
-    })
 })
 
 
@@ -110,25 +111,27 @@ router.post('/uploadAvatar', (req, res) => {
 //////////////////////////// user information update end point ///////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-router.put("/updateUser", async (req,res)=>{
-    try{
-        if ( !req.body.password || !req.body.firstName || !req.body.lastName || !req.body.email  || !req.body.phoneNumber) {
+router.put("/updateUser", async (req, res) => {
+    try {
+        if (!req.body.password || !req.body.firstName || !req.body.lastName || !req.body.email || !req.body.phoneNumber) {
             throw new Error('You have an empty input.')
         };
-       let user = await User.findByIdAndUpdate(req.session.user._id , req.body, {new:true} );
-       console.log(user,"dsfdsjfjsdk");
-       if(!user){
-           throw new Error("something went wrong. please try again later")
-       }
-       req.session.user=user;
-       res.json(new Response(true,"your account has been updated successfully",Date.now))
 
-    }catch(error){
+        let user = await User.findByIdAndUpdate(req.session.user._id, req.body, { new: true });
+
+        if (!user) {
+            throw new Error("something went wrong. please try again later")
+        }
+
+        req.session.user = user;
+        res.json(new Response(true, "your account has been updated successfully", Date.now))
+
+    } catch (error) {
         console.log(error.message);
-        res.json(new Response(false,error.message ,Date.now))
+        res.json(new Response(false, error.message, Date.now))
 
     }
-    
+
 })
 
 module.exports = router;

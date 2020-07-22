@@ -7,24 +7,24 @@
 
 <body>
     <%- include("../partials/navbar",{theme,user}) %>
-    
+
     <%- include("../partials/modals",{theme,user}) %>
     <section class="article">
         <hr>
         <article class="article-not-done">
-            <% let counter=0 %> 
+            <% let counter=0 %>
             <% for( let index = 0; index <articles.length; index++ ) { %>
-                <% if (articles[index].published) { %>
-                    <%- include("../partials/cards",{article:articles[index]}) %> 
-                    <%  counter++ %> 
-                    <% if (counter===3) { %>
-                        <%  counter=0 %>
-                        <%  break %>  
-                     
-                    <% } %>
-                <% } %>
+            <% if (articles[index].published) { %>
+            <%- include("../partials/cards",{article:articles[index]}) %>
+            <%  counter++ %>
+            <% if (counter===3) { %>
+            <%  counter=0 %>
+            <%  break %>
 
-                
+            <% } %>
+            <% } %>
+
+
             <% } %>
             <div class="showMore">
                 <a href="/api/dashboard/article/allArticles/published" class="btn-light btn">Show more</a>
@@ -33,17 +33,17 @@
         <hr>
         <article class="article-done">
             <% for( let index = 0; index < articles.length; index++ ) { %>
-                <% if (!articles[index].published) { %>
-                    <%- include("../partials/cards",{article:articles[index]}) %> 
-                    <%  counter++ %> 
-                    <% if (counter===3) { %>
-                        <%  counter=0 %>
-                        <%  break %>  
-                     
-                    <% } %>
-                    
-                <% } %>
-                
+            <% if (!articles[index].published) { %>
+            <%- include("../partials/cards",{article:articles[index]}) %>
+            <%  counter++ %>
+            <% if (counter===3) { %>
+            <%  counter=0 %>
+            <%  break %>
+
+            <% } %>
+
+            <% } %>
+
             <% } %>
             <div class="showMore">
                 <a href="/api/dashboard/article/allArticles/nopublished" class="btn-light btn">Show more</a>
@@ -59,6 +59,8 @@
 
     <%- include("../partials/footer") %>
     <%- include("../partials/scripts") %>
+    <script src="https://cdn.tiny.cloud/1/u27j517s2p7q4urqq9hj7oj047fw98p07hgsqd4kpccg6piz/tinymce/5/tinymce.min.js"
+        referrerpolicy="origin"></script>
     <script src="/javascripts/article.js"></script>
     <script src="/javascripts/signIn.js"></script>
 </body>

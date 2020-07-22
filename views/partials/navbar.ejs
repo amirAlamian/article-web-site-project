@@ -12,13 +12,13 @@
     <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
       <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
         <li class="nav-item ">
-          <a class="nav-link btn  active" href="#">Home <span class="sr-only">(current)</span></a>
+          <a class="nav-link btn  active" href="/api">Home <span class="sr-only">(current)</span></a>
         </li>
         <li class="nav-item">
           <a class="nav-link btn " href="#">Link</a>
         </li>
       </ul>
-      <% if (!user.userName) { %>
+      <% if (!user) { %>
         <form class="form-inline my-2 my-lg-0" method="GET" action="/api/signIn">
           <button class="btn  my-2 my-sm-0" type="submit">Sign In</button>
         </form>
@@ -26,7 +26,7 @@
           <button class="btn my-2 my-sm-0" type="submit">Sign Up</button>
         </form>
       <% } %>
-      <% if (user.userName) { %>
+      <% if (user) { %>
         <div class="user-information">
           <a href="/api/logOut" class="text-light user-information-options "> Log&nbsp;out</a>
           <a href="/api/dashboard" class="text-light user-information-options">Dashboard</a>

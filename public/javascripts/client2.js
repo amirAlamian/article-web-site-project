@@ -18,46 +18,57 @@ $.ajax({
     async: false,
     success: function (response) {
         console.log(response);
-        if ($(".article-table").attr("data-published") === "true") {
-            for (let i = 0, n = response.length; i < n; i++) {
-                if (response[i].published) {
-                    info.push(response[i])
+        if (response.status) {
+            if ($(".article-table").attr("data-published") === "true") {
+                for (let i = 0, n = response.message.length; i < n; i++) {
+                    if (response.message[i].published) {
+                        info.push(response.message[i])
+                    }
+                }
+                console.log(info);
+                for (let i = 0, n = info.length; i < n; i++) {//adding table
+                    $("table").find("tbody").append('<tr> <th scope="row">' + (i + 1) + '</th><td></td><td></td><td></td><td>  <a class="text-light" href="/api/dashboard/article/edit/' + info[i]._id + '"><i class="fa fa-pencil-square-o' + " " + i + '" aria-hidden="true"></i></a> <a class="text-light" href="/api/dashboard/article/read/' + info[i]._id + '"><i class="fa fa-book' + " " + i + '" aria-hidden="true"></i></a> <i class="fa fa-trash' + " " + i + '" aria-hidden="true" style="font-size: 16px; color: red;"></i></td></tr>')
+                    for (let j = 0; j < 3; j++) {
+                        if (j === 0) {
+                            $("tr").eq(i + 1).find("td").eq(j).append(`<a href='/api/dashboard/article/read/${info[i]._id}'>${info[i][titles[j]]}</a>`)
+                        }
+                        else {
+                            $("tr").eq(i + 1).find("td").eq(j).text(info[i][titles[j]])
+                        }
+
+                    }
+
                 }
             }
-            console.log(info);
-            for (let i = 0, n = info.length; i < n; i++) {//adding table
-                $("table").find("tbody").append('<tr> <th scope="row">' + (i + 1) + '</th><td></td><td></td><td></td><td> <a class="text-light" href="/api/dashboard/article/read/'+info[i]._id+'"> <i class="fa fa-book' + " " + i + '" aria-hidden="true"></i></a> <i class="fa fa-trash' + " " + i + '" aria-hidden="true" style="font-size: 16px; color: red;"></i> <a class="text-light" href="/api/dashboard/article/edit/'+info[i]._id+'"><i class="fa fa-pencil-square-o' + " " + i + '" aria-hidden="true"></i></a></td></tr>')
-                for (let j = 0; j < 3; j++) {
-                    if(j===0){
-                        $("tr").eq(i + 1).find("td").eq(j).append(`<a href='/api/dashboard/article/read/${info[i]._id}'>${info[i][titles[j]]}</a>`)
+            else if ($(".article-table").attr("data-published") === "false") {
+                for (let i = 0, n = response.message.length; i < n; i++) {
+                    if (!response.message[i].published) {
+                        info.push(response.message[i])
                     }
-                    else{
-                        $("tr").eq(i + 1).find("td").eq(j).text(info[i][titles[j]])
-                    }
-                    
                 }
-                
-            }
-        }
-        else if($(".article-table").attr("data-published") === "false") {
-            for (let i = 0, n = response.length; i < n; i++) {
-                if (!response[i].published) {
-                    info.push(response[i])
+
+                for (let i = 0, n = info.length; i < n; i++) {//adding table
+                    if (info[i].sendToAdmin) {
+                        $("table").find("tbody").append('<tr> <th scope="row">' + (i + 1) + '</th><td></td><td></td><td></td><td><i class="fa fa-clock-o' + " " + i + '"aria-hidden="true"></i>   <a class="text-light" href="/api/dashboard/article/edit/' + info[i]._id + '"><i class="fa fa-pencil-square-o' + " " + i + '" aria-hidden="true"></i></a><a class="text-light" href="/api/dashboard/article/read/' + info[i]._id + '"><i class="fa fa-book' + " " + i + '" aria-hidden="true"></i></a> <i class="fa fa-trash' + " " + i + '" aria-hidden="true" style="font-size: 16px; color: red;"></i></td></tr>')
+
+                    }
+                    else {
+                        $("table").find("tbody").append('<tr> <th scope="row">' + (i + 1) + '</th><td></td><td></td><td></td><td><i class="fa fa-check' + " " + i + '"aria-hidden="true" data-id="' + info[i]._id + '"></i>   <a class="text-light" href="/api/dashboard/article/edit/' + info[i]._id + '"><i class="fa fa-pencil-square-o' + " " + i + '" aria-hidden="true"></i></a><a class="text-light" href="/api/dashboard/article/read/' + info[i]._id + '"><i class="fa fa-book' + " " + i + '" aria-hidden="true"></i></a> <i class="fa fa-trash' + " " + i + '" aria-hidden="true" style="font-size: 16px; color: red;"></i></td></tr>')
+                    }
+
+
+                    for (let j = 0; j < 3; j++) {
+                        if (j === 0) {
+                            $("tr").eq(i + 1).find("td").eq(j).append(`<a href='/api/dashboard/article/read/${info[i]._id}'>${info[i][titles[j]]}</a>`)
+                        }
+                        else {
+                            $("tr").eq(i + 1).find("td").eq(j).text(info[i][titles[j]])
+                        }
+
+                    }
                 }
             }
 
-            for (let i = 0, n = info.length; i < n; i++) {//adding table
-                $("table").find("tbody").append('<tr> <th scope="row">' + (i + 1) + '</th><td></td><td></td><td></td><td> <a class="text-light" href="/api/dashboard/article/read/'+info[i]._id+'"> <i class="fa fa-book' + " " + i + '" aria-hidden="true"></i></a> <i class="fa fa-trash' + " " + i + '" aria-hidden="true" style="font-size: 16px; color: red;"></i> <a class="text-light" href="/api/dashboard/article/edit/'+info[i]._id+'"><i class="fa fa-pencil-square-o' + " " + i + '" aria-hidden="true"></i></a></td></tr>')
-                for (let j = 0; j < 3; j++) {
-                    if(j===0){
-                        $("tr").eq(i + 1).find("td").eq(j).append(`<a href='/api/dashboard/article/read/${info[i]._id}'>${info[i][titles[j]]}</a>`)
-                    }
-                    else{
-                        $("tr").eq(i + 1).find("td").eq(j).text(info[i][titles[j]])
-                    }
-                    
-                }
-            }
         }
 
     },
@@ -85,17 +96,31 @@ function deleteAlert(x) {//alert for make sure
                 console.log(response);
                 info.splice(x, 1)
                 $("tbody").remove();
-                $("table").append("<tbody></tbody>")
+                $("table").append("<tbody></tbody>");
                 for (i = 0; i < info.length; i++) {//adding table
-                    $("table").find("tbody").append('<tr> <th scope="row">' + (i + 1) + '</th><td></td><td></td><td></td><td> <a class="text-light" href="/api/dashboard/article/read/'+info[i]._id+'"> <i class="fa fa-book' + " " + i + '" aria-hidden="true"></i></a> <i class="fa fa-trash' + " " + i + '" aria-hidden="true" style="font-size: 16px; color: red;"></i> <a class="text-light" href="/api/dashboard/article/edit/'+info[i]._id+'"><i class="fa fa-pencil-square-o' + " " + i + '" aria-hidden="true"></i></a></td></tr>')
+                    if (info[i].published) {
+                        $("table").find("tbody").append('<tr> <th scope="row">' + (i + 1) + '</th><td></td><td></td><td></td><td> <a class="text-light" href="/api/dashboard/article/read/' + info[i]._id + '">  <a class="text-light" href="/api/dashboard/article/edit/' + info[i]._id + '"><i class="fa fa-pencil-square-o' + " " + i + '" aria-hidden="true"></i></a><i class="fa fa-book' + " " + i + '" aria-hidden="true"></i></a> <i class="fa fa-trash' + " " + i + '" aria-hidden="true" style="font-size: 16px; color: red;"></i></td></tr>')
+
+                    }
+                    else if (!info[i].published) {
+                        if (info[i].sendToAdmin) {
+                            $("table").find("tbody").append('<tr> <th scope="row">' + (i + 1) + '</th><td></td><td></td><td></td><td><i class="fa fa-clock-o' + " " + i + '"aria-hidden="true"></i> <a class="text-light" href="/api/dashboard/article/read/' + info[i]._id + '">  <a class="text-light" href="/api/dashboard/article/edit/' + info[i]._id + '"><i class="fa fa-pencil-square-o' + " " + i + '" aria-hidden="true"></i></a><i class="fa fa-book' + " " + i + '" aria-hidden="true"></i></a> <i class="fa fa-trash' + " " + i + '" aria-hidden="true" style="font-size: 16px; color: red;"></i></td></tr>')
+
+                        }
+                        else {
+                            $("table").find("tbody").append('<tr> <th scope="row">' + (i + 1) + '</th><td></td><td></td><td></td><td><i class="fa fa-check' + " " + i + '"aria-hidden="true" data-id="' + info[i]._id + '"></i> <a class="text-light" href="/api/dashboard/article/read/' + info[i]._id + '">  <a class="text-light" href="/api/dashboard/article/edit/' + info[i]._id + '"><i class="fa fa-pencil-square-o' + " " + i + '" aria-hidden="true"></i></a><i class="fa fa-book' + " " + i + '" aria-hidden="true"></i></a> <i class="fa fa-trash' + " " + i + '" aria-hidden="true" style="font-size: 16px; color: red;"></i></td></tr>')
+                        }
+
+                    }
                     for (j = 0; j < 3; j++) {
-                        if(j===0){
+                        if (j === 0) {
                             $("tr").eq(i + 1).find("td").eq(j).append(`<a href='/api/dashboard/article/read/${info[i]._id}'>${info[i][titles[j]]}</a>`)
                         }
-                        else{
+                        else {
                             $("tr").eq(i + 1).find("td").eq(j).text(info[i][titles[j]])
                         }
                     }
+
                 }
             },
             error: function (err) {
@@ -104,3 +129,24 @@ function deleteAlert(x) {//alert for make sure
         })
     }
 }
+$(document).on("click", ".fa-check", function () {
+
+    $.ajax({
+        type: "post",
+        url: "/api/dashboard/article/sendToAdmin/" + $(this).attr("data-id"),
+        success: function (response) {
+            console.log(response);
+            if (response.status) {
+                $(".alert").removeClass("hide").addClass("text-primary").text(response.message)
+            }
+            else {
+                $(".alert").removeClass("hide").addClass("text-danger").text(response.message)
+            }
+
+        },
+        error: function (err) {
+            console.log(err);
+        }
+    })
+
+});

@@ -6,32 +6,20 @@
 </head>
 
 <body>
-    <!-- <div class="box">
-        <div class="input-group input-group-sm mb-3 ">
-            <div class="input-group-prepend">
-                <span class="input-group-text" id="inputGroup-sizing-sm">since</span>
-            </div>
-            <input type="date" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
-        </div>
-        <div class="input-group input-group-sm mb-3 ">
-            <div class="input-group-prepend">
-                <span class="input-group-text" id="inputGroup-sizing-sm">&nbsptill &nbsp&nbsp</span>
-            </div>
-            <input type="date" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
-        </div>
-        <button type="button" class="btn btn-info">search</button>
-    </div> -->
+ 
     <hr>
     <hr>
 
     <section class="table-holder">
+        <div class="alert m-auto hide " role="alert">
+        </div>
         <table class="table w-75 m-auto article-table" data-published="<%= published %>">
             <thead class="thead-dark">
                 <tr>
                     <th scope="col">#</th>
                     <th scope="col" class="text-center table-title ">Title</th>
                     <th scope="col" class="text-center table-description">Description</th>
-                    <th scope="col" class="text-center">Created at</th>
+                    <th scope="col" class="text-center table-createdAt">Created at</th>
                     <th scope="col" class="text-center">Tools</th>
                 </tr>
             </thead>

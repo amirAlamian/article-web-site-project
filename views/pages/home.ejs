@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <%- include("../partials/header") %>
 </head>
+
 <body>
-    <%- include("../partials/navbar",{theme}) %>
+    <%- include("../partials/navbar",{theme,user}) %>
     <section class="introduce">
         <div class="introduce-details">
             <h1>Welcome</h1>
@@ -14,24 +16,70 @@
         <div class="introduce-links">
             <form class="form-inline my-2 my-lg-0" method="GET" action="/api/signIn">
                 <button class="btn  my-2 my-sm-0" type="submit">Sign In</button>
-              </form>
-              <form class="form-inline my-2 my-lg-0" method="GET" action="/api/signUp">
+            </form>
+            <form class="form-inline my-2 my-lg-0" method="GET" action="/api/signUp">
                 <button class="btn my-2 my-sm-0" type="submit">Sign Up</button>
-              </form>
+            </form>
         </div>
     </section>
 
     <section id="search">
         <form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2 "  id="search-input" type="search" placeholder="Search" aria-label="Search">
+            <input class="form-control mr-sm-2 " id="search-input" type="search" placeholder="Search"
+                aria-label="Search">
             <button class="btn btn-outline-success my-2 my-sm-0 " id="search-btn" type="submit">Search</button>
         </form>
     </section>
 
+    <hr>
+    <hr>
+    <section class="article">
+        <article class="article-not-done">
+            <% let counter=0 %>
+            <% for( let index = 0; index <mostViewed.length; index++ ) { %>
 
-    <%- include("../partials/footer") %> 
+            <%- include("../partials/cards",{article:mostViewed[index]}) %>
+            <%  counter++ %>
+            <% if (counter===3) { %>
+            <%  counter=0 %>
+            <%  break %>
+
+            <% } %>
+
+
+
+            <% } %>
+            <div class="showMore">
+                <a href="/api/dashboard/article/allArticles/published" class="btn-light btn">Show more</a>
+            </div>
+        </article>
+        <hr>
+        <article class="article-done">
+            <% for( let index = 0; index < newArticles.length; index++ ) { %>
+            <%- include("../partials/cards",{article:newArticles[index]}) %>
+            <%  counter++ %>
+            <% if (counter===3) { %>
+            <%  counter=0 %>
+            <%  break %>
+
+            <% } %>
+
+
+            <% } %>
+            <div class="showMore">
+                <a href="/api/dashboard/article/allArticles/nopublished" class="btn-light btn">Show more</a>
+            </div>
+        </article>
+
+    </section>
+
+
+
+
+    <%- include("../partials/footer") %>
     <%- include("../partials/scripts") %>
-    <script src="/javascripts/signIn.js">
-    </script>
+    <script src="/javascripts/home.js"></script>
+    <script src="/javascripts/signIn.js"></script>
 </body>
+
 </html>

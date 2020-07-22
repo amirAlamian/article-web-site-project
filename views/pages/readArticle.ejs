@@ -5,10 +5,29 @@
 </head>
 <body>
     <span id="passage-holder" data-article="<%= article.body %> "></span>
-    <section id="passage"></section>
+    <section class="passage" data-article-id="<%= article._id %>">
+        <article class="passage-holder"> 
+
+        </article>
+
+        <% if (article.published) { %>
+            <article class="comment">
+                <div class="comment-box">
+                    <p class="text text-secondary">write a comment:</p>
+                    <input type="text" class="comment-input" placeholder="comment...">
+                    <i class="fa fa-paper-plane send-comment" aria-hidden="true"></i>
+        
+                </div>
+    
+            </article>
+        <% } %>
+       
+
+       
+    </section>
    
 
     <%- include("../partials/scripts") %>
-    <script src="/javascripts/article.js"></script>
+    <script src="/javascripts/comment.js"></script>
 </body>
 </html>

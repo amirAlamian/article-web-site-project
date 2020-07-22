@@ -3,7 +3,9 @@ const User = require("../models/blogger");
 const router = express.Router();
 const axios = require("axios");
 const userDashboard = require("./users")
-
+const Article = require("../models/article")
+const admin = require("./admin")
+const Response = require("../tools/response")
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////session check/////////////////////////////////////////
@@ -16,10 +18,30 @@ const checkSession = (req, res, next) => {
     next()
 }
 
+const checkAdminSession = async (req, res, next) => {
+    try {
+        let admin = await User.find({ role: "admin" })
+        for (let i = 0, n = admin.length; i < n; i++) {
 
-router.use('/dashboard',checkSession, userDashboard);
+            if (!req.session.user || req.session.user._id != admin[i]._id) {
+                console.log("omad");
+                return res.redirect("/api/signIn");
+            }
+
+        }
+    } catch (error) {
+        console.log(error);
+        return res.status(403).json("forbidden")
+    }
+    next()
+
+}
+
+
+router.use('/dashboard', checkSession, userDashboard);
 router.use('/article', checkSession, userDashboard);
 router.use('/comment', checkSession, userDashboard);
+router.use('/admin', checkAdminSession, admin);
 
 
 
@@ -36,12 +58,44 @@ const isLogin = (req, res, next) => {
 ////////////////////////////////////////setting up sign up requests///////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-router.get("/", (req, res) => {
-    res.cookie("theme", "light");
-    req.cookies.theme = "light"
-    res.render("pages/home", {
-        theme: req.cookies.theme,
-    })
+router.get("/", async (req, res) => {
+    try {
+
+        let mostViewedArticles = await Article.find().sort({ "view.number": -1 })
+        if (!mostViewedArticles) {
+            throw new Error("something went wrong.")
+        }
+
+        let newArticles = await Article.find()
+        if (!newArticles) {
+            throw new Error("something went wrong.")
+        }
+
+        res.cookie("theme", "light");
+        req.cookies.theme = "light";
+
+        newArticles = newArticles.reverse();
+
+        let top10Viwed = [];
+        let top10New = [];
+
+        for (let i = 0; i < 10; i++) {//chossing 10 articles to send 
+            top10Viwed.push(mostViewedArticles[i]);
+            top10New.push(newArticles[i]);
+        }
+
+        return res.render("pages/home", {
+            theme: req.cookies.theme,
+            user: req.session.user,
+            mostViewed: top10Viwed,
+            newArticles: top10New
+        })
+    } catch (error) {
+        console.log(error.message);
+        res.json(new Response(false, error.message, Date.now))
+
+    }
+
 })
 router.get("/dark", (req, res) => {
     res.cookie("theme", "dark");
@@ -111,10 +165,10 @@ router.get("/dark/signUp", (req, res) => {//dark mode
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////setting up sign in requests///////////////////////////
+///////////////////////////////// setting up sign in requests ////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-router.get('/signIn',  function (req, res) {
+router.get('/signIn', function (req, res) {
     res.cookie("theme", "light");
     req.cookies.theme = "light"
     res.render("pages/signIn", {
@@ -124,7 +178,7 @@ router.get('/signIn',  function (req, res) {
     })
 });
 
-router.post('/signIn',  function (req, res) {
+router.post('/signIn', function (req, res) {
     (async () => {//promise to check username and password
         try {
             if (!req.body.userName || !req.body.password) {
@@ -148,6 +202,11 @@ router.post('/signIn',  function (req, res) {
                     theme: req.cookies.theme,
                     className: "alert alert-danger"
                 })
+            }
+            if (user.role === "admin") {
+                req.session.user = user;
+                res.redirect("admin")
+
             }
             else if (user) {
 
@@ -192,5 +251,25 @@ router.get("/logOut", (req, res) => {//dark mode
     res.redirect("/api/signIn")
 })
 
+///////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////setting up log out requests///////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////
+router.get('/getAllArticles', async function (req, res) {
+
+    try {
+
+        let articles = await Article.find().sort({ "view.number": -1 })
+        console.log(articles);
+        if (!articles) {
+            throw new Error("something went wrong.")
+        }
+        return res.status(201).json(new Response(true, articles, Date.now));
+    } catch (error) {
+        console.log(error.message);
+        res.json(new Response(false, error.message, Date.now))
+
+    }
+
+});
 
 module.exports = router;

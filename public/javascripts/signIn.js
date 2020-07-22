@@ -1,10 +1,3 @@
-let articleInfo = {
-  title: "",
-  description: "",
-}
-let article = {
-  passage: "",
-}
 
 let counter = 0;
 
@@ -131,6 +124,8 @@ $(".create-btn").click(() => {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////// user account change picture button //////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////
+
+
 $(".change-information").click(function () {
   $('input[type=text]').eq($(this).attr("data-number")).attr("disabled", false);
   $(".save-information-BTN").removeClass("hide")

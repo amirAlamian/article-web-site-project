@@ -1,76 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <%- include("../partials/header") %>
+  <%- include("../partials/header") %>
 </head>
+
 <body>
-    
-    <section class="table-holder">
-        <table class="table">
-            <thead class="thead-dark">
-              <tr>
-                <th scope="col">#</th>
-                <th scope="col">First</th>
-                <th scope="col">Last</th>
-                <th scope="col">Handle</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
-              </tr>
-              <tr>
-                <th scope="row">2</th>
-                <td>Jacob</td>
-                <td>Thornton</td>
-                <td>@fat</td>
-              </tr>
-              <tr>
-                <th scope="row">3</th>
-                <td>Larry</td>
-                <td>the Bird</td>
-                <td>@twitter</td>
-              </tr>
-            </tbody>
-          </table>
+
+  <section class="table-holder ">
+    <hr>
+    <hr>
+    <table class="table m-auto table-1">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col" class="text-center table-title ">Title</th>
+          <th scope="col" class="text-center table-description">Description</th>
+          <th scope="col" class="text-center table-createdAt" >Created at</th>
+          <th scope="col" class="text-center">Tools</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% for( let index = 0; index < articles.length; index++ ) { %>
+          <% if (articles[index].published) { %>
+            <%- include("../partials/rows",{article:articles[index],index:index})  %> 
+          <% } %> 
           
-          <table class="table">
-            <thead class="thead-light">
-              <tr>
-                <th scope="col">#</th>
-                <th scope="col">First</th>
-                <th scope="col">Last</th>
-                <th scope="col">Handle</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
-              </tr>
-              <tr>
-                <th scope="row">2</th>
-                <td>Jacob</td>
-                <td>Thornton</td>
-                <td>@fat</td>
-              </tr>
-              <tr>
-                <th scope="row">3</th>
-                <td>Larry</td>
-                <td>the Bird</td>
-                <td>@twitter</td>
-              </tr>
-            </tbody>
-          </table>
-    </section>
-   
+        <% } %>
+      </tbody>
+    </table>
+    <hr>
+    <hr>
+    <table class="table m-auto table-2">
+      <thead class="thead-light">
+        <tr>
+          <th scope="col table-title">#</th>
+          <th scope="col" class="text-center table-title ">Title</th>
+          <th scope="col" class="text-center table-description">Description</th>
+          <th scope="col" class="text-center table-createdAt">Created at</th>
+          <th scope="col" class="text-center">Tools</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% for( let index = 0; index < articles.length; index++ ) { %>
+          <% if (!articles[index].published) { %>
+            <%- include("../partials/rows",{article:articles[index],index:index})  %> 
+          <% } %> 
+          
+        <% } %>
+      </tbody>
+    </table>
+  </section>
 
 
-    <%- include("../partials/scripts") %>
+
+  <%- include("../partials/scripts") %>
+  <script src="/javascripts/admin.js"></script>
 </body>
+
 </html>
