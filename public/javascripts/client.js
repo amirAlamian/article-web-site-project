@@ -205,5 +205,17 @@ $(".input-box input[type='password'").keydown((e) => {
 
 
 })
+///////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////// show password  icon /////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////
+$(document).on("click",".fa-eye",function(){
+  $(this).removeClass("fa-eye").addClass("fa-eye-slash");
+  $(".password-input").attr("type","text")
+})
 
+
+$(document).on("click",".fa-eye-slash",function(){
+  $(this).removeClass("fa-eye-slash").addClass("fa-eye");
+  $(".password-input").attr("type","password")
+})
 

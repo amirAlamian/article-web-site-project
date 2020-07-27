@@ -51,7 +51,8 @@
     @if($align-items==flex-start){
       margin-top:5% ;
     }
-    width: 25%;
+    width: 400px;
+    min-width: 300px;
     border: 2px solid $primary-color ;
     border-radius: 5px;
     background-color: inherit;
@@ -70,6 +71,11 @@
 
       a{
         color: $primary-color;
+      }
+      &-password{
+        width: 100%;
+        @include flexstuff(row, center);
+        flex-wrap: nowrap;
       }
       &-container{
         width: 100%;
@@ -91,6 +97,12 @@
         margin-top: 10px;
         
       }
+      .fa-eye ,.fa-eye-slash{
+        cursor: pointer;
+        color: $primary-color;
+        font-size: 18px;
+      }
+
       &-radio{
         width: 100%;
         padding-bottom: $large-padding;
@@ -146,13 +158,13 @@
 
 .navbar{
   
-  a {
+  .nav-btn {
     color: gray !important;
     position: relative;
     transition: top 2s;
     &:hover{
       background-color:inherit ;
-      color: white !important;
+      color: rgb(143, 143, 143) !important;
       @include hover;
     }
   }
@@ -212,7 +224,9 @@
     }
   }
 }
-
+.card{
+  box-shadow: 0 0 10px 10px rgba(163, 163, 163,0.2);
+}
 
 #search{
   width: 100%;
@@ -240,35 +254,88 @@ footer{
 
 
 .hide{
-  display: none;
+  display: none !important;
 }
 .send-article{
   @include flexstuff(row, flex-end);
+  justify-content: flex-end;
    margin-top: 20px;
    width: 100%;
+   button{
+     margin: $medium-padding;
+   }
    
   
 }
-
+.add-article{
+  margin-top: $large-padding;
+  width: 100%;
+  @include flexstuff(row, center)
+}
 .article{
   width: 100%;
   @include flexstuff(row, center);
   hr{
     width: 100%;
   }
+  &-header{
+    text-align: center;
+    width:100%;
+    color: $primary-color;
+  }
+  h4{
+    color: $primary-color;
+  }
+  &-showMore{
 
+    margin:0 0 $veryLarge-padding 0;
+    width: 100%;
+    height: 20px;
+    
+    a{
+      float: right;
+      margin-right: 20px;
+    }
+    .show-more{
+      float: right;
+      margin-right: 20px;
+    }
+  }
   &-not-done{
-    width: 80%;
+    background-image: url("/images/letters7.jpg");
+    background-size: contain;
+    
+    background-repeat: repeat;
+    width: 100%;
     margin:20px 0;
     @include flexstuff(row, center);
     justify-content: space-around;
+    .card-holder{
+      width: 33.33%;
+      margin-bottom: $veryLarge-padding;
+      @include flexstuff(row, center)
+    }
 
   }
+  &-empty{
+    height: 500px;
+    width: 100%;
+    @include flexstuff(row, center);
+    color:$primary-color
+  }
   &-done{
-    width: 80%;
+    background-image: url("/images/letters1.jpg");
+    background-size: contain;
+
+    background-repeat: repeat;
+    width: 100%;
     margin:20px 0;
     @include flexstuff(row, center);
     justify-content: space-around;
+    .card-holder{
+      width: 33.33%;
+      @include flexstuff(row, center)
+    }
   }
 }
 .user{//in dashboard
@@ -280,12 +347,17 @@ footer{
   &-image{
     width: 100%;
     height: 100%;
+    object-fit: cover;
     transition: transform 300ms ease-in-out;
     &:hover{
       transform: scale(1.2)
     }
   }
 
+}
+.btn-outline-success{
+  min-width: 50px;
+  border: none;
 }
 
 .user-information{
@@ -297,6 +369,9 @@ footer{
   height: 40px;
   border-radius: 5px;
   margin-right: 10px;
+  &-options{
+    color: $secondary-color;
+  }
 }
 
 .userAccount{
@@ -319,7 +394,7 @@ footer{
       img{
         width: 100%;
         height: 100%;
-
+        object-fit: cover;
       }
     }
     }
@@ -347,19 +422,13 @@ footer{
         }
         button{
           float: right;
+          margin-right: 20px;
         }
       }
     }
   }
 }
-.showMore{
-  width: 100%;
-  height: 20px;
-  a{
-    float: right;
-    
-  }
-}
+
 
 .table-holder{
   width: 100%;
@@ -437,20 +506,115 @@ tr{
   &-holder{
     width:80%;
   }
+  &-head{
+    position: relative;
+    width: 80%;
+    height: 500px;
+    overflow: hidden;
+  }
+  &-details{
+    margin:100px auto !important;
+    width: 80%;
+    border-collapse: collapse;
+    td{
+      text-align: center;
+      vertical-align: middle;
+      border: 1px solid rgb(207, 207, 207);
+      width :33%;
+    }
+    textarea{
+      width: 100%;
+      border: none;
+      outline: none;
+      padding: $large-padding;
+    }
+    input[type=file]{
+      padding: $large-padding;
+    }
+  
+  }
+  &-image{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    z-index: -1;
+    opacity: 0.55;
+  }
+  
+  &-title{
+    @include flexstuff(column, center);
+    position: absolute;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(129,129,129,0.7);
+    
+  }
+  &-description{
+    width: 50%;
+    p{
+      text-align: center;
+      font-size: 18px;
+      padding: 10px ;
+    }
+  }
+  &-author{
+    margin-top: 100px;
+    width: 80%;
+  }
  
 }
 .comment{// read article
   width: 100%;
   margin-top: 100px;
-  @include flexstuff(column-reverse, center);
+  @include flexstuff(column, center);
   justify-content: flex-start;
-  .comment-text{
-    width: 80%;
-    margin: 20px 0;
-  }
-
   &-box{
+    border-top: 1px solid rgb(224, 224, 224);
     width: 80%;
+    height: 200px;
+    overflow: hidden;
+    @include flexstuff(column, flex-start);
+    justify-content: flex-end;
+    flex-wrap: nowrap;
+  }
+  &-showMore{
+    width: 80%;
+    margin: 10px 0;
+  }
+  &-triangle-left{
+    width: 0;
+    height: 0;
+    margin-top:25px;
+    border-top: 0px solid transparent;
+    border-right: 40px solid  rgb(224, 224, 224);
+    border-bottom: 30px solid transparent;
+  }
+  &-text{
+    margin: 13px 0;
+    width: 100%;
+    
+  }
+  .author-image-holder{
+    margin-top: 7px;
+  }
+  &-authorName{
+    @include flexstuff(row, flex-start);
+    margin-top:25px;
+    background: rgb(224, 224, 224);
+    color:black;
+    max-width: 90%;
+    border-top-right-radius:10px; 
+    border-bottom-right-radius:10px; 
+    font-size: 14px;
+    padding:  4.3px  15px;
+  }
+  &-write{
+    width: 80%;
+    margin-top: 10px;
+    @include flexstuff(row, center);
+    flex-wrap: nowrap;
     .fa-paper-plane{
       color: black;
       margin:0 10px;
@@ -459,9 +623,99 @@ tr{
     }
   }
   &-input{
-    width: 95%;
+    width: 100%;
     border: none;
     border-bottom: 1px solid lightgray;
     outline: none;
   }
+}
+
+
+.btn-details{
+  float:right
+}
+
+.holder{
+    background-color: transparent;
+    width: 100%;
+    margin: auto;
+    perspective: 1000px;
+}
+
+.inner{
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.8s;
+  transform-style: preserve-3d;
+}
+
+.back , .front{
+  min-height: 250px;
+
+  -webkit-backface-visibility: hidden; /* Safari */
+  backface-visibility: hidden;
+}
+
+.front{
+  width: 100%;
+  height: 100%;
+  .article-image{
+   margin-bottom: 20px;
+  }
+  .card-title{
+    padding: 0 20px;
+  }
+
+}
+.back{
+  width: 100%;
+  height: 100%;
+  padding: 10px;
+  transform: rotateY(180deg);
+  display: none;
+
+}
+.card-text{
+  font-weight: 600;
+}
+.author-image-holder{
+  width: 40px;
+  height: 40px;
+  overflow: hidden;
+  .author-image{
+    width: 40px;
+    object-fit: cover;
+    height: 40px;
+  }
+}
+#triangle-left {
+  width: 0;
+  height: 0;
+  border-top: 12px solid transparent;
+  border-right: 20px solid black;
+  border-bottom: 12px solid transparent;
+}
+.card-authorName{
+  background: black;
+  color:white;
+  border-top-right-radius:2px; 
+  border-bottom-right-radius:2px; 
+  height: 24px ;
+  
+}
+
+.page-footer{
+  margin-top: 100px;
+}
+
+.btn-primary{
+  background-color: $primary-color;
+  border: none ;
+  outline: none;
+}
+
+
+.table-2 ,.table-1{
+  margin: $veryLarge-padding auto !important;
 }

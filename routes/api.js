@@ -2,6 +2,7 @@ const express = require("express");
 const User = require("../models/blogger");
 const router = express.Router();
 const axios = require("axios");
+const articleRouter= require("./article")
 const userDashboard = require("./users")
 const Article = require("../models/article")
 const admin = require("./admin")
@@ -39,8 +40,7 @@ const checkAdminSession = async (req, res, next) => {
 
 
 router.use('/dashboard', checkSession, userDashboard);
-router.use('/article', checkSession, userDashboard);
-router.use('/comment', checkSession, userDashboard);
+router.use('/article', checkSession, articleRouter);
 router.use('/admin', checkAdminSession, admin);
 
 
@@ -79,11 +79,12 @@ router.get("/", async (req, res) => {
         let top10Viwed = [];
         let top10New = [];
 
-        for (let i = 0; i < 10; i++) {//chossing 10 articles to send 
+        for (let i = 0; i < 9; i++) {//chossing 10 articles to send 
             top10Viwed.push(mostViewedArticles[i]);
             top10New.push(newArticles[i]);
         }
 
+        console.log(top10Viwed);
         return res.render("pages/home", {
             theme: req.cookies.theme,
             user: req.session.user,
@@ -102,6 +103,7 @@ router.get("/dark", (req, res) => {
     req.cookies.theme = "dark"
     res.render("pages/home", {
         theme: req.cookies.theme,
+        user:req.session.user
     })
 })
 
@@ -254,16 +256,16 @@ router.get("/logOut", (req, res) => {//dark mode
 ///////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////setting up log out requests///////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////
-router.get('/getAllArticles', async function (req, res) {
+router.get('/getAuthorImage/:author_name', async function (req, res) {
 
     try {
 
-        let articles = await Article.find().sort({ "view.number": -1 })
-        console.log(articles);
-        if (!articles) {
+        let user = await User.find({userName:req.params.author_name})
+        console.log(user);
+        if (!user[0]) {
             throw new Error("something went wrong.")
         }
-        return res.status(201).json(new Response(true, articles, Date.now));
+        return res.status(201).json(new Response(true, user[0].avatar, Date.now));
     } catch (error) {
         console.log(error.message);
         res.json(new Response(false, error.message, Date.now))

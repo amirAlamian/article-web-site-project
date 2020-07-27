@@ -31,47 +31,65 @@
         </form>
     </section>
 
-    <hr>
-    <hr>
+
     <section class="article">
-        <article class="article-not-done">
-            <% let counter=0 %>
+        <hr>
+        <h4>
+            Most Viewed Articles
+        </h4>
+        <hr>
+        <article class="article-not-done mostViewed">
+
+
             <% for( let index = 0; index <mostViewed.length; index++ ) { %>
+            <% if (index >=3) { %>
+          
+                <%- include("../partials/cards",{article:mostViewed[index],home :true ,index , hide:true}) %>
+      
+            <% continue %>
+            <% } %>
+            
+                <%- include("../partials/cards",{article:mostViewed[index],home :true ,index , hide:false}) %>
+            
 
-            <%- include("../partials/cards",{article:mostViewed[index]}) %>
-            <%  counter++ %>
-            <% if (counter===3) { %>
-            <%  counter=0 %>
-            <%  break %>
+
+
+
 
             <% } %>
 
-
-
-            <% } %>
-            <div class="showMore">
-                <a href="/api/dashboard/article/allArticles/published" class="btn-light btn">Show more</a>
+            <div class="article-showMore">
+                <button class="btn-light btn show-more" data-status="most-viewed">Show more</button>
             </div>
         </article>
         <hr>
-        <article class="article-done">
-            <% for( let index = 0; index < newArticles.length; index++ ) { %>
-            <%- include("../partials/cards",{article:newArticles[index]}) %>
-            <%  counter++ %>
-            <% if (counter===3) { %>
-            <%  counter=0 %>
-            <%  break %>
+        <h4>
+            Newest Articles
+        </h4>
+        <hr>
+        <article class="article-done newest">
+            <% for( let index =0; index < newArticles.length; index++ ) { %>
+            <% if (index>=3) { %>
+
+                <%- include("../partials/cards",{article:newArticles[index],home :true ,index:index+9 ,hide:true}) %>
+
+            <% continue %>
+            <% } %>
+            
+                <%- include("../partials/cards",{article:newArticles[index],home :true ,index:index+9 ,hide:false}) %>
+          
+
+
+
 
             <% } %>
-
-
-            <% } %>
-            <div class="showMore">
-                <a href="/api/dashboard/article/allArticles/nopublished" class="btn-light btn">Show more</a>
+            <div class="article-showMore">
+                <button class="btn-light btn show-more" data-status="newest">Show more</button>
             </div>
         </article>
 
     </section>
+
 
 
 

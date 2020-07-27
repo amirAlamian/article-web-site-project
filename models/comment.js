@@ -19,8 +19,10 @@ const CommentSchema= new Schema ({
         type: Date,
         required: true,
         default: Date.now
+    },
+    senderImage:{
+        type:String
     }
-
 
 },{
     collation:"comment"

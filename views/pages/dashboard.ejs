@@ -6,37 +6,83 @@
 </head>
 
 <body>
+    
     <%- include("../partials/navbar",{theme,user}) %>
-
+    <div class="add-article">
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"
+        data-whatever="@mdo">add Article</button>
+    </div>
     <%- include("../partials/modals",{theme,user}) %>
+    
     <section class="article">
         <hr>
-        <article class="article-not-done">
-            <% let counter=0 %>
-            <% for( let index = 0; index <articles.length; index++ ) { %>
-            <% if (articles[index].published) { %>
-            <%- include("../partials/cards",{article:articles[index]}) %>
-            <%  counter++ %>
-            <% if (counter===3) { %>
-            <%  counter=0 %>
-            <%  break %>
+        <div class="article-header">
+            <h4>
+                Your Published Article
+            </h4>
+        </div>
 
-            <% } %>
-            <% } %>
-
-
-            <% } %>
-            <div class="showMore">
-                <a href="/api/dashboard/article/allArticles/published" class="btn-light btn">Show more</a>
-            </div>
-        </article>
         <hr>
         <article class="article-done">
-            <% for( let index = 0; index < articles.length; index++ ) { %>
-            <% if (!articles[index].published) { %>
-            <%- include("../partials/cards",{article:articles[index]}) %>
+            <% let counter=0 %>
+            <% if (articles.length===0 ) { %>
+                <hr >
+                <div class="article-empty published-one">
+                    <h2>Let's Write Your First Article </h1>
+                </div>
+                
+                <hr >
+            <% } %>
+            <% for( let index = 0; index <articles.length; index++ ) { %>
+            <% if (articles[index].published) { %>
+            <%- include("../partials/cards",{article:articles[index] ,home :false ,hide:false}) %>
             <%  counter++ %>
             <% if (counter===3) { %>
+            <%  counter=0 %>
+            <%  break %>
+
+            <% } %>
+            <% } %>
+            <% if (index===articles.length-1 && counter===0) { %>
+                <hr>
+                <div class="article-empty published-one">
+                    <h2>Let's Write Your First Article </h1>
+                </div>
+                
+                <hr>
+            <% } %>
+          
+            <% } %>
+            <div class="article-showMore">
+                <a href="/api/dashboard/article/allArticles/published"  class="btn-light btn">Show more</a>
+            </div>
+        </article>
+        <hr>
+        <div class="article-header">
+            <h4>
+                Your Unpublished Article
+            </h4>
+        </div>
+        <hr>
+        <article class="article-not-done">
+            <% if (articles.length===0) { %>
+                <hr>
+                <div class="article-empty unpublished-one">
+                    <h2> You Don't have  Unpublished Article</h1>
+                </div>
+                
+                <hr>
+            <% } %>
+            <% for( let index = 0; index < articles.length; index++ ) { %>
+                
+            <% if (!articles[index].published) { %>
+
+            <%- include("../partials/cards",{article:articles[index],home :false , hide:false}) %>
+
+            <%  counter++ %>
+
+            <% if (counter===3) { %>
+
             <%  counter=0 %>
             <%  break %>
 
@@ -44,12 +90,23 @@
 
             <% } %>
 
+            <% if (index===articles.length-1 && counter===0) { %>
+                <hr>
+                <div class="article-empty unpublished-one">
+                    <h2> You Don't have  Unpublished Article</h1>
+                </div>
+                
+                <hr>
             <% } %>
-            <div class="showMore">
-                <a href="/api/dashboard/article/allArticles/nopublished" class="btn-light btn">Show more</a>
-            </div>
+
+            <% } %>
+           
         </article>
-        <hr>
+        
+        <div class="article-showMore">
+            <a href="/api/dashboard/article/allArticles/nopublished"  class="btn-light btn">Show more</a>
+        </div>
+
     </section>
 
 

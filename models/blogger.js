@@ -66,7 +66,13 @@ const UserSchema= new Schema ({
 },{
     collation:"blogger"
 })
-
-
+UserSchema.pre("save",function(){
+    if(this.gender==="male"){
+        this.avatar="male.jpg"
+    }
+    if(this.gender==="female"){
+        this.avatar="female.jpg"
+    }
+})
 
 module.exports = mongoose.model('User', UserSchema);

@@ -58,7 +58,7 @@ router.post("/publishArticle/:article_id", (req, res) => {
             if (!article) {
                 throw new Error("there is no article with this informations")
             }
-            return res.json( new Response(true,"published",Date.now))
+            return res.json( new Response(true,article,Date.now))
         } catch (error) {
             console.log(error.message);
             return res.json(new Response(false,"something went wrong",Date.now))

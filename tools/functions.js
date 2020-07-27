@@ -1,5 +1,6 @@
 const Article = require("../models/article");
 const Response = require("./response")
+
 class aricleOperations {
 
     async findArticle(req, res, url, view) {
@@ -37,7 +38,7 @@ class aricleOperations {
                 }
 
             }
-            return res.render(url, { article })
+            return res.render(url, { article, user: req.session.user, theme: req.cookies.theme })
         } catch (error) {
             console.log(error.message);
             return res.render("pages/error", {

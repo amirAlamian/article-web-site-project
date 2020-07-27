@@ -20,12 +20,13 @@
                 <%= message %> 
             </div>
             <form action="/api/signIn" method="POST">
-            <div class="input-box-container"> <input type="text" placeholder="username" name="userName" value="amir"></div>
-            <div class="input-box-container"> <input type="password" placeholder="password" name="password" value="1379amir"></div>
+            <div class="input-box-container"> <input type="text" placeholder="username" name="userName" value="akbar"></div>
+            <div class="input-box-container"><div class="input-box-password"><input type="password" placeholder="password"  class="password-input" name="password" value="12312312"><i class="fa fa-eye" aria-hidden="true"></i></div> </div>
             <button class="signInBTN">Sign In</button>
         </form>
 
-        <small>forget your password?&nbsp<a href="#">click here</a></small>
+        <small>Forget your password?&nbsp<a href="#">click here</a></small>
+        <small>Don't have an account?&nbsp<a href="/api/signUp">sign Up</a></small>
 
         </article>
     </section>
@@ -36,5 +37,6 @@
 
 
     <%- include("../partials/scripts") %>
+    <script src="/javascripts/client.js"></script>
 </body>
 </html>

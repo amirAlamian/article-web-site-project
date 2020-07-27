@@ -87,7 +87,7 @@ $(document).on("click", ".fa-trash", function () {//delete butoon
     }
 })
 function deleteAlert(x) {//alert for make sure
-    let r = confirm("are you sure to delete this company!");
+    let r = confirm("are you sure to delete this article!");
     if (r == true) {
         $.ajax({
             type: "post",
@@ -129,24 +129,34 @@ function deleteAlert(x) {//alert for make sure
         })
     }
 }
-$(document).on("click", ".fa-check", function () {
+$(document).on("click", ".fa-check", function () {//delete butoon
+    for (let i = 0, n = $("tbody").find("tr").length; i < n; i++) {
+        if($(this).hasClass(i)){
+           $(this).removeClass("fa-check").addClass("fa-clock-o");
+            $.ajax({
+                type: "post",
+                url: "/api/dashboard/article/sendToAdmin/" + $(this).attr("data-id"),
+                success: function (response) {
+                    console.log(response);
+                    if (response.status) {
+                      
+                     
+                        $(".alert").removeClass("hide").addClass("text-primary").text(response.message)
+                    }
+                    else {
+                        $(".alert").removeClass("hide").addClass("text-danger").text(response.message)
+                    }
+        
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            })
 
-    $.ajax({
-        type: "post",
-        url: "/api/dashboard/article/sendToAdmin/" + $(this).attr("data-id"),
-        success: function (response) {
-            console.log(response);
-            if (response.status) {
-                $(".alert").removeClass("hide").addClass("text-primary").text(response.message)
-            }
-            else {
-                $(".alert").removeClass("hide").addClass("text-danger").text(response.message)
-            }
 
-        },
-        error: function (err) {
-            console.log(err);
+
         }
-    })
+    }
+    
 
 });

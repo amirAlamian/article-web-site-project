@@ -24,13 +24,14 @@
             <div class="input-box-container"> <input type="text" placeholder="First name"></div>
             <div class="input-box-container"> <input type="text" placeholder="Last name"></div>
             <div class="input-box-container"> <input type="text" placeholder="User name"></div>
-            <div class="input-box-container"> <input type="password" placeholder="Password(at least 8 characters)" maxlength="36"></div>
+            <div class="input-box-container"> <div class="input-box-password"><input type="password" class="password-input" placeholder="Password(at least 8 characters)" maxlength="36"><i class="fa fa-eye" aria-hidden="true"></i></div></div>
             <div class="input-box-container"> <input type="email" placeholder="Email"></div>
             <div class="input-box-container"> <input type="text" placeholder="Phone number"></div>
             <div class="input-box-radio"> <input type="radio" name="gender" value="male">Male<br> <input type="radio"
                     name="gender" value="female">Female </div>
             <div id="recap" class="<%= theme %>"></div>
             <button class="signUpBTN">Sign Up</button>
+            <small>Already have an account?<a href="/api/signIn">Sign In</a></small>
         </article>
 
     </section>

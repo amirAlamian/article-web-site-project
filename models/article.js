@@ -40,8 +40,11 @@ const ArticleSchema = new Schema({
     sendToAdmin: {
         type: Boolean,
         default: false
+    },
+    image:{
+        type:String,
+        default:"article_picture.png"
     }
-
 
 }, {
     collation: "article"

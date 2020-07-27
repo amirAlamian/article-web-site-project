@@ -17,7 +17,7 @@ app.use(session({
 	key:"user_sid",
 	secret:"somerandomstuff",
 	resave: false,
-    saveUninitialized: false,
+	saveUninitialized: false,
     cookie: {
 		expires: 600000,
     }
@@ -43,7 +43,7 @@ app.use(function(req, res, next) {
 
 app.use(function(req, res, next){
 	if(!req.cookies.theme){
-		res.cookie('theme',"light" );
+		res.cookie({'theme':"light" ,'lang':"EN"} );
 	}
 	
 	next();

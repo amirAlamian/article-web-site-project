@@ -2,8 +2,9 @@ const express = require('express');
 const router = express.Router();
 const { renderSync } = require('node-sass');
 const Article = require("../models/article");
-const Comment = require("../models/comment")
-const Response= require("../tools/response")
+const Comment = require("../models/comment");
+const Response= require("../tools/response");
+const multer = require('multer');
 const Functions = require("../tools/functions");
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -76,12 +77,12 @@ router.post("/add", async (req, res) => {
         if (!article) {
             throw new Error("something went wrong")
         }
-        return res.status(201).json(article);
+        return res.status(201).json(new Response(true, article,Date.now));
 
 
     } catch (error) {
         console.log(error);
-        return res.send(error.message)
+        return res.json(new Response(false, error.message,Date.now))
 
     }
 })
@@ -94,7 +95,7 @@ router.post("/add", async (req, res) => {
 
 router.get("/add/:article_id", (req, res) => {
 
-    findArticle(req, res, "pages/addArticle", false)
+    Functions.findArticle(req, res, "pages/addArticle", false)
 
 })
 
@@ -104,21 +105,21 @@ router.get("/add/:article_id", (req, res) => {
 
 router.post("/add/:article_id", async (req, res) => {
     try {// prmise for adding passage to article
-        console.log(req.params.article_id);
-        if (!req.body.passage) {
+        console.log(req.body);
+        if (!req.body.body) {
             throw new Error("your article is empty")
         }
-        let article = await Article.findByIdAndUpdate(req.params.article_id, { body: req.body.passage }, { new: true })
+        let article = await Article.findByIdAndUpdate(req.params.article_id,  req.body , { new: true })
         console.log(article);
         if (!article) {
             throw new Error("something went wrong")
         }
-        return res.status(201).json("done");
+        return res.status(201).json(new Response(true,article,Date.now));
 
 
     } catch (error) {
         console.log(error.message);
-        return res.send(error.message)
+        return res.json(new Response(false,error.message,Date.now))
 
     }
 })
@@ -203,7 +204,8 @@ router.post("/sendComment/:article_id", async (req, res) => {
         let newComment = new Comment({
             text: req.body.comment,
             sender: req.session.user.userName,
-            article: req.params.article_id
+            article: req.params.article_id,
+            senderImage:req.session.user.avatar
         })
         let comment = await newComment.save()
         if (!comment) {
@@ -243,4 +245,49 @@ router.get("/getComments/:article_id", async (req, res) => {
 
 
 })
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////// add article image end point ///////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+router.post("/addPicture/:article_id", async (req, res) => {
+    const storage = multer.diskStorage({
+        destination: function (req, file, cb) {
+            cb(null, 'public/images/articleImages');
+        },
+        filename: function (req, file, cb) {
+
+            cb(null, req.params.article_id + ".png")
+        }
+    })
+    
+    const uploadAvatar = multer({ storage: storage });
+    
+        try {
+    
+            const upload = uploadAvatar.single('articlePicture');
+    
+            upload(req, res, async function (err) {
+                if (err) return res.status(400).send('something went wrong.please try again later');
+    
+               let article= await Article.findByIdAndUpdate(req.params.article_id, { image: req.file.filename }, { new: true })
+    
+                    if (!article) throw new Error('something went wrong.please try again later');
+    
+                    
+                    res.status(201).send(new Response(true, "updated", Date.now));
+                
+    
+    
+            })
+    
+        } catch (error) {
+            console.log(error.message);
+            res.json(new Response(false, error.message, Date.now))
+        }
+    
+  
+})
+
+
 module.exports = router;

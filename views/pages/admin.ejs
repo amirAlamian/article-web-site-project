@@ -10,28 +10,30 @@
   <section class="table-holder ">
     <hr>
     <hr>
-    <table class="table m-auto table-1">
+    <table class="table table-1 m-auto ">
       <thead class="thead-dark">
         <tr>
           <th scope="col">#</th>
           <th scope="col" class="text-center table-title ">Title</th>
           <th scope="col" class="text-center table-description">Description</th>
-          <th scope="col" class="text-center table-createdAt" >Created at</th>
+          <th scope="col" class="text-center table-createdAt">Created at</th>
           <th scope="col" class="text-center">Tools</th>
         </tr>
       </thead>
       <tbody>
+        <% let counter=0%>
         <% for( let index = 0; index < articles.length; index++ ) { %>
-          <% if (articles[index].published) { %>
-            <%- include("../partials/rows",{article:articles[index],index:index})  %> 
-          <% } %> 
-          
+        <% if (articles[index].published) { %>
+        <%- include("../partials/rows",{article:articles[index],index:counter})  %>
+        <% counter++ %>
+        <% } %>
+
         <% } %>
       </tbody>
     </table>
     <hr>
     <hr>
-    <table class="table m-auto table-2">
+    <table class="table table-2 m-auto ">
       <thead class="thead-light">
         <tr>
           <th scope="col table-title">#</th>
@@ -42,11 +44,13 @@
         </tr>
       </thead>
       <tbody>
+        <% counter=0 %>
         <% for( let index = 0; index < articles.length; index++ ) { %>
-          <% if (!articles[index].published) { %>
-            <%- include("../partials/rows",{article:articles[index],index:index})  %> 
-          <% } %> 
-          
+        <% if (!articles[index].published) { %>
+        <%- include("../partials/rows",{article:articles[index],index:counter})  %>
+        <% counter++ %>
+        <% } %>
+
         <% } %>
       </tbody>
     </table>

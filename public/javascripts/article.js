@@ -2,8 +2,12 @@ let articleInfo = {
   title: "",
   description: "",
 }
-let article = {
-  passage: "",
+class article {
+  constructor(body, title, description) {
+      this.body = body,
+      this.title = title,
+      this.description = description
+  }
 }
 
 
@@ -11,7 +15,8 @@ $(".btn-remove").click(function () {
 
   $(".text-danger").text($(this).attr("data-article-title"));
 
-  let buttonInfo = this;
+  let buttonInfo = $(this);
+  let title=$(this).attr("data-article-title")
 
   $(".remove-BTN").click(() => {
     if ($(".remove-input").val() === $(buttonInfo).attr("data-article-title")) {
@@ -23,20 +28,22 @@ $(".btn-remove").click(function () {
 
         success: (response) => {
           console.log(response);
-          if (response === "done") {
+          if (response.status) {
 
             for (let i = 0, length = $(".card-title").length; i < length; i++) {
-
-              if ($(".card-title").eq(i).text() === $(buttonInfo).attr("data-article-title")) {
+              console.log(title);
+              console.log($(".card-title").eq(i).text());
+              if ($(".card-title").eq(i).text().trimLeft() ===title) {
+                console.log(i);
                 $(".card").eq(i).remove();
 
               }
             }
-
+            $(".remove-input").val("")
             $("#removeModal").modal("hide");
           }
           else {
-            $(".alert").removeClass("hide").html(response)
+            $(".alert").removeClass("hide").html(response.message)
           }
 
         },
@@ -57,10 +64,10 @@ $(".btn-remove").click(function () {
 ////////////////////////////////////////text editor///////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////
 let passage = $("#article-passage").attr("data-passage");
-
+$("#article-passage").remove()
 tinymce.init({
   selector: '#full-featured-non-premium',
-  
+
   setup: function (editor) {
     editor.on('init', function (e) {
       editor.setContent(passage);
@@ -131,20 +138,53 @@ tinymce.init({
 /////////////////////////////////////////////////////////////////////////////////////////////
 $(".send-article-btn").click(() => {
 
-  article.passage = tinymce.activeEditor.getContent();
+  if ($('.choosePicture').val()) {
+    let file = new FormData();
+    file.append('articlePicture', $('.choosePicture')[0].files[0])
 
+    $.ajax({
+      type: 'POST',
+      url: `/api/article/addPicture/${$(".send-article-btn").attr("data-id")}`,
+      data: file,
+      processData: false,
+      contentType: false,
+
+      success: response => {
+        console.log(response);
+        if (response.status) {
+          $(".alert").removeClass("hide ").addClass("text-primary").text("your image has been successfully uploaded")
+        }
+        else {
+          $(".alert").removeClass("hide").addClass("text-danger").text(response.message)
+        }
+
+      },
+
+      error: error => {
+        console.log(error);
+      }
+    })
+  }
+ 
+  let data = new article(tinymce.activeEditor.getContent(), $("textarea").eq(0).val(), $("textarea").eq(1).val())
+  data.published=false
+  data.sendToAdmin=false
+  console.log(data);
+  
   $.ajax({// sending article passage into data base
 
     type: "POST",
     url: `/api/dashboard/article/add/${$(".send-article-btn").attr("data-id")}`,
-    data: article,
+    data: data,
     success: (response) => {
       console.log(response);
-      if (response === "done") {
-        $(".alert").removeClass("alert-danger hide").addClass("alert-primary").html("Article has been successfully updated.click <a href='/api/dashboard'>here</a> to go to your dashboard ");
-      }
+      if (response.status ) {
+         $(".alert").removeClass("alert-danger hide").addClass("alert-primary").html("Article has been successfully updated.click <a href='/api/dashboard'>here</a> to go to your dashboard ");
+          $(".passage-title h1").text(response.message.title)
+          $(".passage-description p").text(response.message.description)
+        }
       else {
-        $(".alert").removeClass("hide").html(response)
+        $(".alert").removeClass("hide").html(response.message)
       }
 
     },
@@ -156,7 +196,32 @@ $(".send-article-btn").click(() => {
   })
 })
 
+///////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////sending article to admin/////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////
+$(".sendToAdmin-article-btn").click(() => {
+  $.ajax({// sending article to admin
 
+    type: "POST",
+    url: `/api/dashboard/article/sendToAdmin/${$(".send-article-btn").attr("data-id")}`,
+    success: (response) => {
+      console.log(response);
+      if (response.status ) {
+         $(".alert").removeClass("alert-danger hide").addClass("alert-primary").html("Article has been successfully updated.click <a href='/api/dashboard'>here</a> to go to your dashboard ");
+          $(".passage-title h1").text(response.message.title)
+          $(".passage-description p").text(response.message.description)
+        }
+      else {
+        $(".alert").removeClass("hide").html(response.message)
+      }
 
+    },
+
+    erorr: (err) => {
+
+      console.log(err);
+    }
+  })
+})
 
 

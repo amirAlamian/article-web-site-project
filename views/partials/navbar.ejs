@@ -7,30 +7,30 @@
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <span class="navbar-brand">This site</span>
+    <img src="/images/site-logo.jpg" alt="site logo" width="45px" height="50px">
   
     <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
       <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
         <li class="nav-item ">
-          <a class="nav-link btn  active" href="/api">Home <span class="sr-only">(current)</span></a>
+          <a class="nav-link btn nav-btn active" href="/api">Home <span class="sr-only">(current)</span></a>
         </li>
         <li class="nav-item">
-          <a class="nav-link btn " href="#">Link</a>
+          <a class="nav-link btn nav-btn " href="#">About us</a>
         </li>
       </ul>
       <% if (!user) { %>
         <form class="form-inline my-2 my-lg-0" method="GET" action="/api/signIn">
-          <button class="btn  my-2 my-sm-0" type="submit">Sign In</button>
+          <button class="btn  my-2 my-sm-0 nav-btn" type="submit">Sign In</button>
         </form>
         <form class="form-inline my-2 my-lg-0" method="GET" action="/api/signUp">
-          <button class="btn my-2 my-sm-0" type="submit">Sign Up</button>
+          <button class="btn my-2 my-sm-0 nav-btn" type="submit">Sign Up</button>
         </form>
       <% } %>
       <% if (user) { %>
         <div class="user-information">
-          <a href="/api/logOut" class="text-light user-information-options "> Log&nbsp;out</a>
-          <a href="/api/dashboard" class="text-light user-information-options">Dashboard</a>
-          <a href="/api/dashboard/userAccount" class="text-light user-information-options">Account</a>
+          <a href="/api/logOut" class=" btn  user-information-options nav-btn "> Log&nbsp;out</a>
+          <a href="/api/dashboard" class=" btn  user-information-options nav-btn">Dashboard</a>
+          <a href="/api/dashboard/userAccount" class=" btn  user-information-options nav-btn">Account</a>
 
         </div>
        <div class="rounded-circle user">

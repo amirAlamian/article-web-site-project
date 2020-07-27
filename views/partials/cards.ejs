@@ -1,11 +1,53 @@
-<div class="card" style="width: 18rem;">
-  <img class="card-img-top" src="..." alt="Card image cap">
-  <div class="card-body">
-    <h5 class="card-title"><%= article.title%></h5>
-    <p class="card-text"><%= article.description%></p>
-    <a href="dashboard/article/read/<%= article._id %>" class="btn btn-primary">read</a>
-    <a href="dashboard/article/edit/<%= article._id %>" class="btn btn-warning">edit</a>
-    <button class="btn btn-danger btn-remove "  data-toggle="modal" data-target="#removeModal" data-whatever="@mdo" data-article-id="<%= article._id %>" data-article-title="<%= article.title%>">remove</button>
+<% if (hide) { %>
+<div class=" card-holder hide">
+  <% } %>
+  <% if (!hide) {%>
+    <div class=" card-holder">
+  <% } %>
+
+  <div class="card" style="width: 18rem;" data-published="<%=article.published %>">
+    <div class="holder">
+      <div class="inner">
+        <div class="front">
+          <img class="card-img-top article-image" src="/images/articleImages/<%= article.image%>" alt="<%=article.title %>">
+          <h5 class="card-title"> <%= article.title%></h5>
+
+        </div>
+        <div class="back text-left">
+          <h6 class="description-title">Author:</h6>
+          <div class="d-flex align-items-center">
+            <div class="rounded-circle author-image-holder">
+
+            </div>
+            <div id="triangle-left"></div>
+            <span class="card-authorName"> &nbsp <%= article.author%> &nbsp </span>
+          </div>
+
+          <br>
+          <h6 class="description-title">Description:</h6>
+          <p class="card-text">&nbsp&nbsp <%= article.description%></p>
+          <h6 class="description-title">View:</h6>
+          <p class="card-text">&nbsp&nbsp <%= article.view.number%></p>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <hr>
+      <% if (!home) { %>
+      <p class="card-text"> View: <%= article.view.number%></p>
+      <hr>
+      <% } %>
+      <a href="/api/article/read/<%= article._id %>" class="btn btn-primary">Read</a>
+      <% if (!home) { %>
+      <a href="/api/article/edit/<%= article._id %>" class="btn btn-warning">Edit</a>
+      <button class="btn btn-danger btn-remove " data-toggle="modal" data-target="#removeModal" data-whatever="@mdo"
+        data-article-id="<%= article._id %>" data-article-title="<%= article.title%>">Remove</button>
+      <% } %>
+
+      <% if (home) { %>
+      <button class="btn btn-light btn-details " id="flip" data-number="<%= index %>"
+        data-article-author="<%= article.author%>">Details</button>
+      <% } %>
+    </div>
   </div>
 </div>
-
