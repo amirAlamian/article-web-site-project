@@ -26,33 +26,33 @@ passBar = () => {
   let password = $(".input-box input[type='password'").val();
 
   if (counter <= 7) {
-    console.log("red");
+   
     $(".bar").css("background", "red")
   }
 
   else if (password.match(weekPassword)) {///week 
-    console.log("yellow");
+   
 
     $(".bar").css("background", "yellow")
   }
 
   else if (password.match(normalPassword)) {//normal
-    console.log("or1");
+    
     $(".bar").css("background", "orange")
   }
 
   else if (password.match(strongPassword)) {///strong
-    console.log("gr1");
+    
     $(".bar").css("background", "green")
   }
 
   else if (password.length >= 11 && password.length <= 17) {
-    console.log("or2");
+
     $(".bar").css("background", "orange")
   }
 
   else if (password.length >= 17) {
-    console.log("gr2");
+  
     $(".bar").css("background", "green")
   }
 
@@ -80,15 +80,27 @@ $(".signUpBTN").click(() => {
     userInfos[titles[i]] = $(".input-box input").eq(i).val();
   }
 
-  userInfos.gender = $("input[name='gender']:checked").val();
-  userInfos.recapResponse = grecaptcha.getResponse();
+  for (let j = 0; j < 2; j++) {
+    if($(".radio").eq(j).hasClass("checked")){
 
+      if(j===0){
+        userInfos.gender="male"
+      } 
+
+      else{
+        userInfos.gender="female"
+      }
+    }
+  }
+  
+  userInfos.recapResponse = grecaptcha.getResponse();
 
 
   for (let j = 0; j < 6; j++) {//check if any of inputs is empty or not
     if (userInfos[titles[j]] === "") {
       $(".input-box-container").eq(j).css("border-color", "red");
-      $(".alert").removeClass("alert-light").addClass("alert-danger").text("please fill all of the inputs");
+      $("#alertModal").modal("show");
+      $(".alert").addClass("text-danger").text("please fill all of the inputs");
     }
     else {
       $(".input-box-container").eq(j).css("border-color", "rgb(121,82,179)");
@@ -96,9 +108,10 @@ $(".signUpBTN").click(() => {
     }
   }
 
-  if (userInfos[titles[6]] === undefined) {
+  if (userInfos[titles[6]] === "") {
     $(".input-box-radio").css("border-color", "red");
-    $(".alert").removeClass("alert-light").addClass("alert-danger").text("please fill all of the inputs.");
+    $("#alertModal").modal("show");
+    $(".alert").addClass("text-danger").text("please fill all of the inputs.");
   }
   else {
     $(".input-box-radio").css("border-color", "rgb(121,82,179)");
@@ -106,33 +119,37 @@ $(".signUpBTN").click(() => {
   }
 
   if (userInfos.password.length < 8) {
-    $(".alert").removeClass("alert-light").addClass("alert-danger").text("your password is too short. it must be at least 8 characters.");
+    $("#alertModal").modal("show");
+    $(".alert").addClass("text-danger").text("your password is too short. it must be at least 8 characters.");
   }
   else {
     permission++;
   }
 
   if (userInfos.recapResponse === "") {
-    $(".alert").removeClass("alert-light").addClass("alert-danger").text("please do the Recaptcha to prove that you are a human.")
+    $("#alertModal").modal("show");
+    $(".alert").addClass("text-danger").text("please do the Recaptcha to prove that you are a human.")
   }
   else {
     permission++;
   }
 
   if (permission === 9) {
-    $(".alert").removeClass("alert-danger").addClass("alert-light").text("please wait")
+    $(".alert").removeClass("text-danger").addClass("alert-light").text("please wait");
     $.ajax({// post to sign up
       type: "POST",
       url: "/api/signUp",
       data: userInfos,
       success: (response) => {
-        console.log(response.status);
-
         if (response === "done") {
-          $(".alert").removeClass("alert-light").addClass("alert-primary").html("you successfully signed up. click <a href='/api/signIn'>here</a> to sign in")
+          $("#alertModal").modal("show");
+          $(".alert").removeClass("text-danger").addClass("text-primary").html("you successfully signed up. click <a href='/api/signIn'>here</a> to sign in")
         }
         else {
-          $(".alert").removeClass("alert-light").addClass("alert-danger").html(response)
+          grecaptcha.reset()
+          $("#alertModal").modal("show");
+          $(".alert").addClass("text-danger").html(response);
+          permission=0
         }
 
       },
@@ -208,14 +225,24 @@ $(".input-box input[type='password'").keydown((e) => {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////// show password  icon /////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////
-$(document).on("click",".fa-eye",function(){
+$(document).on("click", ".fa-eye", function () {
   $(this).removeClass("fa-eye").addClass("fa-eye-slash");
-  $(".password-input").attr("type","text")
+  $(".password-input").attr("type", "text")
 })
 
 
-$(document).on("click",".fa-eye-slash",function(){
+$(document).on("click", ".fa-eye-slash", function () {
   $(this).removeClass("fa-eye-slash").addClass("fa-eye");
-  $(".password-input").attr("type","password")
+  $(".password-input").attr("type", "password")
 })
 
+///////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////// choose gender button click  /////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+$(".radio").click(function () {
+
+  $(".radio").css("background", "inherit").removeClass("checked");
+
+  $(this).css("background", "rgb(121,82,179)").addClass("checked");
+})

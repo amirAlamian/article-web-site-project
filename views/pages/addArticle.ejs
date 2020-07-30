@@ -6,58 +6,114 @@
     <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
 </head>
 
-<body>
-    <%- include("../partials/navbar",{theme,user}) %>
-    <section class="passage" data-article-id="<%= article._id %>">
-        <article class="passage-head">
-            <img src="/images/articleImages/<%= article.image%>" class="passage-image" alt="<%= article.title %>">
-            <div class="passage-title">
-                <h1> <%= article.title %></h1>
-                <div class="passage-description">
-                    <p><%= article.description %></p>
+<% if (lang==="EN") { %>
+    <body>
+        <%- include("../partials/navbar",{theme,user}) %>
+        <%- include("../partials/alert") %>
+        <section class="passage" data-article-id="<%= article._id %>">
+            <article class="passage-head">
+                <img src="/images/articleImages/<%= article.image%>" class="passage-image" alt="<%= article.title %>">
+                <div class="passage-title">
+                    <h1> <%= article.title %></h1>
+                    <div class="passage-description">
+                        <p><%= article.description %></p>
+                    </div>
+    
                 </div>
-
-            </div>
-
-        </article>
-
-    </section>
-    <table class="table  m-auto passage-details">
-        <thead class="thead-dark">
-            <tr>
-                <th scope="col" class="text-center table-title ">Title</th>
-                <th scope="col" class="text-center table-description">Description</th>
-                <th scope="col" class="text-center">Picture</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td><textarea><%= article.title%></textarea></td>
-                <td><textarea><%= article.description%></textarea></td>
-                <td> <input type="file" name="avatar" class="btn btn-light choosePicture " data-id="<%= article._id%>"></td>
-            </tr>
-
-        </tbody>
-    </table>
-
-    <span id="article-passage" data-passage="<%= article.body%>"> </span>
-
-    <textarea id="full-featured-non-premium" placeholder="Write...">
-    </textarea>
-    <div class="send-article">
-        <button class="btn btn-primary my-2 my-sm-0 send-article-btn " type="submit"
-            data-id=<%= article._id %>>save</button>
+    
+            </article>
+    
+        </section>
+        <table class="table  m-auto passage-details">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col" class="text-center table-title ">Title</th>
+                    <th scope="col" class="text-center table-description">Description</th>
+                    <th scope="col" class="text-center">Picture</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><textarea><%= article.title%></textarea></td>
+                    <td><textarea><%= article.description%></textarea></td>
+                    <td> <input type="file" name="avatar" class="btn btn-light choosePicture " data-id="<%= article._id%>">
+                    </td>
+                </tr>
+    
+            </tbody>
+        </table>
+    
+        <span id="article-passage" data-passage="<%= article.body%>"> </span>
+    
+        <textarea id="full-featured-non-premium" placeholder="Write...">
+        </textarea>
+        <div class="send-article">
+            <button class="btn btn-primary my-2 my-sm-0 send-article-btn " type="submit"
+                data-id=<%= article._id %>>save</button>
             <button class="btn btn-light my-2 my-sm-0 sendToAdmin-article-btn " type="submit"
-            data-id=<%= article._id %>>Send to admin</button>
-    </div>
-    <div class="alert hide" role="alert">
-    </div>
+                data-id=<%= article._id %>>Send to admin</button>
+        </div>
+        
+    
+    
+<% } %>
 
-    <%- include("../partials/scripts") %>
-    <%- include("../partials/footer") %>
-    <script src="https://cdn.tiny.cloud/1/u27j517s2p7q4urqq9hj7oj047fw98p07hgsqd4kpccg6piz/tinymce/5/tinymce.min.js"
-        referrerpolicy="origin"></script>
-    <script src="/javascripts/article.js"></script>
+<% if (lang==="FA") { %>
+    <body id="FA">
+        <%- include("../partials/navbar",{theme,user}) %>
+        <%- include("../partials/alert") %>
+        <section class="passage" data-article-id="<%= article._id %>">
+            <article class="passage-head">
+                <img src="/images/articleImages/<%= article.image%>" class="passage-image" alt="<%= article.title %>">
+                <div class="passage-title">
+                    <h1> <%= article.title %></h1>
+                    <div class="passage-description">
+                        <p><%= article.description %></p>
+                    </div>
+    
+                </div>
+    
+            </article>
+    
+        </section>
+        <table class="table  m-auto passage-details">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col" class="text-center table-title ">تیتر</th>
+                    <th scope="col" class="text-center table-description">خلاصه</th>
+                    <th scope="col" class="text-center">عکس مقاله</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><textarea><%= article.title%></textarea></td>
+                    <td><textarea><%= article.description%></textarea></td>
+                    <td> <input type="file" name="avatar" class="btn btn-light choosePicture " data-id="<%= article._id%>">
+                    </td>
+                </tr>
+    
+            </tbody>
+        </table>
+    
+        <span id="article-passage" data-passage="<%= article.body%>"> </span>
+    
+        <textarea id="full-featured-non-premium" placeholder="Write...">
+        </textarea>
+        <div class="send-article">
+            <button class="btn btn-primary my-2 my-sm-0 send-article-btn " type="submit"
+                data-id=<%= article._id %>>ذخیره</button>
+            <button class="btn btn-light my-2 my-sm-0 sendToAdmin-article-btn " type="submit"
+                data-id=<%= article._id %>>ارسال به ادمین</button>
+        </div>
+    
+ 
+<% } %>
+
+<%- include("../partials/scripts") %>
+<%- include("../partials/footer") %>
+<script src="https://cdn.tiny.cloud/1/u27j517s2p7q4urqq9hj7oj047fw98p07hgsqd4kpccg6piz/tinymce/5/tinymce.min.js"
+    referrerpolicy="origin"></script>
+<script src="/javascripts/article.js"></script>
 </body>
 
 </html>

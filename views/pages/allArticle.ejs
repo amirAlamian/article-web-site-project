@@ -5,101 +5,106 @@
     <%- include("../partials/header") %>
 </head>
 
+<% if (lang==="EN") { %>
+
 <body>
- 
+    <%- include("../partials/navbar",{theme,user}) %>
     <hr>
     <hr>
 
     <section class="table-holder">
-        <div class="alert m-auto hide " role="alert">
+        <%- include("../partials/alert") %>
+        <% if (published) { %>
+            <div class="w-100 d-flex align-items-center justify-content-start flex-wrap p-3 sort">
+                <h5 class="w-100">Sort by:</h5>
+                <span class="sort-title"> Create Date</span>
+                <div class="rounded-circle sort-options selected" data-sort="date"></div>
+                <span class="sort-title"> View</span>
+                <div class="rounded-circle sort-options " data-sort="view"></div>
+            </div>
+           <hr>
+        <% } %>
+        <div class="table-cover">
+            <table class="table  article-table" data-published="<%= published %>">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col" class="text-center table-title ">Title</th>
+                        <th scope="col" class="text-center table-description">Description</th>
+                        <th scope="col" class="text-center table-createdAt">View</th>
+                        <th scope="col" class="text-center">Tools</th>
+                    </tr>
+                </thead>
+                <tbody>
+    
+                </tbody>
+            </table>
         </div>
-        <table class="table w-75 m-auto article-table" data-published="<%= published %>">
-            <thead class="thead-dark">
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col" class="text-center table-title ">Title</th>
-                    <th scope="col" class="text-center table-description">Description</th>
-                    <th scope="col" class="text-center table-createdAt">Created at</th>
-                    <th scope="col" class="text-center">Tools</th>
-                </tr>
-            </thead>
-            <tbody>
-
-            </tbody>
-        </table>
+      
 
     </section>
+    <% } %>
+    <% if (lang==="FA") { %>
 
+    <body id="FA">
+        <%- include("../partials/navbar",{theme,user}) %>
+        <hr>
+        <hr>
 
-
-
-    <div class="modal" tabindex="-1" role="dialog" id="editModal">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Edit company informations</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+        <section class="table-holder">
+            <%- include("../partials/alert") %>
+            <% if (published) { %>
+                <div class="w-100 d-flex align-items-center justify-content-end flex-wrap p-3 sort">
+                    <h5 class="w-100 text-right">:چیدن بر اساس</h5>
+                   
+                    <div class="rounded-circle sort-options " data-sort="view"></div>
+                    <span class="sort-title"> بازدید</span>
+                    
+                    <div class="rounded-circle sort-options selected" data-sort="date"></div>
+                    <span class="sort-title"> تاریخ ساخت</span>
+                    
+                    
                 </div>
-                <div class="modal-body">
-                    <div class="alert alert-danger" role="alert">
-                        please fill all of inputs
-                    </div>
-                    <div class="alert alert-success" role="alert">
-                        company updated successfully
-                    </div>
-                    Name: <input type="text" class="editInput">
-                    Registration code:<input type="text" class="editInput">
-                    City: <input type="text" class="editInput">
-                    State: <input type="text" class="editInput">
-                    Phone number: <input type="text" class="editInput">
-                    Registration date:<input type="text" class="editInput">
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary savebtn2">Save changes</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
+               <hr>
+            <% } %>
+           
+           <div class="table-cover">
+            <table class="table  article-table " data-published="<%= published %>">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col" class="text-center table-title ">عنوان</th>
+                        <th scope="col" class="text-center table-description">خلاصه</th>
+                        <% if (published) { %>
+                        <th scope="col" class="text-center table-createdAt">بازدید</th>
+                        <% } %>
+                        <% if (!published) { %>
+                            <th scope="col" class="text-center table-createdAt">تاریخ ایجاد</th>
+                        <% } %>
+
+                        <th scope="col" class="text-center">ابزار</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+           </div>
+           
+
+        </section>
+        <% } %>
 
 
 
 
 
-    <div class="modal fade" id="showMoreModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle"></h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <p class="companyDetails"></p>
-                    <hr>
-                    <p class="companyDetails"></p>
-                    <hr>
-                    <p class="companyDetails"></p>
-                    <hr>
-                    <p class="companyDetails"></p>
-                    <hr>
-                    <p class="companyDetails"></p>
-                    <hr>
-                    <p class="companyDetails"></p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
-</body>
 
-<%- include("../partials/scripts") %>
-<script src="/javascripts/client2.js"></script>
+
+
+    </body>
+    <%- include("../partials/footer") %>
+    <%- include("../partials/scripts") %>
+    <script src="/javascripts/client2.js"></script>
 
 </html>

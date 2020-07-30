@@ -139,7 +139,7 @@ router.get("/read/:article_id", (req, res) => {
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 router.get("/edit/:article_id", (req, res) => {
-
+   
     Functions.findArticle(req, res, "pages/addArticle", false);
 
 })
@@ -160,12 +160,12 @@ router.post("/remove/:article_id", (req, res) => {
 
 router.get("/allArticles/:published", (req, res) => {
     if (req.params.published === "published") {
-        res.render("pages/allArticle.ejs", { published: true })
+        res.render("pages/allArticle.ejs", { published: true , lang:req.cookies.lang ,theme:req.cookies.theme ,user:req.session.user})
 
     }
     else {
 
-        res.render("pages/allArticle.ejs", { published: false })
+        res.render("pages/allArticle.ejs", { published: false , lang:req.cookies.lang ,theme:req.cookies.theme,user:req.session.user })
 
     }
 
@@ -196,6 +196,7 @@ router.post("/sendToAdmin/:publishStatus", (req, res) => {
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 router.post("/sendComment/:article_id", async (req, res) => {
+    let response=[];
     try {
 
         console.log(req.body);
@@ -208,10 +209,17 @@ router.post("/sendComment/:article_id", async (req, res) => {
             senderImage:req.session.user.avatar
         })
         let comment = await newComment.save()
-        if (!comment) {
-            throw new Error("something went wrong. please try again later")
+        response.push(comment)
+        let article = await Article.findById(req.params.article_id);
+
+        if(article.author===req.session.user.userName || req.session.user.role==="admin"){
+            response.push("himself")
         }
-        return res.status(200).json(new Response(true, comment, Date.now))
+        else{
+            response.push("not-himself") 
+        }
+        return res.status(200).json(new Response(true, response, Date.now))
+
     } catch (error) {
         console.log(error.message);
         return res.status(400).json(new Response(false, error.message, Date.now))
@@ -229,16 +237,23 @@ router.get("/getComments/:article_id", async (req, res) => {
     try {
 
         let comments = await Comment.find({ article: req.params.article_id })
-        if (comments) {
-            res.status(201).json(new Response(true, comments, Date.now))
+
+        let article = await Article.findById(req.params.article_id);
+
+        if(article.author===req.session.user.userName || req.session.user.role==="admin"){
+            comments.push("himself")
         }
-        else {
-            throw new Error("something went wrong. please try again later.")
+        else{
+            comments.push("not-himself") 
         }
+    
+        return res.status(201).json(new Response(true, comments, Date.now));
+
 
     } catch (error) {
+
         console.log(error.message);
-        req.json(new Response(false, error.message, Date.now))
+        return req.json(new Response(false, error.message, Date.now))
 
     }
 
@@ -289,5 +304,21 @@ router.post("/addPicture/:article_id", async (req, res) => {
   
 })
 
+///////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////// remove comments end point ///////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////
 
+router.post("/removeComment/:comment_id", async (req,res)=>{
+try {
+    
+   let comment= await Comment.findByIdAndRemove(req.params.comment_id);
+   console.log(comment);
+    return res.status(201).json( new Response(true,"removed",Date.now))
+} catch (error) {
+
+    console.log(error.message);
+    return res.json( new Response(false,error.message,Date.now) )
+}
+  
+})
 module.exports = router;

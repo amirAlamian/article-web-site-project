@@ -36,14 +36,17 @@ app.use(function(req, res, next) {
 
 // app.use((req, res, next) => {
 // 	console.log(req.cookies,"cokkiess");
-// 	console.log(req.session,"sessionABD");
+// // 	console.log(req.session,"sessionABD");
 // 	next();
 // });
 
 
 app.use(function(req, res, next){
 	if(!req.cookies.theme){
-		res.cookie({'theme':"light" ,'lang':"EN"} );
+		req.cookies.lang="FA";
+		req.cookies.theme="light"
+		res.cookie("lang","FA")
+		res.cookie('theme',"light" );
 	}
 	
 	next();

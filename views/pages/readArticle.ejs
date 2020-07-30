@@ -4,58 +4,120 @@
 <head>
     <%- include("../partials/header") %>
 </head>
-<%- include("../partials/navbar",{theme,user}) %>
 
-<body>
-    <span id="passage-holder" data-article="<%= article.body %> "></span>
-    <section class="passage" data-article-id="<%= article._id %>">
-        <article class="passage-head">
-            <img src="/images/articleImages/<%= article.image%>" class="passage-image" alt="<%= article.title %>">
-            <div class="passage-title">
-                <h1> <%= article.title %></h1>
-                <div class="passage-description">
-                    <p><%= article.description %></p>
+
+<% if (lang==="EN") { %>
+    <body>
+        <%- include("../partials/navbar",{theme,user}) %>
+    
+        <span id="passage-holder" data-article="<%= article.body %> "></span>
+        <section class="passage" data-article-id="<%= article._id %>">
+            <article class="passage-head">
+                <img src="/images/articleImages/<%= article.image%>" class="passage-image" alt="<%= article.title %>">
+                <div class="passage-title">
+                    <h1> <%= article.title %></h1>
+                    <div class="passage-description">
+                        <p><%= article.description %></p>
+                    </div>
+                    
+                </div>
+            </article>
+            <article class="passage-author">
+                <hr>
+                <h6 class="description-title">Author:</h6>
+                <div class="d-flex align-items-center">
+                  <div class="rounded-circle author-image-holder" data-article-author=" <%= article.author%>">
+    
+                </div>
+                <div id="triangle-left"></div>
+                <span class="card-authorName"> &nbsp <%= article.author%> &nbsp </span>
+                </div>
+                <hr>
+            </article>
+            <article class="passage-holder">
+    
+            </article>
+    
+    
+    
+    
+            <% if (article.published) { %>
+               
+            <article class="comment">
+                <div class="comment-box">
+    
+                </div>
+                <button class="btn btn-light comment-showMore">Show more</button>
+                <div class="comment-write">
+                    <input type="text" class="comment-input" placeholder="write a comment:">
+                    <i class="fa fa-paper-plane send-comment" aria-hidden="true"></i>
+    
+                </div>
+            </article>
+            <% } %>
+    
+    
+    
+        </section>
+    
+<% } %>
+<% if (lang==="FA") { %>
+    <body id="FA">
+        <%- include("../partials/navbar",{theme,user}) %>
+    
+        <span id="passage-holder" data-article="<%= article.body %> "></span>
+        <section class="passage" data-article-id="<%= article._id %>">
+            <article class="passage-head">
+                <img src="/images/articleImages/<%= article.image%>" class="passage-image" alt="<%= article.title %>">
+                <div class="passage-title">
+                    <h1> <%= article.title %></h1>
+                    <div class="passage-description">
+                        <p><%= article.description %></p>
+                    </div>
+                    
+                </div>
+            </article>
+            <article class="passage-author text-right" id="FA-direction">
+                <hr>
+                <h6 class="description-title w-100">:نویسنده</h6>
+                <div class="d-flex align-items-center">
+                    <span class="card-authorName"> &nbsp <%= article.author%> &nbsp </span>
+                </div>
+                    <div id="triangle-right"></div>
+                
+                  <div class="rounded-circle author-image-holder" data-article-author=" <%= article.author%>">
+    
                 </div>
                 
-            </div>
-        </article>
-        <article class="passage-author">
-            <hr>
-            <h6 class="description-title">Author:</h6>
-            <div class="d-flex align-items-center">
-              <div class="rounded-circle author-image-holder" data-article-author=" <%= article.author%>">
-
-            </div>
-            <div id="triangle-left"></div>
-            <span class="card-authorName"> &nbsp <%= article.author%> &nbsp </span>
-            </div>
-            <hr>
-        </article>
-        <article class="passage-holder">
-
-        </article>
-
-
-
-
-        <% if (article.published) { %>
-           
-        <article class="comment">
-            <div class="comment-box">
-
-            </div>
-            <button class="btn btn-light comment-showMore">Show more</button>
-            <div class="comment-write">
-                <input type="text" class="comment-input" placeholder="write a comment:">
-                <i class="fa fa-paper-plane send-comment" aria-hidden="true"></i>
-
-            </div>
-        </article>
-        <% } %>
-
-
-
-    </section>
+                <hr>
+            </article>
+            <article class="passage-holder">
+    
+            </article>
+    
+    
+    
+    
+            <% if (article.published) { %>
+               
+            <article class="comment">
+                <div class="comment-box " >
+    
+                </div>
+                <button class="btn btn-light comment-showMore">نمایش بیشتر</button>
+                <div class="comment-write">
+                    <input type="text" class="comment-input text-right" dir="rtl" placeholder="کامنت بنویسید...">
+                    <i class="fa fa-paper-plane send-comment" aria-hidden="true"></i>
+    
+                </div>
+            </article>
+            <% } %>
+    
+    
+    
+        </section>
+    
+    <% } %>
 
     <%- include("../partials/footer") %>
     <%- include("../partials/scripts") %>

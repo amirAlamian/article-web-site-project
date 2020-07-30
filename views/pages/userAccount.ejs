@@ -5,98 +5,202 @@
     <%- include("../partials/header") %>
 </head>
 
-<body>
-    <%- include("../partials/navbar",{theme,user}) %>
-
-    <section class="userAccount">
-        <p class="alert hide"></p>
-        <hr>
-        <hr>
-        <article class="userAccount-box-image">
-            <div class="rounded-circle userAccount-image-holder">
-                <img class="rounded-circle userAccount-image" src="/images/<%= user.avatar %>"
-                    alt="<%= user.userName %>">
-            </div>
-            <input type="file" name="avatar" class="btn btn-light chooseFile">
-
-        </article>
-       
-        <hr>
-        <hr>
-        <article class="userAccount-box-information">
-            
-            <div class="information-box">
-
-                <div class="information-box-holder">
-                    <span>
-                        First name:
-                    </span>
-                    <input type="text" value="<%= user.firstName %>" disabled>
-                    <button class="btn btn-light change-information" data-number="0">
-                        Change
-                    </button>
+<% if (lang==="EN") { %>
+    <body>
+        <%- include("../partials/navbar",{theme,user}) %>
+    
+        <section class="userAccount">
+            <p class="alert hide"></p>
+            <hr>
+            <hr>
+            <article class="userAccount-box-image">
+                <div class="rounded-circle userAccount-image-holder">
+                    <img class="rounded-circle userAccount-image" src="/images/<%= user.avatar %>"
+                        alt="<%= user.userName %>">
                 </div>
-                <div class="information-box-holder">
-                    <span>
-                        Last name:
-                    </span>
-                    <input type="text" value="<%= user.lastName %>" disabled>
-                    <button class="btn btn-light change-information" data-number="1">
-                        Change
-                    </button>
+                <input type="file" name="avatar" class="btn btn-light chooseFile">
+    
+            </article>
+           
+            <hr>
+            <hr>
+            <article class="userAccount-box-information">
+                
+                <div class="information-box">
+    
+                    <div class="information-box-holder">
+                        <span>
+                            First name:
+                        </span>
+                        <input type="text" value="<%= user.firstName %>" disabled>
+                        <button class="btn btn-light change-information btn-right" data-number="0" >
+                            Change
+                        </button>
+                    </div>
+                    <div class="information-box-holder">
+                        <span>
+                            Last name:
+                        </span>
+                        <input type="text" value="<%= user.lastName %>" disabled>
+                        <button class="btn btn-light change-information btn-right" data-number="1" >
+                            Change
+                        </button>
+                    </div>
+                    <div class="information-box-holder">
+                        <span>
+                            Password:
+                        </span>
+                        <input type="text" value="<%= user.password %>" disabled>
+                        <button class="btn btn-light change-information btn-right" data-number="5" >
+                            Change
+                        </button>
+                    </div>
+    
                 </div>
-                <div class="information-box-holder">
-                    <span>
-                        Password:
-                    </span>
-                    <input type="text" value="<%= user.password %>" disabled>
-                    <button class="btn btn-light change-information" data-number="5">
-                        Change
-                    </button>
+                <div class="information-box">
+    
+                    <div class="information-box-holder">
+                        <span>
+                            Email:
+                        </span>
+    
+                        <input type="text" value="<%= user.email %>" disabled>
+    
+                        <button class="btn btn-light change-information btn-right" data-number="3" >
+                             Change
+                             </button>
+    
+                    </div>
+                    <div class="information-box-holder">
+                        <span>
+                            Phone number:
+                        </span>
+    
+                        <input type="text" value="<%= user.phoneNumber %>" disabled>
+    
+                        <button class="btn btn-light change-information btn-right" data-number="4" > 
+                            Change 
+                        </button>
+                    </div>
+                    <div class="information-box-holder">
+                        <span>
+                            User name:
+                        </span>
+                        <input type="text" value="<%= user.userName %>" disabled>
+                    </div>
+    
                 </div>
+            </article>
+            <hr>
+            <hr>
+        </section>
+    
+        <button class="btn btn-primary save-information-BTN hide">Save</button>
+    
+<% } %>
 
-            </div>
-            <div class="information-box">
 
-                <div class="information-box-holder">
-                    <span>
-                        Email:
-                    </span>
-
-                    <input type="text" value="<%= user.email %>" disabled>
-
-                    <button class="btn btn-light change-information" data-number="3">
-                         Change
-                         </button>
-
+<% if (lang==="FA") { %>
+    <body id="FA">
+        <%- include("../partials/navbar",{theme,user}) %>
+    
+        <section class="userAccount">
+            <p class="alert hide"></p>
+            <hr>
+            <hr>
+            <article class="userAccount-box-image">
+                <div class="rounded-circle userAccount-image-holder">
+                    <img class="rounded-circle userAccount-image" src="/images/<%= user.avatar %>"
+                        alt="<%= user.userName %>">
                 </div>
-                <div class="information-box-holder">
-                    <span>
-                        Phone number:
-                    </span>
-
-                    <input type="text" value="<%= user.phoneNumber %>" disabled>
-
-                    <button class="btn btn-light change-information" data-number="4"> 
-                        Change 
-                    </button>
+                <input type="file" name="avatar" class="btn btn-light chooseFile">
+    
+            </article>
+           
+            <hr>
+            <hr>
+            <article class="userAccount-box-information">
+                
+                <div class="information-box">
+    
+                    <div class="information-box-holder text-right">
+                      
+                        <input type="text" value="<%= user.firstName %>" disabled class="text-right" dir="rtl">
+                        <span>
+                            :نام
+                        </span>
+                        <button class="btn btn-light btn-left change-information" data-number="0" >
+                            تغییر
+                        </button>
+                    </div>
+                    <div class="information-box-holder  text-right">
+                        <input type="text" value="<%= user.lastName %>" disabled class="text-right" dir="rtl">
+                        <span>
+                            :نام خانوادگی
+                        </span>
+                       
+                        <button class="btn btn-light btn-left change-information" data-number="1" >
+                            تغییر
+                        </button>
+                    </div>
+                    <div class="information-box-holder text-right">
+                        <input type="text" value="<%= user.password %>" disabled class="text-right" dir="rtl">
+                        <span>
+                            :رمز عبور
+                        </span>
+                       
+                        <button class="btn btn-light btn-left change-information" data-number="5" >
+                            تغییر
+                        </button>
+                    </div>
+    
                 </div>
-                <div class="information-box-holder">
-                    <span>
-                        User name:
-                    </span>
-                    <input type="text" value="<%= user.userName %>" disabled>
+                <div class="information-box">
+    
+                    <div class="information-box-holder text-right">
+                        <input type="text" value="<%= user.email %>" disabled class="text-right" dir="rtl">
+                        <span>
+                            :ایمیل
+                        </span>
+    
+                        
+    
+                        <button class="btn btn-light btn-left change-information" data-number="3" >
+                            تغییر
+                             </button>
+    
+                    </div>
+                    <div class="information-box-holder text-right">
+                        <input type="text" value="<%= user.phoneNumber %>" disabled class="text-right" dir="rtl">
+                        <span>
+                            :شماره تلفن
+                        </span>
+    
+                        
+    
+                        <button class="btn btn-light btn-left change-information" data-number="4" > 
+                            تغییر 
+                        </button>
+                    </div>
+                    <div class="information-box-holder text-right">
+                          <input type="text" value="<%= user.userName %>" disabled class="text-right" dir="rtl">
+                        <span>
+                            :نام کاربری
+                        </span>
+                      
+                    </div>
+    
                 </div>
+            </article>
+            <hr>
+            <hr>
+        </section>
+    
+        <button class="btn btn-primary save-information-BTN hide">Save</button>
+    
+    <% } %>
 
-            </div>
-        </article>
-        <hr>
-        <hr>
-    </section>
-
-    <button class="btn btn-primary save-information-BTN hide">Save</button>
-
-
+    <%- include("../partials/footer") %>
     <%- include("../partials/scripts") %>
     <script src="/javascripts/signIn.js"></script>
 </body>

@@ -38,7 +38,7 @@ class aricleOperations {
                 }
 
             }
-            return res.render(url, { article, user: req.session.user, theme: req.cookies.theme })
+            return res.render(url, { article, user: req.session.user, theme: req.cookies.theme ,lang:req.cookies.lang })
         } catch (error) {
             console.log(error.message);
             return res.render("pages/error", {

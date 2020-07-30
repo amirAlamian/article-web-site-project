@@ -1,4 +1,9 @@
 
+
+allCookies = document.cookie;
+lang = allCookies.split(";")
+x = lang[0].split("=")
+
 let counter = 0;
 
 class userInfo {
@@ -12,70 +17,56 @@ class userInfo {
 }
 let permissin = true;
 let i;
-///////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////initial request to server for articles/////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////////////
-
-
-// let userArticles = new Promise((resolve, reject) => {
-//   $.ajax({// get all of the user informations
-
-//     type: "GET",
-//     url: "/api/dashboard/getArticles",
-//     success: (response) => {
-//       resolve(response);
-
-//     },
-
-//     erorr: (err) => {
-
-//       reject(err);
-//     }
-
-//   })
-
-
-// })
-
-// let addCard = (articles) => {
-
-
-//   for (i = 0, length = articles.length; i < length; i++) {
-//     if (articles[i].published) {
-//       $(".article-done").append( `<div class="card" style="width: 18rem;">
-//       <img class="card-img-top" src="..." alt="Card image cap">
-//       <div class="card-body">
-//         <h5 class="card-title">${articles[i].title}</h5>
-//         <p class="card-text">${articles[i].description}</p>
-//         <a href="#" class="btn btn-primary">Read</a>
-//       </div>
-//       </div>`);
-//     }
-//     else {
-//       $(".article-not-done").append( `<div class="card" style="width: 18rem;">
-//       <img class="card-img-top" src="..." alt="Card image cap">
-//       <div class="card-body">
-//         <h5 class="card-title">${articles[i].title}</h5>
-//         <p class="card-text">${articles[i].description}</p>
-//         <a href="#" class="btn btn-primary read-article-btn">Read</a>
-//       </div>
-//       </div>`);
-//     }
-//   }
-// }
-
-
-// userArticles.then(result => { //adding articles to dashboard
-//   addCard(result)
-//   console.log(result);
-// })
-
-
-
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////add article button////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////
+
+function AddCard(response ,lang) {
+  console.log(lang[4]);
+  $(".article-not-done").append(`<div class=" card-holder"><div class="card" style="width: 18rem;" data-published="${response.message.published}">
+  <div class="holder">
+    <div class="inner">
+      <div class="front">
+        <img class="card-img-top article-image" src="/images/articleImages/${response.message.image}" alt="${response.message.title}">
+        <h5 class="card-title"> ${response.message.title}</h5>
+
+      </div>
+      <div class="back text-left">
+        <h6 class="description-title">Author:</h6>
+        <div class="d-flex align-items-center">
+          <div class="rounded-circle author-image-holder">
+
+          </div>
+          <div id="triangle-left"></div>
+          <span class="card-authorName"> &nbsp ${response.message.author} &nbsp </span>
+        </div>
+
+        <br>
+        <h6 class="description-title">Description:</h6>
+        <p class="card-text">&nbsp&nbsp ${response.message.description}</p>
+        <h6 class="description-title">${lang[0]}</h6>
+        <p class="card-text">&nbsp&nbsp ${response.message.view.number}></p>
+      </div>
+    </div>
+  </div>
+  <div class="card-body">
+    <hr>
+    <p class="card-text ${lang[4]}"> ${lang[0]} ${response.message.view.number}</p>
+    <hr>
+   
+    <a href="/api/article/read/${response.message._id}" class="btn btn-primary">${lang[1]}</a>
+    
+    <a href="/api/article/edit/${response.message._id}" class="btn btn-warning">${lang[2]}</a>
+    <button class="btn btn-danger btn-remove " data-toggle="modal" data-target="#removeModal" data-whatever="@mdo"
+      data-article-id="${response.message._id}" data-article-title="${response.message.title}">${lang[3]}</button>
+    
+
+
+  </div>
+</div>
+</div>`)
+}
 
 $(".create-btn").click(() => {
 
@@ -102,8 +93,14 @@ $(".create-btn").click(() => {
       success: response => {
         console.log(response);
         if (response.status) {
-          $(".alert").removeClass("alert-danger hide").addClass("alert-primary").html(`Article has been successfully created. you have 1 day permission to compelete your article otherwise it will be removed.to compelete your article click <a href='/api/article/add/${response._id}'>here</a>`);
-          let counter=0;
+          if(x[1]==="FA"){
+            $(".alert").eq(0).removeClass("alert-danger hide").addClass("alert-primary text-right").html(`مقاله مورد نظر ایجاد شد. برای تکمیل آن <a href='/api/article/add/${response._id}'>اینجا</a> را کلیک کنید`);
+          }
+          else{
+            $(".alert").eq(0).removeClass("alert-danger hide").addClass("alert-primary").html(`Article has been successfully created.to compelete your article click <a href='/api/article/add/${response._id}'>here</a>`);
+          }
+         
+          let counter = 0;
           for (let i = 0, n = $(".card").length; i < n; i++) {
             console.log(i);
             if ($(".card").eq(i).attr("data-published") === "false") {
@@ -112,51 +109,17 @@ $(".create-btn").click(() => {
           }
           console.log(counter);
           if (counter < 3) {
-            if(counter===0){
+            if (counter === 0) {
               $(".unpublished-one").remove()
             }
-            $(".article-not-done").append(`<div class=" card-holder"><div class="card" style="width: 18rem;" data-published="${response.message.published}">
-            <div class="holder">
-              <div class="inner">
-                <div class="front">
-                  <img class="card-img-top article-image" src="/images/articleImages/${response.message.image}" alt="${response.message.title}">
-                  <h5 class="card-title"> ${response.message.title}</h5>
-        
-                </div>
-                <div class="back text-left">
-                  <h6 class="description-title">Author:</h6>
-                  <div class="d-flex align-items-center">
-                    <div class="rounded-circle author-image-holder">
-        
-                    </div>
-                    <div id="triangle-left"></div>
-                    <span class="card-authorName"> &nbsp ${response.message.author} &nbsp </span>
-                  </div>
-        
-                  <br>
-                  <h6 class="description-title">Description:</h6>
-                  <p class="card-text">&nbsp&nbsp ${response.message.description}</p>
-                  <h6 class="description-title">View:</h6>
-                  <p class="card-text">&nbsp&nbsp ${response.message.view.number}></p>
-                </div>
-              </div>
-            </div>
-            <div class="card-body">
-              <hr>
-              <p class="card-text"> View: ${response.message.view.number}</p>
-              <hr>
-             
-              <a href="/api/article/read/${response.message._id}" class="btn btn-primary">Read</a>
-              
-              <a href="/api/article/edit/${response.message._id} class="btn btn-warning">Edit</a>
-              <button class="btn btn-danger btn-remove " data-toggle="modal" data-target="#removeModal" data-whatever="@mdo"
-                data-article-id="${response.message._id}" data-article-title="${response.message.title}">Remove</button>
-              
-        
-        
-            </div>
-          </div>
-        </div>`)
+            if (x[1] === "FA") {
+              AddCard(response ,["بازدید:","خواندن","تغییر","حذف کردن","text-right"])
+            }
+
+            else {
+              AddCard(response,["View:","Read","Edit","Remove" ,"text-left"])
+            }
+
           }
 
           $("#passage-name").val("");
@@ -257,7 +220,7 @@ $(".save-information-BTN").click(() => {
 
 $(document).on("click", ".user-image", () => {
   if (counter % 2 === 0) {
-    $(".user-information").animate({ "width": "250px" }, 100, "linear")
+    $(".user-information").animate({ "width": "270px" }, 100, "linear")
   }
   if (counter % 2 === 1) {
     $(".user-information").animate({ "width": 0 }, 100, "linear")

@@ -1,31 +1,4 @@
-// $.ajax({
-//     type: "GET",
-//     url: "/api/getAllArticles",
-//     success: function (response) {
-//         console.log(response);
-//         if (response.status) {
 
-//         }
-//         else {
-
-//         }
-
-//     },
-//     error: function (err) {
-//         console.log(err);
-//     }
-// })
-
-
-// $(".btn-details").click(function () {
-//     $(".card-body-inner").animate({"transform":"rotateY(180deg)"},1000,"linear")
-// })
-// $(document).on("click",".btn-back",function () {
-
-
-
-
-// })
 ///////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////// details article button //////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -64,9 +37,8 @@ $(".btn-details").click(function () {
           type: "GET",
           url: `/api/getAuthorImage/${$(this).attr("data-article-author")}`,
           success: function (response) {
-              console.log(response);
               if (response.status) {
-                $(".author-image-holder").append(`<img src='/images/${response.message}' class='rounded-circle author-image'>`)
+                $(".author-image-holder").eq(i).append(`<img src='/images/${response.message}' class='rounded-circle author-image'>`)
               }
               else {
       
@@ -111,6 +83,8 @@ $(".show-more").click(function(){
       })
     }
     else{
+      console.log($(".mostViewed").css("width"));
+      // if( $(".mostViewed").css("width"))
       $(this).text("Show Less").addClass("back-btn");
       $(".mostViewed").animate({"height":"1400px"},500,"linear",function(){
         $(".mostViewed .hide").addClass("hide-not").removeClass("hide")

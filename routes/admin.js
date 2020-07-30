@@ -11,7 +11,8 @@ router.get("/", (req, res) => {
 
     Article.find({ sendToAdmin: true }, (err, data) => {
         res.render("pages/admin.ejs", {
-            articles: data.reverse()
+            articles: data.reverse(),
+            lang:req.cookies.lang
         })
 
     })
@@ -28,7 +29,7 @@ router.get("/read/:article_id", (req, res) => {
 //////////////////////////////////// admin end points  ///////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////
 router.get("/edit/:article_id", (req, res) => {
-
+    console.log(req.params.article_id,"dfdsfhdsuhfu");
     Functions.findArticle(req, res, "pages/addArticle.ejs")
 
 })

@@ -25,13 +25,14 @@ router.get("/", (req, res) => {
                     if (err) reject(err);
 
                     resolve(data);
-                })
+                }).sort({ "view.number": -1 })
             })
 
             return res.render("pages/dashboard", {
                 user: req.session.user,
                 theme: req.cookies.theme,
-                articles: article.reverse()
+                articles: article,
+                lang:req.cookies.lang
             })
         } catch (error) {
             console.log(error.message);
@@ -50,7 +51,8 @@ router.get("/userAccount", (req, res) => {
 
     res.render("pages/userAccount", {
         user: req.session.user,
-        theme: req.cookies.theme
+        theme: req.cookies.theme,
+        lang:req.cookies.lang
     })
 
 

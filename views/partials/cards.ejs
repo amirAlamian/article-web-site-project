@@ -1,53 +1,125 @@
-<% if (hide) { %>
-<div class=" card-holder hide">
-  <% } %>
-  <% if (!hide) {%>
-    <div class=" card-holder">
-  <% } %>
 
-  <div class="card" style="width: 18rem;" data-published="<%=article.published %>">
-    <div class="holder">
-      <div class="inner">
-        <div class="front">
-          <img class="card-img-top article-image" src="/images/articleImages/<%= article.image%>" alt="<%=article.title %>">
-          <h5 class="card-title"> <%= article.title%></h5>
+<!-- ////////////////////////////////////// lang EN /////////////////////////////////////////////////////////////////-->
 
-        </div>
-        <div class="back text-left">
-          <h6 class="description-title">Author:</h6>
-          <div class="d-flex align-items-center">
-            <div class="rounded-circle author-image-holder">
-
+<% if (lang==="EN") { %>
+  <% if (hide) { %>
+    <% if (index>5) { %>
+      <div class=" card-holder hide hide-800px">
+    <% } %>
+    <% if (index<=5) { %>
+      <div class=" card-holder hide">
+    <% } %>
+   
+      <% } %>
+      <% if (!hide) {%>
+        <div class=" card-holder">
+      <% } %>
+    
+      <div class="card" style="width: 18rem;" data-published="<%=article.published %>">
+        <div class="holder">
+          <div class="inner">
+            <div class="front">
+              <img class="card-img-top article-image" src="/images/articleImages/<%= article.image%>" alt="<%=article.title %>">
+              <h5 class="card-title"> <%= article.title%></h5>
+    
             </div>
-            <div id="triangle-left"></div>
-            <span class="card-authorName"> &nbsp <%= article.author%> &nbsp </span>
+            <div class="back text-left">
+              <h6 class="description-title">Author:</h6>
+              <div class="d-flex align-items-center">
+                <div class="rounded-circle author-image-holder">
+    
+                </div>
+                <div id="triangle-left"></div>
+                <span class="card-authorName"> &nbsp <%= article.author%> &nbsp </span>
+              </div>
+    
+              <br>
+              <h6 class="description-title">Description:</h6>
+              <p class="card-text">&nbsp&nbsp <%= article.description%></p>
+              <h6 class="description-title">View:</h6>
+              <p class="card-text">&nbsp&nbsp <%= article.view.number%></p>
+            </div>
           </div>
-
-          <br>
-          <h6 class="description-title">Description:</h6>
-          <p class="card-text">&nbsp&nbsp <%= article.description%></p>
-          <h6 class="description-title">View:</h6>
-          <p class="card-text">&nbsp&nbsp <%= article.view.number%></p>
+        </div>
+        <div class="card-body">
+          <hr>
+          <% if (!home) { %>
+          <p class="card-text"> View: <%= article.view.number%></p>
+          <hr>
+          <% } %>
+          <a href="/api/article/read/<%= article._id %>" class="btn btn-primary">Read</a>
+          <% if (!home) { %>
+          <a href="/api/article/edit/<%= article._id %>" class="btn btn-warning">Edit</a>
+          <button class="btn btn-danger btn-remove " data-toggle="modal" data-target="#removeModal" data-whatever="@mdo"
+            data-article-id="<%= article._id %>" data-article-title="<%= article.title%>">Remove</button>
+          <% } %>
+    
+          <% if (home) { %>
+          <button class="btn btn-light btn-details " id="flip" data-number="<%= index %>"
+            data-article-author="<%= article.author%>">Details</button>
+          <% } %>
         </div>
       </div>
     </div>
-    <div class="card-body">
-      <hr>
-      <% if (!home) { %>
-      <p class="card-text"> View: <%= article.view.number%></p>
-      <hr>
-      <% } %>
-      <a href="/api/article/read/<%= article._id %>" class="btn btn-primary">Read</a>
-      <% if (!home) { %>
-      <a href="/api/article/edit/<%= article._id %>" class="btn btn-warning">Edit</a>
-      <button class="btn btn-danger btn-remove " data-toggle="modal" data-target="#removeModal" data-whatever="@mdo"
-        data-article-id="<%= article._id %>" data-article-title="<%= article.title%>">Remove</button>
-      <% } %>
+<% } %>
 
-      <% if (home) { %>
-      <button class="btn btn-light btn-details " id="flip" data-number="<%= index %>"
-        data-article-author="<%= article.author%>">Details</button>
+
+
+<!-- ////////////////////////////////////// lang FA /////////////////////////////////////////////////////////////////-->
+<% if (lang==="FA") { %>
+  <% if (hide) { %>
+    <div class=" card-holder hide">
       <% } %>
+      <% if (!hide) {%>
+        <div class=" card-holder">
+      <% } %>
+    
+      <div class="card" style="width: 18rem;" data-published="<%=article.published %>">
+        <div class="holder">
+          <div class="inner">
+            <div class="front">
+              <img class="card-img-top article-image" src="/images/articleImages/<%= article.image%>" alt="<%=article.title %>">
+              <h5 class="card-title"> <%= article.title%></h5>
+    
+            </div>
+            <div class="back text-right">
+              <h6 class="description-title" >:نویسنده</h6>
+              <div class="d-flex align-items-center" id="FA-direction">
+                <span class="card-authorName"> &nbsp <%= article.author%> &nbsp </span>
+                <div id="triangle-right"></div>
+                
+                <div class="rounded-circle author-image-holder">
+    
+                </div>
+                
+              </div>
+    
+              <br>
+              <h6 class="description-title">:خلاصه</h6>
+              <p class="card-text">&nbsp&nbsp <%= article.description%></p>
+              <h6 class="description-title">:بازدید</h6>
+              <p class="card-text">&nbsp&nbsp <%= article.view.number%></p>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <hr>
+          <% if (!home) { %>
+          <p class="card-text text-right"> <%= article.view.number%>&nbsp;:بازدید </p>
+          <hr>
+          <% } %>
+          <a href="/api/article/read/<%= article._id %>" class="btn btn-primary">خواندن</a>
+          <% if (!home) { %>
+          <a href="/api/article/edit/<%= article._id %>" class="btn btn-warning">تغییر</a>
+          <button class="btn btn-danger btn-remove " data-toggle="modal" data-target="#removeModal" data-whatever="@mdo"
+            data-article-id="<%= article._id %>" data-article-title="<%= article.title%>">حذف کردن</button>
+          <% } %>
+    
+          <% if (home) { %>
+          <button class="btn btn-light btn-details " id="flip" data-number="<%= index %>"
+            data-article-author="<%= article.author%>">جزئیات</button>
+          <% } %>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
+  <% } %>

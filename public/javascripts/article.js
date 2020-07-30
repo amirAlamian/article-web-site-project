@@ -1,22 +1,70 @@
+let allCookies = document.cookie;
+let lang = allCookies.split(";")
+x = lang[0].split("=")
+
 let articleInfo = {
   title: "",
   description: "",
 }
 class article {
   constructor(body, title, description) {
-      this.body = body,
+    this.body = body,
       this.title = title,
       this.description = description
   }
 }
 
+function fixBackground(publish){
+  if(publish){
+    if(x[1]==="FA"){
+      $(".article-done").append(`
+      <hr >
+      <div class="article-empty published-one">
+          <h2>اولین مقاله خود را بنویسید </h1>
+      </div>
+      
+      <hr >`)
+    }
+    else{
+      $(".article-done").append(`
+      <hr>
+      <div class="article-empty published-one">
+          <h2>Let's Write Your First Article </h1>
+      </div>
+      
+      <hr>`)
+    }
+  }
+  else{
+
+    if(x[1]==="FA"){
+      $(".article-not-done").append(`
+      <hr>
+      <div class="article-empty unpublished-one">
+          <h2> شما مقاله منتشر نشده ندارید</h1>
+      </div>
+      
+      <hr>`)
+    }
+
+    else{
+      $(".article-not-done").append(`
+      <hr>
+      <div class="article-empty unpublished-one">
+          <h2> You Don't have  Unpublished Article</h1>
+      </div>
+      
+      <hr>`)
+    }
+  }
+}
 
 $(".btn-remove").click(function () {
 
   $(".text-danger").text($(this).attr("data-article-title"));
 
   let buttonInfo = $(this);
-  let title=$(this).attr("data-article-title")
+  let title = $(this).attr("data-article-title")
 
   $(".remove-BTN").click(() => {
     if ($(".remove-input").val() === $(buttonInfo).attr("data-article-title")) {
@@ -31,12 +79,32 @@ $(".btn-remove").click(function () {
           if (response.status) {
 
             for (let i = 0, length = $(".card-title").length; i < length; i++) {
-              console.log(title);
-              console.log($(".card-title").eq(i).text());
-              if ($(".card-title").eq(i).text().trimLeft() ===title) {
-                console.log(i);
+              if ($(".card-title").eq(i).text().trimLeft() === title) {
+
                 $(".card").eq(i).remove();
 
+                let counter = 0;
+
+                for (let j = 0, n = $(".card").length; j < n; j++) {
+                  if ($(".card").eq(j).attr("data-published") === "false") {
+                    counter++
+                  }
+                }
+                if (counter === 0) {
+
+                  fixBackground(false);
+                
+                }
+                counter = 0;
+                for (let j = 0, n = $(".card").length; j < n; j++) {
+                  if ($(".card").eq(j).attr("data-published") === "true") {
+                    counter++
+                  }
+                }
+                if (counter === 0) {
+
+                  fixBackground(true);
+                }
               }
             }
             $(".remove-input").val("")
@@ -152,10 +220,12 @@ $(".send-article-btn").click(() => {
       success: response => {
         console.log(response);
         if (response.status) {
-          $(".alert").removeClass("hide ").addClass("text-primary").text("your image has been successfully uploaded")
+          $("#alertModal").modal("show")
+          $(".alert").addClass("text-primary").text("your image has been successfully uploaded")
         }
         else {
-          $(".alert").removeClass("hide").addClass("text-danger").text(response.message)
+          $("#alertModal").modal("show")
+          $(".alert").removeClass("text-primary").addClass("text-danger").text(response.message)
         }
 
       },
@@ -165,12 +235,12 @@ $(".send-article-btn").click(() => {
       }
     })
   }
- 
+
   let data = new article(tinymce.activeEditor.getContent(), $("textarea").eq(0).val(), $("textarea").eq(1).val())
-  data.published=false
-  data.sendToAdmin=false
+  data.published = false
+  data.sendToAdmin = false
   console.log(data);
-  
+
   $.ajax({// sending article passage into data base
 
     type: "POST",
@@ -178,13 +248,21 @@ $(".send-article-btn").click(() => {
     data: data,
     success: (response) => {
       console.log(response);
-      if (response.status ) {
-         $(".alert").removeClass("alert-danger hide").addClass("alert-primary").html("Article has been successfully updated.click <a href='/api/dashboard'>here</a> to go to your dashboard ");
-          $(".passage-title h1").text(response.message.title)
-          $(".passage-description p").text(response.message.description)
+      if (response.status) {
+        $("#alertModal").modal("show")ک
+        if(x[1]==="EN"){
+          $(".alert").removeClass("alert-danger").addClass("text-primary").html("Article has been successfully updated.click <a href='/api/dashboard'>here</a> to go to your dashboard ");
         }
+        else{
+          $(".alert").removeClass("alert-danger").addClass("text-primary text-right").html("مقاله با موفقیت ذخیره شد.");
+        }
+      
+        $(".passage-title h1").text(response.message.title)
+        $(".passage-description p").text(response.message.description)
+      }
       else {
-        $(".alert").removeClass("hide").html(response.message)
+        $("#alertModal").modal("show")
+        $(".alert").removeClass("text-primary").addClass("text-danger").html(response.message)
       }
 
     },
@@ -206,13 +284,21 @@ $(".sendToAdmin-article-btn").click(() => {
     url: `/api/dashboard/article/sendToAdmin/${$(".send-article-btn").attr("data-id")}`,
     success: (response) => {
       console.log(response);
-      if (response.status ) {
-         $(".alert").removeClass("alert-danger hide").addClass("alert-primary").html("Article has been successfully updated.click <a href='/api/dashboard'>here</a> to go to your dashboard ");
-          $(".passage-title h1").text(response.message.title)
-          $(".passage-description p").text(response.message.description)
+      if (response.status) {
+        $("#alertModal").modal("show");
+        if(x[1]==="EN"){
+          $(".alert").removeClass("text-danger").addClass("text-primary").html("Article has been successfully updated.click <a href='/api/dashboard'>here</a> to go to your dashboard ");
         }
+        else{
+          $(".alert").removeClass("text-danger").addClass("text-primary text-right").html("مقاله با موفقیت به ادمین ارسال شد. ");
+        }
+       
+        $(".passage-title h1").text(response.message.title)
+        $(".passage-description p").text(response.message.description)
+      }
       else {
-        $(".alert").removeClass("hide").html(response.message)
+        $("#alertModal").modal("show")
+        $(".alert").removeClass("text-primary").addClass("text-danger").html(response.message)
       }
 
     },

@@ -60,7 +60,6 @@ const isLogin = (req, res, next) => {
 
 router.get("/", async (req, res) => {
     try {
-
         let mostViewedArticles = await Article.find().sort({ "view.number": -1 })
         if (!mostViewedArticles) {
             throw new Error("something went wrong.")
@@ -84,12 +83,12 @@ router.get("/", async (req, res) => {
             top10New.push(newArticles[i]);
         }
 
-        console.log(top10Viwed);
         return res.render("pages/home", {
             theme: req.cookies.theme,
             user: req.session.user,
             mostViewed: top10Viwed,
-            newArticles: top10New
+            newArticles: top10New,
+            lang: req.cookies.lang
         })
     } catch (error) {
         console.log(error.message);
@@ -103,7 +102,8 @@ router.get("/dark", (req, res) => {
     req.cookies.theme = "dark"
     res.render("pages/home", {
         theme: req.cookies.theme,
-        user:req.session.user
+        user:req.session.user,
+        lang:req.cookies.lang
     })
 })
 
@@ -111,13 +111,15 @@ router.get("/signUp", (req, res) => {
     res.cookie("theme", "light");
     req.cookies.theme = "light"
     res.render("pages/signUp", {
-        message: "welcome! please insert required information and hit the sign up button.",
+        message: (req.cookies.lang==="EN")?"welcome! please insert required information and hit the sign up button.":"خوش آمدید! لطفا اطلاعات خواسته شده را وارد کنید و سپس دکمه ثبت نام را بزنید",
         theme: req.cookies.theme,
-        className: "alert alert-light"
+        className: "alert alert-light",
+        lang:req.cookies.lang
     })
 })
 
 router.post("/signUp", async (req, res) => {
+
     try {
         if (!req.body.userName || !req.body.password || !req.body.firstName || !req.body.lastName || !req.body.email || !req.body.gender || !req.body.phoneNumber) {
             throw new Error('You have an empty input.')
@@ -129,6 +131,7 @@ router.post("/signUp", async (req, res) => {
         //recaptcha request to google 
         let recaptcha_response = await axios.post(`https://www.google.com/recaptcha/api/siteverify?secret=6LcS6bAZAAAAABqvkwvD4oqULb2CLnOy4qO1t_GB&response= ${req.body.recapResponse}`);
         if (recaptcha_response.data.success) {
+            
             const newUser = new User({
                 firstName: req.body.firstName,
                 lastName: req.body.lastName,
@@ -161,7 +164,8 @@ router.get("/dark/signUp", (req, res) => {//dark mode
     res.render("pages/signUp", {
         message: "welcome! please insert required information and hit the sign up button.",
         theme: req.cookies.theme,
-        className: "alert alert-light"
+        className: "alert alert-light",
+        lang:req.cookies.lang
     })
 })
 
@@ -174,9 +178,10 @@ router.get('/signIn', function (req, res) {
     res.cookie("theme", "light");
     req.cookies.theme = "light"
     res.render("pages/signIn", {
-        message: "welcome back! please insert required information and hit the sign In button.",
+        message: (req.cookies.lang==="EN")? "welcome back! please insert required information and hit the sign In button.":"خوش آمدید! لطفا اطلاعات مورد نیاز را وارد کنید و سپس دکمه ورود را بزنید",
         theme: req.cookies.theme,
-        className: "alert alert-light"
+        className: "alert alert-light",
+        lang:req.cookies.lang
     })
 });
 
@@ -200,9 +205,10 @@ router.post('/signIn', function (req, res) {
             console.log(user);
             if (user === null) {
                 res.render("pages/signIn", {
-                    message: "sorry! can not find an user with this informations.",
+                    message: (req.cookies.lang==="EN")?"sorry! can not find an user with this informations.": "متاسفانه کاربری با این اطلاعات یافت نشد",
                     theme: req.cookies.theme,
-                    className: "alert alert-danger"
+                    className: "alert alert-danger",
+                    lang:req.cookies.lang
                 })
             }
             if (user.role === "admin") {
@@ -224,7 +230,8 @@ router.post('/signIn', function (req, res) {
             res.render("pages/signIn", {
                 message: error.message,
                 theme: req.cookies.theme,
-                className: "alert alert-danger"
+                className: "alert alert-danger",
+                lang:req.cookies.lang
             })
         }
 
@@ -238,7 +245,8 @@ router.get("/dark/signIn", (req, res) => {//dark mode
     res.render("pages/signIn", {
         message: "welcome back! please insert required information and hit the sign In button.",
         theme: req.cookies.theme,
-        className: "alert alert-light"
+        className: "alert alert-light",
+        lang:req.cookies.lang
     })
 })
 
