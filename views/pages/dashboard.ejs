@@ -1,10 +1,11 @@
-<!DOCTYPE html>
+
+<% if (lang==="EN") { %>
+    <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <%- include("../partials/header") %>
 </head>
-<% if (lang==="EN") { %>
     <body>
     
         <%- include("../partials/navbar",{theme,user}) %>
@@ -106,11 +107,17 @@
             <div class="article-showMore">
                 <a href="/api/dashboard/article/allArticles/nopublished"  class="btn-light btn">Show more</a>
             </div>
-    
+            <hr>
         </section>
     
 <% } %>
 <% if (lang==="FA") { %>
+    <!DOCTYPE html>
+<html lang="fa">
+
+<head>
+    <%- include("../partials/header") %>
+</head>
     <body id="FA">
     
         <%- include("../partials/navbar",{theme,user }) %>
@@ -206,13 +213,13 @@
                 <% } %>
     
                 <% } %>
-               
+           
             </article>
             
             <div class="article-showMore">
                 <a href="/api/dashboard/article/allArticles/nopublished"  class="btn-light btn">نمایش بیشتر</a>
             </div>
-    
+            <hr>
         </section>
     
 <% } %>
@@ -222,12 +229,13 @@
 
 
 
-    <%- include("../partials/footer") %>
+    <%- include("../partials/footer",{home:false}) %>
     <%- include("../partials/scripts") %>
     <script src="https://cdn.tiny.cloud/1/u27j517s2p7q4urqq9hj7oj047fw98p07hgsqd4kpccg6piz/tinymce/5/tinymce.min.js"
         referrerpolicy="origin"></script>
     <script src="/javascripts/article.js"></script>
     <script src="/javascripts/signIn.js"></script>
+    <script src="/javascripts/user-account-image.js"></script>
 </body>
 
 </html>

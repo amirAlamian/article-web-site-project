@@ -1,90 +1,146 @@
 <% if (lang==="EN") { %>
-  <% if (theme) { %>
-    <nav class="navbar navbar-expand-lg navbar-<%= theme%> bg-<%= theme%>">
-<% } %>
-<% if (!theme) { %>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-<% } %>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+<% if (theme) { %>
+<nav class="navbar navbar-expand-lg navbar-<%= theme%> bg-<%= theme%>">
+  <% } %>
+  <% if (!theme) { %>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <% } %>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03"
+      aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <img src="/images/site-logo.jpg" alt="site logo" width="45px" height="50px">
-  
+
     <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
       <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
         <li class="nav-item ">
-          <a class="nav-link btn nav-btn active" href="/api">Home <span class="sr-only">(current)</span></a>
+          <a class="nav-link btn nav-btn active" href="/api"> &nbsp; Home <span class="sr-only">(current)</span></a>
         </li>
         <li class="nav-item">
-          <a class="nav-link btn nav-btn " href="#">About us</a>
+          <a class="nav-link btn nav-btn " href="/api/aboutUs"> &nbsp;&nbsp; About us</a>
+        </li>
+        <li class="nav-item change-lang">
+          <a class="nav-link btn nav-btn " > <i class="fa fa-cog ml-2" aria-hidden="true"></i></a>
+          <div class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="setting-modal">
+            <div class="modal-dialog modal-sm">
+              <div class="modal-content p-3">
+                <h2 class="text-primary">Settings</h2>
+                <hr>
+                <span class="modal-span text-secondary">Language:</span>
+                
+                    <div class="toggle-button-cover2">
+                      <div class="button-cover2">
+                        <div class="button2 r lang" id="button-92">
+                          <input type="checkbox" class="checkbox2">
+                          <div class="knobs2">
+                            <span data-lang="<%= lang%>"></span>
+                          </div>
+                          <div class="layer2"></div>
+                        </div>
+                      </div>
+                    
+                  
+              </div>
+            </div>
+          </div>
         </li>
       </ul>
+     
       <% if (!user) { %>
-        <form class="form-inline my-2 my-lg-0" method="GET" action="/api/signIn">
-          <button class="btn  my-2 my-sm-0 nav-btn" type="submit">Sign In</button>
-        </form>
-        <form class="form-inline my-2 my-lg-0" method="GET" action="/api/signUp">
-          <button class="btn my-2 my-sm-0 nav-btn" type="submit">Sign Up</button>
-        </form>
+      <form class="form-inline my-2 my-lg-0 change-lang make-center" method="GET" action="/api/signIn">
+        <button class="btn  my-2 my-sm-0 nav-btn" type="submit">Sign In</button>
+      </form>
+      <form class="form-inline my-2 my-lg-0 make-center" method="GET" action="/api/signUp">
+        <button class="btn my-2 my-sm-0 nav-btn" type="submit">Sign Up</button>
+      </form>
       <% } %>
       <% if (user) { %>
-        <div class="user-information">
-          <a href="/api/logOut" class=" btn  user-information-options nav-btn "> Log&nbsp;out</a>
-          <a href="/api/dashboard" class=" btn  user-information-options nav-btn">Dashboard</a>
-          <a href="/api/dashboard/userAccount" class=" btn  user-information-options nav-btn">Account</a>
+      <div class="user-information">
+        <a href="/api/logOut" class=" btn  user-information-options nav-btn "> Log&nbsp;out</a>
+        <a href="/api/dashboard" class=" btn  user-information-options nav-btn">Dashboard</a>
+        <a href="/api/dashboard/userAccount" class=" btn  user-information-options nav-btn">Account</a>
 
-        </div>
-       <div class="rounded-circle user">
-         <img  class="user-image rounded-circle" src="/images/<%= user.avatar %> " alt="<%= user.userName %>">
-       </div>
+      </div>
+      <div class="rounded-circle user">
+        <img class="user-image rounded-circle" src="/images/<%= user.avatar %> " alt="<%= user.userName %>">
+      </div>
       <% } %>
-     
+
     </div>
   </nav>
-<% } %>
+  <% } %>
 
-<% if (lang==="FA") { %>
+  <% if (lang==="FA") { %>
   <% if (theme) { %>
-    <nav class="navbar navbar-expand-lg navbar-<%= theme%> bg-<%= theme%>">
-<% } %>
-<% if (!theme) { %>
+  <nav class="navbar navbar-expand-lg navbar-<%= theme%> bg-<%= theme%>">
+    <% } %>
+    <% if (!theme) { %>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-<% } %>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <img src="/images/site-logo.jpg" alt="site logo" width="45px" height="50px">
-  
-    <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
-      <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-        <li class="nav-item ">
-          <a class="nav-link btn nav-btn active" href="/api">خانه <span class="sr-only">(current)</span></a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link btn nav-btn " href="#">درباره ما</a>
-        </li>
-      </ul>
-      <% if (!user) { %>
-        <form class="form-inline my-2 my-lg-0" method="GET" action="/api/signIn">
+      <% } %>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03"
+        aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <img src="/images/site-logo.jpg" alt="site logo" width="45px" height="50px">
+
+      <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+          <li class="nav-item ">
+            <a class="nav-link btn nav-btn active" href="/api">خانه <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link btn nav-btn " href="/api/aboutUs">درباره ما</a>
+          </li>
+          <li class="nav-item change-lang">
+            <a class="nav-link btn nav-btn " > <i class="fa fa-cog ml-2" aria-hidden="true"></i></a>
+            <div class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="setting-modal">
+              <div class="modal-dialog modal-sm">
+                <div class="modal-content p-3">
+                  <h2 class="text-primary text-right">تنظیمات</h2>
+                  <hr>
+                  <span class="modal-span text-secondary text-right">:زبان</span>
+                  
+                    
+                      
+                      <div class="toggle-button-cover">
+                        <div class="button-cover">
+                          <div class="button r lang" id="button-9" >
+                            <input type="checkbox" class="checkbox" >
+                            <div class="knobs">
+                              <span data-lang="<%= lang%>" class="lang-choose"></span>
+                            </div>
+                            <div class="layer"></div>
+                          </div>
+                        </div>
+                      
+                    
+                </div>
+              </div>
+            </div>
+        
+          </li>
+        </ul>
+        
+        <% if (!user) { %>
+        <form class="form-inline my-2 my-lg-0 change-lang make-center" method="GET" action="/api/signIn">
           <button class="btn  my-2 my-sm-0 nav-btn" type="submit">ورود</button>
         </form>
-        <form class="form-inline my-2 my-lg-0" method="GET" action="/api/signUp">
+        <form class="form-inline my-2 my-lg-0 make-center" method="GET" action="/api/signUp">
           <button class="btn my-2 my-sm-0 nav-btn" type="submit">ثبت نام</button>
         </form>
-      <% } %>
-      <% if (user) { %>
+        <% } %>
+        <% if (user) { %>
         <div class="user-information">
           <a href="/api/logOut" class=" btn  user-information-options nav-btn "> خروج</a>
           <a href="/api/dashboard" class=" btn  user-information-options nav-btn">پنل کاربری</a>
           <a href="/api/dashboard/userAccount" class=" btn  user-information-options nav-btn">اطلاعات کاربر</a>
 
         </div>
-       <div class="rounded-circle user">
-         <img  class="user-image rounded-circle" src="/images/<%= user.avatar %> " alt="<%= user.userName %>">
-       </div>
-      <% } %>
-     
-    </div>
-  </nav>
-<% } %>
+        <div class="rounded-circle user">
+          <img class="user-image rounded-circle" src="/images/<%= user.avatar %> " alt="<%= user.userName %>">
+        </div>
+        <% } %>
 
+      </div>
+    </nav>
+    <% } %>

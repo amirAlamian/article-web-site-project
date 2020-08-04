@@ -10,7 +10,7 @@ const app = express();
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////setting up session/////////////////////////////////////
+////////////////////////////////////////setting up session////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 app.use(session({
@@ -24,6 +24,7 @@ app.use(session({
 }));
 
 
+
 app.use(cookieParser());
 
 app.use(function(req, res, next) {
@@ -34,15 +35,9 @@ app.use(function(req, res, next) {
 	next();
 });
 
-// app.use((req, res, next) => {
-// 	console.log(req.cookies,"cokkiess");
-// // 	console.log(req.session,"sessionABD");
-// 	next();
-// });
-
 
 app.use(function(req, res, next){
-	if(!req.cookies.theme){
+	if(!req.cookies.lang){
 		req.cookies.lang="FA";
 		req.cookies.theme="light"
 		res.cookie("lang","FA")

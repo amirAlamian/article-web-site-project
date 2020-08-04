@@ -1,7 +1,7 @@
 let allCookies = document.cookie;
 let lang = allCookies.split(";")
-lang = lang[0].split("=")
-console.log(lang[1]);
+let x = lang[0].split("=");
+
 ///////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////// initial request to get article and comments ///////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -155,8 +155,9 @@ $(".fa-paper-plane").click(() => {
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 $(".comment-showMore").click(function () {
+
   if ($(this).hasClass("show-less")) {
-    $(".comment-showMore").removeClass("show-less").text("Show more");
+    (x[1]==="EN")? $(".comment-showMore").removeClass("show-less").text("Show more"): $(".comment-showMore").removeClass("show-less").text("نمایش بیشتر") ;
     $(".comment-box").animate({ "height": "200px" }, 400, "linear", function () {
       $(".hide-not").removeClass("d-flex align-items-flex-start hide-not").addClass("hide")
       $(".comment-box").css({ "overflow": "hidden", "display": "flex" });
@@ -165,7 +166,8 @@ $(".comment-showMore").click(function () {
 
   }
   else {
-    $(this).addClass("show-less").text("Show less");
+    (x[1]==="EN")? $(this).addClass("show-less").text("Show less"): $(this).addClass("show-less").text("نمایش کمتر");
+
     $(".comment-box").animate({ "height": "400px" }, 400, "linear", function () {
       $(".hide").addClass("d-flex align-items-flex-start hide-not").removeClass("hide")
       $(".comment-box").css({ "overflow": "auto", "display": "block" });

@@ -1,0 +1,60 @@
+<% if (lang==="EN") { %>
+    <!DOCTYPE html>
+    <html lang="en">
+    
+    <head>
+        <%- include("../partials/header") %>
+    </head>
+    
+    <body>
+        <% if (theme) { %>
+        <section class="signInbox-<%= theme %>">
+            <% } %>
+            <% if (!theme) { %>
+            <section class="signInbox-light">
+                <% } %>
+                <article class="input-box">
+                    <h4 class="pass-recovery">Password Recovery</h4>
+                    <div class="w-100  password-recovery-holder">
+                        <div class="text-secondary text-center">Please write down your user name and hit send button</div>
+                        <div class="input-box-container mb-5"> <input type="text" placeholder="username" name="userName"
+                                value="amir"></div>
+                        <button class="signInBTN sendEmailBTN m-auto d-block ">send</button>
+                    </div>
+    
+                </article>
+            </section>
+<% } %>
+<% if (lang==="FA") { %>
+    <!DOCTYPE html>
+    <html lang="fa">
+    
+    <head>
+        <%- include("../partials/header") %>
+    </head>
+    
+    <body id="FA">
+        <% if (theme) { %>
+        <section class="signInbox-<%= theme %>">
+            <% } %>
+            <% if (!theme) { %>
+            <section class="signInbox-light">
+                <% } %>
+                <article class="input-box">
+                    <h4 class="pass-recovery mb-3">بازیابی رمزعبور</h4>
+                    <div class="w-100  password-recovery-holder">
+                        <div class="text-secondary text-center mb-3">لطفا نام کاربری خود را نوشته و دکمه ارسال را بزنید</div>
+                        <div class="input-box-container mb-5 text-right"> <input type="text" dir="rtl" placeholder="نام کاربری" name="userName"
+                                value="amir"></div>
+                        <button class="signInBTN sendEmailBTN m-auto d-block ">ارسال</button>
+                    </div>
+    
+                </article>
+            </section>
+<% } %>
+
+        <%- include("../partials/footer",{home:false}) %>
+        <script src="/javascripts/client.js"></script>
+</body>
+
+</html>

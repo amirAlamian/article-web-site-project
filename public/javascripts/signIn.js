@@ -146,7 +146,7 @@ $(".create-btn").click(() => {
 
 
 $(".change-information").click(function () {
-  $('input[type=text]').eq($(this).attr("data-number")).attr("disabled", false);
+  $('input[type=text]').eq($(this).attr("data-number")).attr("disabled", false).css("border-bottom","1px solid lightgray");
   $(".save-information-BTN").removeClass("hide")
 })
 
@@ -218,14 +218,4 @@ $(".save-information-BTN").click(() => {
 })
 
 
-$(document).on("click", ".user-image", () => {
-  if (counter % 2 === 0) {
-    $(".user-information").animate({ "width": "270px" }, 100, "linear")
-  }
-  if (counter % 2 === 1) {
-    $(".user-information").animate({ "width": 0 }, 100, "linear")
-  }
-  counter++
-
-})
 

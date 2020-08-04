@@ -1,11 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
 
-<head>
-    <%- include("../partials/header") %>
-</head>
 <% if (lang==="EN") { %>
-
+    <!DOCTYPE html>
+    <html lang="en">
+    
+    <head>
+        <%- include("../partials/header") %>
+    </head>
 <body>
     <form action="/api/dark/signUp" method="GET">
         <button class="theme" style="display: inline;">click me</button>
@@ -52,7 +52,12 @@
 
 
         <% if (lang==="FA") { %>
-
+            <!DOCTYPE html>
+            <html lang="fa">
+            
+            <head>
+                <%- include("../partials/header") %>
+            </head>
         <body id="FA">
             <form action="/api/dark/signUp" method="GET">
                 <button class="theme" style="display: inline;">click me</button>

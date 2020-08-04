@@ -1,20 +1,23 @@
 <% if (lang==="EN") { %>
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <%- include("../partials/header") %>
-</head>
+    <!DOCTYPE html>
+    <html lang="en">
+    
+    <head>
+        <%- include("../partials/header") %>
+    </head>
 
 <body>
     <%- include("../partials/navbar",{theme,user,lang}) %>
     <section class="introduce">
-        <%- include("../partials/carousel") %>
+        <div class="carousel-holder">
+            <%- include("../partials/carousel") %>
+        </div>
+        
     </section>
 
-    <section id="search">
-        <form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2 " id="search-input" type="search" placeholder="Article name"
+    <section id="search" class="neg-margin neg-margin2 ">
+        <form class="form-inline my-2 my-lg-0" method="POST" action="/api/search">
+            <input class="form-control mr-sm-2 " name="search" id="search-input" type="search" placeholder="Article name"
                 aria-label="Search">
             <button class="btn btn-outline-success my-2 my-sm-0 " id="search-btn" type="submit">Search</button>
         </form>
@@ -29,16 +32,17 @@
         <hr>
         <article class="article-mostview mostViewed">
 
-
+            <% let counter=0 %> 
             <% for( let index = 0; index <mostViewed.length; index++ ) { %>
+                <% counter++ %> 
             <% if (index >=3) { %>
 
-            <%- include("../partials/cards",{article:mostViewed[index],home :true ,index , hide:true , lang}) %>
+            <%- include("../partials/cards",{article:mostViewed[index],home :true ,index , hide:true , lang ,counter}) %>
 
             <% continue %>
             <% } %>
 
-            <%- include("../partials/cards",{article:mostViewed[index],home :true ,index , hide:false ,lang}) %>
+            <%- include("../partials/cards",{article:mostViewed[index],home :true ,index , hide:false ,lang ,counter}) %>
 
 
 
@@ -57,15 +61,17 @@
         </h4>
         <hr>
         <article class="article-newest newest">
+            <% counter=0 %> 
             <% for( let index =0; index < newArticles.length; index++ ) { %>
+                <% counter++ %> 
             <% if (index>=3) { %>
 
-            <%- include("../partials/cards",{article:newArticles[index],home :true ,index:index+9 ,hide:true , lang}) %>
+            <%- include("../partials/cards",{article:newArticles[index],home :true ,index:index+9 ,hide:true , lang,counter}) %>
 
             <% continue %>
             <% } %>
 
-            <%- include("../partials/cards",{article:newArticles[index],home :true ,index:index+9 ,hide:false , lang}) %>
+            <%- include("../partials/cards",{article:newArticles[index],home :true ,index:index+9 ,hide:false , lang,counter}) %>
 
 
 
@@ -85,7 +91,7 @@
 
     <% if (lang==="FA") { %>
     <!DOCTYPE html>
-    <html lang="FA">
+    <html lang="fa">
 
     <head>
         <%- include("../partials/header") %>
@@ -101,9 +107,9 @@
 
         </section>
 
-        <section id="search" class="neg-margin">
-            <form class="form-inline my-2 my-lg-0">
-                <input class="form-control mr-sm-2 text-right" dir="rtl" id="search-input" type="search" placeholder=" نام مقاله"
+        <section id="search" class="neg-margin neg-margin2">
+            <form class="form-inline my-2 my-lg-0" method="POST" action="/api/search">
+                <input class="form-control mr-sm-2 text-right" name="search"dir="rtl" id="search-input" type="search" placeholder=" نام مقاله"
                     aria-label="Search">
                 <button class="btn btn-outline-success my-2 my-sm-0 " id="search-btn" type="submit">جست و جو</button>
             </form>
@@ -118,16 +124,17 @@
             <hr>
             <article class=" article-mostview  mostViewed">
 
-
+                <% let counter=0 %> 
                 <% for( let index = 0; index <mostViewed.length; index++ ) { %>
+                    <% counter++ %> 
                 <% if (index >=3) { %>
 
-                <%- include("../partials/cards",{article:mostViewed[index],home :true ,index , hide:true , lang}) %>
+                <%- include("../partials/cards",{article:mostViewed[index],home :true ,index , hide:true , lang,counter}) %>
 
                 <% continue %>
                 <% } %>
 
-                <%- include("../partials/cards",{article:mostViewed[index],home :true ,index , hide:false , lang}) %>
+                <%- include("../partials/cards",{article:mostViewed[index],home :true ,index , hide:false , lang, counter}) %>
 
 
 
@@ -146,15 +153,17 @@
             </h4>
             <hr>
             <article class="article-newest newest">
+                <% counter=0 %> 
                 <% for( let index =0; index < newArticles.length; index++ ) { %>
+                    <% counter++ %> 
                 <% if (index>=3) { %>
 
-                <%- include("../partials/cards",{article:newArticles[index],home :true ,index:index+9 ,hide:true , lang}) %>
+                <%- include("../partials/cards",{article:newArticles[index],home :true ,index:index+9 ,hide:true , lang, counter}) %>
 
                 <% continue %>
                 <% } %>
 
-                <%- include("../partials/cards",{article:newArticles[index],home :true ,index:index+9 ,hide:false , lang}) %>
+                <%- include("../partials/cards",{article:newArticles[index],home :true ,index:index+9 ,hide:false , lang, counter}) %>
 
 
 
@@ -171,11 +180,12 @@
 
         <% } %>
 
-
-        <%- include("../partials/footer") %>
+     
+        <%- include("../partials/footer",{home:true,mostViewed}) %>
         <%- include("../partials/scripts") %>
+        <script src="/javascripts/user-account-image.js"></script>
         <script src="/javascripts/home.js"></script>
-        <script src="/javascripts/signIn.js"></script>
+       
     </body>
 
     </html>

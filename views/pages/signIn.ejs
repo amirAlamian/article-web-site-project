@@ -1,10 +1,11 @@
-<!DOCTYPE html>
+
+
+<% if (lang==="EN") { %>
+    <!DOCTYPE html>
 <html lang="en">
 <head>
     <%- include("../partials/header") %>
 </head>
-
-<% if (lang==="EN") { %>
     <body>
         <form action="/api/dark/signIn" method="GET">
             <button class="theme" style="display: inline;">click me</button>
@@ -18,16 +19,16 @@
         
             <article class="input-box">
                 <h2>Sign In</h2>
-                <div class="<%= className %>" role="alert">
+                <div class="<%= className %> text-center" role="alert">
                     <%= message %> 
                 </div>
                 <form action="/api/signIn" method="POST">
-                <div class="input-box-container"> <input type="text" placeholder="username" name="userName" value="amirAlamian"></div>
+                <div class="input-box-container"> <input type="text" placeholder="username" name="userName" value="amir"></div>
                 <div class="input-box-container"><div class="input-box-password"><input type="password" placeholder="password"  class="password-input" name="password" value="1379amir"><i class="fa fa-eye" aria-hidden="true"></i></div> </div>
                 <button class="signInBTN">Sign In</button>
             </form>
     
-            <small>Forget your password?&nbsp<a href="#">click here</a></small>
+            <small>Forget your password?&nbsp<a href="/api/forgetPassword">click here</a></small>
             <small>Don't have an account?&nbsp<a href="/api/signUp">sign Up</a></small>
     
             </article>
@@ -36,6 +37,11 @@
 
 
 <% if (lang==="FA") { %>
+    <!DOCTYPE html>
+<html lang="fa">
+<head>
+    <%- include("../partials/header") %>
+</head>
     <body id="FA">
         <form action="/api/dark/signIn" method="GET">
             <button class="theme" style="display: inline;">click me</button>
@@ -58,7 +64,7 @@
                 <button class="signInBTN">ورود</button>
             </form>
     
-            <small>رمز عبور را فراموش کردید؟&nbsp<a href="#">بازیابی</a></small>
+            <small>رمز عبور را فراموش کردید؟&nbsp<a href="/api/forgetPassword">بازیابی</a></small>
             <small>ثبت نام نکرده اید؟&nbsp<a href="/api/signUp">ثبت نام</a></small>
     
             </article>

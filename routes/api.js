@@ -2,11 +2,12 @@ const express = require("express");
 const User = require("../models/blogger");
 const router = express.Router();
 const axios = require("axios");
-const articleRouter= require("./article")
+const articleRouter = require("./article")
 const userDashboard = require("./users")
 const Article = require("../models/article")
 const admin = require("./admin")
-const Response = require("../tools/response")
+const Response = require("../tools/response");
+const sendEmail = require("../tools/sendEmail")
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////session check/////////////////////////////////////////
@@ -39,8 +40,8 @@ const checkAdminSession = async (req, res, next) => {
 }
 
 
-router.use('/dashboard', checkSession, userDashboard);
-router.use('/article', checkSession, articleRouter);
+router.use('/dashboard',checkSession,  userDashboard);
+router.use('/article',checkSession,  articleRouter);
 router.use('/admin', checkAdminSession, admin);
 
 
@@ -97,24 +98,15 @@ router.get("/", async (req, res) => {
     }
 
 })
-router.get("/dark", (req, res) => {
-    res.cookie("theme", "dark");
-    req.cookies.theme = "dark"
-    res.render("pages/home", {
-        theme: req.cookies.theme,
-        user:req.session.user,
-        lang:req.cookies.lang
-    })
-})
 
 router.get("/signUp", (req, res) => {
     res.cookie("theme", "light");
     req.cookies.theme = "light"
     res.render("pages/signUp", {
-        message: (req.cookies.lang==="EN")?"welcome! please insert required information and hit the sign up button.":"خوش آمدید! لطفا اطلاعات خواسته شده را وارد کنید و سپس دکمه ثبت نام را بزنید",
+        message: (req.cookies.lang === "EN") ? "welcome! please insert required information and hit the sign up button." : "خوش آمدید! لطفا اطلاعات خواسته شده را وارد کنید و سپس دکمه ثبت نام را بزنید",
         theme: req.cookies.theme,
         className: "alert alert-light",
-        lang:req.cookies.lang
+        lang: req.cookies.lang
     })
 })
 
@@ -131,7 +123,7 @@ router.post("/signUp", async (req, res) => {
         //recaptcha request to google 
         let recaptcha_response = await axios.post(`https://www.google.com/recaptcha/api/siteverify?secret=6LcS6bAZAAAAABqvkwvD4oqULb2CLnOy4qO1t_GB&response= ${req.body.recapResponse}`);
         if (recaptcha_response.data.success) {
-            
+
             const newUser = new User({
                 firstName: req.body.firstName,
                 lastName: req.body.lastName,
@@ -158,16 +150,6 @@ router.post("/signUp", async (req, res) => {
 
 })
 
-router.get("/dark/signUp", (req, res) => {//dark mode
-    res.cookie("theme", "dark");
-    req.cookies.theme = "dark"
-    res.render("pages/signUp", {
-        message: "welcome! please insert required information and hit the sign up button.",
-        theme: req.cookies.theme,
-        className: "alert alert-light",
-        lang:req.cookies.lang
-    })
-})
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -178,10 +160,10 @@ router.get('/signIn', function (req, res) {
     res.cookie("theme", "light");
     req.cookies.theme = "light"
     res.render("pages/signIn", {
-        message: (req.cookies.lang==="EN")? "welcome back! please insert required information and hit the sign In button.":"خوش آمدید! لطفا اطلاعات مورد نیاز را وارد کنید و سپس دکمه ورود را بزنید",
+        message: (req.cookies.lang === "EN") ? "welcome back! please insert required information and hit the sign In button." : "خوش آمدید! لطفا اطلاعات مورد نیاز را وارد کنید و سپس دکمه ورود را بزنید",
         theme: req.cookies.theme,
         className: "alert alert-light",
-        lang:req.cookies.lang
+        lang: req.cookies.lang
     })
 });
 
@@ -205,10 +187,10 @@ router.post('/signIn', function (req, res) {
             console.log(user);
             if (user === null) {
                 res.render("pages/signIn", {
-                    message: (req.cookies.lang==="EN")?"sorry! can not find an user with this informations.": "متاسفانه کاربری با این اطلاعات یافت نشد",
+                    message: (req.cookies.lang === "EN") ? "sorry! can not find an user with this informations." : "متاسفانه کاربری با این اطلاعات یافت نشد",
                     theme: req.cookies.theme,
                     className: "alert alert-danger",
-                    lang:req.cookies.lang
+                    lang: req.cookies.lang
                 })
             }
             if (user.role === "admin") {
@@ -231,7 +213,7 @@ router.post('/signIn', function (req, res) {
                 message: error.message,
                 theme: req.cookies.theme,
                 className: "alert alert-danger",
-                lang:req.cookies.lang
+                lang: req.cookies.lang
             })
         }
 
@@ -239,16 +221,6 @@ router.post('/signIn', function (req, res) {
     })()
 });
 
-router.get("/dark/signIn", (req, res) => {//dark mode
-    res.cookie("theme", "dark");
-    req.cookies.theme = "dark"
-    res.render("pages/signIn", {
-        message: "welcome back! please insert required information and hit the sign In button.",
-        theme: req.cookies.theme,
-        className: "alert alert-light",
-        lang:req.cookies.lang
-    })
-})
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////setting up log out requests///////////////////////////
@@ -268,7 +240,7 @@ router.get('/getAuthorImage/:author_name', async function (req, res) {
 
     try {
 
-        let user = await User.find({userName:req.params.author_name})
+        let user = await User.find({ userName: req.params.author_name })
         console.log(user);
         if (!user[0]) {
             throw new Error("something went wrong.")
@@ -281,5 +253,170 @@ router.get('/getAuthorImage/:author_name', async function (req, res) {
     }
 
 });
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////// forget password end point ////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+router.get("/forgetPassword", (req, res) => {
+    res.render("pages/emailSend", {
+        lang: req.cookies.lang,
+        theme: req.cookies.theme
+    })
+})
+
+
+let verificationCode = Math.floor(Math.random() * Math.pow(10, 6));
+let permission = false;
+router.post("/sendEmail", async (req, res) => {
+    try {
+        if (!req.body.userName) {
+            throw new Error("empty input")
+        }
+        let user = await User.find({ userName: req.body.userName });
+
+
+        console.log(verificationCode);
+        let emilTextEn =
+            `hey ${user[0].userName}!\n
+        A password recovery attempt requires further verification. To complete the password recovery enter the verification code in the recovery page input \n
+        and hit the send button.    
+        Verification code: ${verificationCode}\n\n
+        If you did not attempt to recover your password, it will  expire in 5 minutes.\n
+
+        Thanks,\n
+        Amir alamian Articles Team.
+        `
+
+        let emilTextFa =
+            `!${user[0].userName} سلام\n
+         برای بازیابی رمز عبورتان به یک مرحله دیگر نیازمندید. برای بازیابی رمز عبور خود کدی که در پایین قرار دارد را در صفحه بازیابی رمز عبور وارد کنید و دکمه ارسال را بزنید.\n
+         ${verificationCode}:کد\n\n
+         کد مربوطه بعد از 5 دقیقه باطل خواهد شد.\n
+         ،با تشکر\n
+         تیم مقاله های امیر عالمیان
+        `
+
+
+        let mailOptions = {
+            from: 'amiralamianarticles@gmail.com',
+            to: 'sendsemailfromserver@gmail.com',
+            subject: 'recovery email',
+            text: (req.cookies.lang === "EN") ? emilTextEn : emilTextFa
+        };
+
+        sendEmail.sendMail(mailOptions, function (error, info) {
+            if (error) {
+                console.log(error);
+            } else {
+                console.log('Email sent: ' + info.response);
+                res.status(201).json(new Response(true, user[0], Date.now))
+            }
+        });
+
+
+    } catch (error) {
+
+        console.log(error.message);
+
+        res.status(201).json(new Response(true, error.message, Date.now))
+    }
+
+})
+
+
+router.post("/verifyCode", (req, res) => {
+    console.log(+req.body.VerificationCode);
+    if (+req.body.VerificationCode === verificationCode) {
+        permission = true;
+        res.status(201).json(new Response(true, "matched", Date.now))
+    }
+    else {
+        res.json(new Response(false, "not matched", Date.now))
+    }
+})
+
+router.post("/changePassword/:user_id", async (req, res) => {
+    if (permission) {
+        try {
+            if (!req.body.password) {
+                throw new Error("empty input")
+            }
+            let user = await User.findByIdAndUpdate(req.params.user_id, req.body, { new: true });
+            console.log(user);
+            res.status(201).json(new Response(true, user, Date.now))
+        } catch (error) {
+
+            console.log(error.message);
+            res.json(new Response(false, error.message, Date.now))
+        }
+
+    }
+
+
+})
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////// search end point ///////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+router.post("/search", async (req, res) => {
+    let result=[];
+    try {
+
+        if (!req.body.search) {
+            throw new Error("empty input")
+        }
+
+        let search = req.body.search.split(" ");
+        console.log(search);
+
+        let articles = await Article.find();
+        for (let i = 0, n = articles.length; i < n; i++) {
+            for (let j = 0, n1 = search.length; j < n1; j++) {
+                if(articles[i].title.toLowerCase().includes(search[j].toLowerCase())){
+                    
+                    result.push(articles[i]);
+                }
+            }
+        }
+        
+        res.render("pages/searchResult",{
+            lang:req.cookies.lang,
+            articles:result,
+            theme:req.cookies.theme,
+            user:(req.session.user)?req.session.user:null
+        })
+    } catch (error) {
+
+        console.log(error.message);
+        res.json(new Response(false, error.message, Date.now))
+    }
+
+
+
+
+})
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////// search end point ///////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////
+router.get("/aboutUs",(req,res)=>{
+    res.render("pages/aboutUs",{
+        theme:req.cookies.theme,
+        lang:req.cookies.lang,
+        user:null
+    })
+})
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////// change language end point //////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////
+router.post("/changeLang",(req,res)=>{
+    req.cookies.lang=req.body.language
+    res.cookie("lang",req.body.language);
+    res.send(new Response(true,"changed",Date.now()))
+})
 
 module.exports = router;

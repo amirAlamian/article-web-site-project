@@ -1,4 +1,5 @@
-const mongoose = require("mongoose")
+const mongoose = require("mongoose");
+const { NotExtended } = require("http-errors");
 const Schema = mongoose.Schema;
 
 const ArticleSchema = new Schema({

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<% if (lang==="EN") { %>
+<html lang="en">
+
+<head>
+    <%- include("../partials/header") %>
+</head>
+
+<body>
+    <%- include("../partials/navbar",{theme,user,lang}) %>
+    <section class="article">
+        <hr>
+        <h4>
+            Most Viewed Articles
+        </h4>
+        <hr>
+        <article class="article-mostview mostViewed">
+
+            <% let counter=0 %>
+            <% for( let index = 0; index <articles.length; index++ ) { %>
+           
+            <%- include("../partials/cards",{article:articles[index],home :true ,index , hide:false ,lang ,counter}) %>
+
+
+            <% } %>
+
+            
+        </article>
+    </section>
+    <% } %>
+    <% if (lang==="FA") { %>
+        <html lang="fa">
+
+            <head>
+                <%- include("../partials/header") %>
+            </head>
+            
+            <body id="FA">
+                <%- include("../partials/navbar",{theme,user,lang}) %>
+                <section class="article">
+                    <hr>
+                    <h4>
+                       نتایج جست و جو
+                    </h4>
+                    <hr>
+                    <article class="article-mostview mostViewed">
+            
+                        <% let counter=0 %>
+                        <% for( let index = 0; index <articles.length; index++ ) { %>
+                       
+                        <%- include("../partials/cards",{article:articles[index],home :true ,index , hide:false ,lang ,counter}) %>
+            
+                        <% } %>
+        
+                    </article>
+                </section>
+    <% } %>
+
+</body>
+<%- include("../partials/footer",{home:false}) %>
+<%- include("../partials/scripts") %>
+<script src="/javascripts/user-account-image.js"></script>
+<script src="/javascripts/home.js"></script>
+
+</html>

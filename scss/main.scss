@@ -40,7 +40,7 @@ body{
   from {top: 0px;}
   to {top: -5px;}
 }
-  @import "./under1000px";
+
 @media only screen and (min-width: 800px) {
 
     
@@ -249,13 +249,18 @@ body{
       font-size: 17px;
       
     }
+    .fa-cog{
+      font-size: 18px;
+      margin-top: 3px
+    }
+    
   }
 
 
 
   .introduce{
     width: 100%;
-    height:800px;
+    height:700px;
     padding: $veryLarge-padding;
     @include flexstuff(row, center);
   
@@ -278,10 +283,6 @@ body{
       }
       
     }
-    .page3{
-      width: 100%;
-      background-color: red;
-    }
 
 
   }
@@ -297,6 +298,7 @@ body{
   #search{
     width: 100%;
     height: 150px;
+    margin-top: -80px;
     @include flexstuff(row, center);
     form{
       width: 100%;
@@ -306,7 +308,13 @@ body{
       width: 50%;
     }
     &-btn{
-      width: 20%;
+      width: 10%;
+      color: $primary-color;
+      &:hover{
+        background-color: $primary-color;
+        color: white;
+      }
+     
     }
   }
 
@@ -349,7 +357,7 @@ body{
       background-color:rgb(236, 236, 236) ;
       margin:20px 0;
       @include flexstuff(row, center);
-      justify-content: space-around;
+      justify-content: flex-start;
 
     }
     .card-holder{
@@ -386,16 +394,7 @@ body{
       }
     }
 
-    &-not-done{
-      background-image: url("/images/letters7.jpg");
-      background-size: contain;
-      
-      background-repeat: repeat;
-      width: 100%;
-      margin:20px 0;
-      @include flexstuff(row, center);
-      justify-content: space-around;
-    }
+   
     &-empty{
       height: 500px;
       width: 100%;
@@ -403,11 +402,8 @@ body{
       color:$primary-color
     }
 
-    &-done{
-      background-image: url("/images/letters1.jpg");
-      background-size: contain;
-
-      background-repeat: repeat;
+    &-not-done,&-done{
+      background-color:rgb(236, 236, 236) ;
       width: 100%;
       margin:20px 0;
       @include flexstuff(row, center);
@@ -453,43 +449,76 @@ body{
   }
 
   .userAccount{
-    margin-top: 20px;
     width: 100%;
-    @include flexstuff(column, center);
+    height: 100vh;
+    @include flexstuff(row, center);
+    justify-content: flex-start;
     hr{
       width: 100%;
       // margin-top: 100px;
+    }
+    &-aside{
+      height: 100%;
+      width: 20%;
+      @include flexstuff(column, center);
+      justify-content: flex-start;
+      background-color:rgb(223, 223, 223);
+
+      .chooseFile-replace{
+        border: 2px solid $primary-color;
+        width: 80%;
+        height: 40px;
+        // font-weight: 500;
+        color: $primary-color;
+        margin-top: $medium-padding !important;
+        &:hover{
+
+            box-shadow: 0 0 1px 1px $primary-color ; 
+          
+        }
+
+      }
+
     }
     &-box-image{
       @include flexstuff(column, center);
       flex-wrap: nowrap;
       width: 80%;
       div{
-        width:400px ;
-        height: 400px;
+        margin-top: $veryLarge-padding !important;
+        width:200px ;
+        height: 200px;
         margin: 10px 0;
+        border: 5px solid $primary-color;
         
         img{
           width: 100%;
           height: 100%;
           object-fit: cover;
         }
+        
+        
       }
       }
     
 
     &-box-information{
-      @include flexstuff(row, center);
-      justify-content: space-around;
+      @include flexstuff(column, flex-end);
+     
+      
       width: 80%;
+      height: 100%;
       .information-box{
-        font-size:20px;
-        width: 45%;
+        font-size:17px;
+        width: 50%;
+        margin-right: $large-padding;
+        height:75% ;
         @include flexstuff(column, center);
-        justify-content: flex-start;
+        justify-content: space-between;
         &-holder{
           width: 100%;
-          margin: 10px;
+          margin: 10px 0;
+          height: 10%;
           input{
             border:none;
             outline: none;
@@ -507,10 +536,14 @@ body{
             margin-left: 20px;
           }
         }
+      
       }
     }
   }
-
+  .save-information-BTN{
+    margin-top: 40px;
+    
+  }
 
   .table-holder{
     width: 100%;
@@ -852,5 +885,311 @@ body{
   }
   .text-primary{
     color: $secondary-color !important;
+  }
+}
+
+/* CSS rules are kept repetitive so that you can get CSS rules for each button easily :) */
+
+.toggle-button-cover
+{
+    display: table-cell;
+    position: relative;
+    box-sizing: border-box;
+}
+
+.button-cover
+{
+ 
+    background-color: #fff;
+    box-shadow: 0 10px 20px -8px #c5d6d6;
+    border-radius: 4px;
+}
+
+.button-cover:before
+{
+    counter-increment: button-counter;
+  
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    color: #d7e3e3;
+    font-size: 12px;
+    line-height: 1;
+    padding: 5px;
+}
+
+.button-cover, .knobs, .layer
+{
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+
+.button
+{
+    position: relative;
+    top: 50%;
+    width: 74px;
+    height: 36px;
+    margin: -20px auto 0 auto;
+    overflow: hidden;
+}
+
+.button.r, .button.r .layer
+{
+    border-radius: 100px;
+}
+
+.button.b2
+{
+    border-radius: 2px;
+}
+
+.checkbox
+{
+    position: relative;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    opacity: 0;
+    cursor: pointer;
+    z-index: 3;
+}
+
+.knobs
+{
+    z-index: 2;
+}
+
+.layer
+{
+    width: 100%;
+    background-color: rgba(121, 82, 179, 0.24);
+    transition: 0.3s ease all;
+    z-index: 1;
+}
+
+
+/* Button 9 */
+#button-9 .knobs:before, #button-9 .knobs:after, #button-9 .knobs span
+{
+    position: absolute;
+    top: 4px;
+    width: 28px;
+    height: 26px;
+    font-size: 13px;
+    font-weight: bold;
+    text-align: center;
+    line-height: 1;
+    padding: 7px 4px;
+    border-radius: 50%;
+    transition: 0.4s cubic-bezier(0.18, 0.89, 0.35, 1.15) all;
+}
+
+#button-9 .knobs:before
+{
+    content: 'FA';
+    left: 4px;
+}
+
+#button-9 .knobs:after
+{
+    content: 'EN';
+    right: -24px;
+}
+
+#button-9 .knobs:before, #button-9 .knobs:after
+{
+    color: #fff;
+    z-index: 2;
+}
+
+#button-9 .knobs span
+{
+    left: 4px;
+    background-color:  $primary-color;
+    z-index: 1;
+}
+
+#button-9 .checkbox:checked + .knobs:before
+{
+    left: -24px;
+}
+
+#button-9 .checkbox:checked + .knobs:after
+{
+    right: 4px;
+}
+
+#button-9 .checkbox:checked + .knobs span
+{
+    left: 42px;
+    background-color: $primary-color;
+}
+
+#button-9 .checkbox:checked ~ .layer
+{
+  background-color: rgba(121, 82, 179, 0.24);
+}
+
+.toggle-button-cover2
+{
+    display: table-cell;
+    position: relative;
+    box-sizing: border-box;
+}
+
+.button-cover2
+{
+ 
+    background-color: #fff;
+    box-shadow: 0 10px 20px -8px #c5d6d6;
+    border-radius: 4px;
+}
+
+.button-cover2:before
+{
+    counter-increment: button-counter;
+  
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    color: #d7e3e3;
+    font-size: 12px;
+    line-height: 1;
+    padding: 5px;
+}
+
+.button-cover2, .knobs2, .layer2
+{
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+
+.button2
+{
+    position: relative;
+    top: 50%;
+    width: 74px;
+    height: 36px;
+    margin: -20px auto 0 auto;
+    overflow: hidden;
+}
+
+.button.r2, .button2.r .layer2
+{
+    border-radius: 100px;
+}
+
+.button2.b2
+{
+    border-radius: 2px;
+}
+
+.checkbox2
+{
+    position: relative;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    opacity: 0;
+    cursor: pointer;
+    z-index: 3;
+}
+
+.knobs2
+{
+    z-index: 2;
+}
+
+.layer2
+{
+    width: 100%;
+    background-color: rgba(121, 82, 179, 0.24);
+    transition: 0.3s ease all;
+    z-index: 1;
+}
+
+
+/* Button 9 */
+#button-92 .knobs2:before, #button-92 .knobs2:after, #button-92 .knobs2 span
+{
+    position: absolute;
+    top: 4px;
+    width: 28px;
+    height: 26px;
+    font-size: 13px;
+    font-weight: bold;
+    text-align: center;
+    line-height: 1;
+    padding: 7px 4px;
+    border-radius: 50%;
+    transition: 0.4s cubic-bezier(0.18, 0.89, 0.35, 1.15) all;
+}
+
+#button-92 .knobs2:before
+{
+    content: 'EN';
+    left: 4px;
+}
+
+#button-92 .knobs2:after
+{
+    content: 'FA';
+    right: -24px;
+}
+
+#button-92 .knobs2:before, #button-92 .knobs2:after
+{
+    color: #fff;
+    z-index: 2;
+}
+
+#button-92 .knobs2 span
+{
+    left: 4px;
+    background-color:  $primary-color;
+    z-index: 1;
+}
+
+#button-92 .checkbox2:checked + .knobs2:before
+{
+    left: -24px;
+}
+
+#button-92 .checkbox2:checked + .knobs2:after
+{
+    right: 4px;
+}
+
+#button-92 .checkbox2:checked + .knobs2 span
+{
+    left: 42px;
+    background-color: $primary-color;
+}
+
+#button-92 .checkbox2:checked ~ .layer2
+{
+  background-color: rgba(121, 82, 179, 0.24);
+}
+.modal-span{
+  margin-bottom: -9px;
+  font-size: 18px;
+}
+.modal-content{
+  height: 150px;
+}
+
+@import "./under1000px";
+@media only screen and (min-width: 1000px) and (max-width: 1300px){
+  .neg-margin{
+    margin-top: -175px !important;
   }
 }

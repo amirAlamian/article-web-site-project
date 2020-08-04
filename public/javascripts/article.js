@@ -14,9 +14,9 @@ class article {
   }
 }
 
-function fixBackground(publish){
-  if(publish){
-    if(x[1]==="FA"){
+function fixBackground(publish) {
+  if (publish) {
+    if (x[1] === "FA") {
       $(".article-done").append(`
       <hr >
       <div class="article-empty published-one">
@@ -25,7 +25,7 @@ function fixBackground(publish){
       
       <hr >`)
     }
-    else{
+    else {
       $(".article-done").append(`
       <hr>
       <div class="article-empty published-one">
@@ -35,9 +35,9 @@ function fixBackground(publish){
       <hr>`)
     }
   }
-  else{
+  else {
 
-    if(x[1]==="FA"){
+    if (x[1] === "FA") {
       $(".article-not-done").append(`
       <hr>
       <div class="article-empty unpublished-one">
@@ -47,7 +47,7 @@ function fixBackground(publish){
       <hr>`)
     }
 
-    else{
+    else {
       $(".article-not-done").append(`
       <hr>
       <div class="article-empty unpublished-one">
@@ -93,7 +93,7 @@ $(".btn-remove").click(function () {
                 if (counter === 0) {
 
                   fixBackground(false);
-                
+
                 }
                 counter = 0;
                 for (let j = 0, n = $(".card").length; j < n; j++) {
@@ -221,7 +221,7 @@ $(".send-article-btn").click(() => {
         console.log(response);
         if (response.status) {
           $("#alertModal").modal("show")
-          $(".alert").addClass("text-primary").text("your image has been successfully uploaded")
+          $(".alert").addClass("text-primary").text("your image has been successfully uploaded");
         }
         else {
           $("#alertModal").modal("show")
@@ -249,14 +249,14 @@ $(".send-article-btn").click(() => {
     success: (response) => {
       console.log(response);
       if (response.status) {
-        $("#alertModal").modal("show")ک
-        if(x[1]==="EN"){
+        $("#alertModal").modal("show")
+        if (x[1] === "EN") {
           $(".alert").removeClass("alert-danger").addClass("text-primary").html("Article has been successfully updated.click <a href='/api/dashboard'>here</a> to go to your dashboard ");
         }
-        else{
+        else {
           $(".alert").removeClass("alert-danger").addClass("text-primary text-right").html("مقاله با موفقیت ذخیره شد.");
         }
-      
+
         $(".passage-title h1").text(response.message.title)
         $(".passage-description p").text(response.message.description)
       }
@@ -275,7 +275,7 @@ $(".send-article-btn").click(() => {
 })
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////sending article to admin/////////////////////////
+//////////////////////////////////////// sending article to admin ////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////
 $(".sendToAdmin-article-btn").click(() => {
   $.ajax({// sending article to admin
@@ -286,13 +286,13 @@ $(".sendToAdmin-article-btn").click(() => {
       console.log(response);
       if (response.status) {
         $("#alertModal").modal("show");
-        if(x[1]==="EN"){
+        if (x[1] === "EN") {
           $(".alert").removeClass("text-danger").addClass("text-primary").html("Article has been successfully updated.click <a href='/api/dashboard'>here</a> to go to your dashboard ");
         }
-        else{
+        else {
           $(".alert").removeClass("text-danger").addClass("text-primary text-right").html("مقاله با موفقیت به ادمین ارسال شد. ");
         }
-       
+
         $(".passage-title h1").text(response.message.title)
         $(".passage-description p").text(response.message.description)
       }
@@ -310,4 +310,28 @@ $(".sendToAdmin-article-btn").click(() => {
   })
 })
 
+///////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////// responsive //////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////
+// function widthCalculator(class_name) {
+//   let stringWidth = $(class_name).css("width").split("");
+
+//   let width = "";
+
+//   for (let i = 0, n = stringWidth.length; i < n; i++) {
+
+//     if (stringWidth[i] === "p") break;
+
+//     width += stringWidth[i];
+//   }
+
+//   width = +width
+//   return (width)
+// }
+// if (widthCalculator(".passage-details") <= 800) {
+//   $(".passage-details").html("");
+//   for (let i = 0; i < 3; i++) {
+
+//   }
+// }
 

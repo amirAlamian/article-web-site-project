@@ -1,12 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <%- include("../partials/header") %>
-</head>
 
 <% if (lang==="EN") { %>
-
+    <!DOCTYPE html>
+    <html lang="en">
+    
+    <head>
+        <%- include("../partials/header") %>
+    </head>
+    
 <body>
     <%- include("../partials/navbar",{theme,user}) %>
     <hr>
@@ -45,7 +45,13 @@
     </section>
     <% } %>
     <% if (lang==="FA") { %>
-
+        <!DOCTYPE html>
+        <html lang="fa">
+        
+        <head>
+            <%- include("../partials/header") %>
+        </head>
+        
     <body id="FA">
         <%- include("../partials/navbar",{theme,user}) %>
         <hr>
@@ -103,8 +109,9 @@
 
 
     </body>
-    <%- include("../partials/footer") %>
+    <%- include("../partials/footer",{home:false}) %>
     <%- include("../partials/scripts") %>
     <script src="/javascripts/client2.js"></script>
+    <script src="/javascripts/user-account-image.js"></script>
 
 </html>

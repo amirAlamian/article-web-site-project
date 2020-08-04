@@ -3,10 +3,10 @@
 
 <% if (lang==="EN") { %>
   <% if (hide) { %>
-    <% if (index>5) { %>
+    <% if (counter>6) { %>
       <div class=" card-holder hide hide-800px">
     <% } %>
-    <% if (index<=5) { %>
+    <% if (counter<=6) { %>
       <div class=" card-holder hide">
     <% } %>
    
@@ -68,7 +68,13 @@
 <!-- ////////////////////////////////////// lang FA /////////////////////////////////////////////////////////////////-->
 <% if (lang==="FA") { %>
   <% if (hide) { %>
-    <div class=" card-holder hide">
+    <% if (counter>6) { %>
+      <div class=" card-holder hide hide-800px">
+    <% } %>
+    <% if (counter<=6) { %>
+      <div class=" card-holder hide">
+    <% } %>
+   
       <% } %>
       <% if (!hide) {%>
         <div class=" card-holder">
@@ -96,7 +102,7 @@
     
               <br>
               <h6 class="description-title">:خلاصه</h6>
-              <p class="card-text">&nbsp&nbsp <%= article.description%></p>
+              <p class="card-text text-center">&nbsp&nbsp <%= article.description%></p>
               <h6 class="description-title">:بازدید</h6>
               <p class="card-text">&nbsp&nbsp <%= article.view.number%></p>
             </div>

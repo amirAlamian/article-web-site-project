@@ -52,16 +52,24 @@ class aricleOperations {
 
     async removeArticle(req, res) {
         try {
-            await new Promise((resolve, reject) => {
-
-                Article.findByIdAndRemove(req.params.article_id, (err, data) => {
-
-                    if (err) reject(err);
-
-                    resolve(data);
+            let article= await  Article.findById(req.params.article_id);
+            console.log(article);
+            if(article.author===req.session.user.userName){
+                await new Promise((resolve, reject) => {
+             
+                    Article.findByIdAndRemove(req.params.article_id, (err, data) => {
+    
+                        if (err) reject(err);
+    
+                        resolve(data);
+                    })
                 })
-            })
-            return res.json(new Response(true, "article has been removed successfully.", Date.now))
+                return res.json(new Response(true, "article has been removed successfully.", Date.now))
+            }
+            else{
+                throw new Error("you don't write this article.")
+            }
+            
         } catch (error) {
             console.log(error.message);
             return res.json(new Response(false, "something went wrong. please try again later", Date.now))

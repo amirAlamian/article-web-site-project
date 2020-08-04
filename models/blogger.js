@@ -73,6 +73,7 @@ UserSchema.pre("save",function(){
     if(this.gender==="female"){
         this.avatar="female.jpg"
     }
+    next();
 })
 
 module.exports = mongoose.model('User', UserSchema);
