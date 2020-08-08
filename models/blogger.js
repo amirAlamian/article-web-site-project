@@ -28,7 +28,6 @@ const UserSchema= new Schema ({
         type:String,
         require:true,
         trim:true,
-        maxlength: 36,
         minlength: 8,
     },
     email:{

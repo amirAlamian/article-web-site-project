@@ -80,11 +80,8 @@ app.use(cookieParser());
 app.use('/api', api);
 
 
+app.listen(8080);
+console.log(8080);
 
-
-
-app.listen("8080",()=>{
-	console.log("up and running on 8080");
-})
 
 // module.exports = app;

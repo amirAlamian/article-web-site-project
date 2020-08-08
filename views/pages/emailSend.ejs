@@ -9,6 +9,7 @@
     <body>
         <% if (theme) { %>
         <section class="signInbox-<%= theme %>">
+            <%- include("../partials/alert") %>
             <% } %>
             <% if (!theme) { %>
             <section class="signInbox-light">
@@ -36,6 +37,7 @@
     <body id="FA">
         <% if (theme) { %>
         <section class="signInbox-<%= theme %>">
+            <%- include("../partials/alert") %>
             <% } %>
             <% if (!theme) { %>
             <section class="signInbox-light">
@@ -44,8 +46,8 @@
                     <h4 class="pass-recovery mb-3">بازیابی رمزعبور</h4>
                     <div class="w-100  password-recovery-holder">
                         <div class="text-secondary text-center mb-3">لطفا نام کاربری خود را نوشته و دکمه ارسال را بزنید</div>
-                        <div class="input-box-container mb-5 text-right"> <input type="text" dir="rtl" placeholder="نام کاربری" name="userName"
-                                value="amir"></div>
+                        <div class="input-box-container mb-5 text-right"> <input type="text"  placeholder="نام کاربری" name="userName"
+                                class="text-right" ></div>
                         <button class="signInBTN sendEmailBTN m-auto d-block ">ارسال</button>
                     </div>
     
@@ -54,6 +56,7 @@
 <% } %>
 
         <%- include("../partials/footer",{home:false}) %>
+        <%- include("../partials/scripts") %>
         <script src="/javascripts/client.js"></script>
 </body>
 

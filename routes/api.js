@@ -8,6 +8,9 @@ const Article = require("../models/article")
 const admin = require("./admin")
 const Response = require("../tools/response");
 const sendEmail = require("../tools/sendEmail")
+const bcrypt = require('bcrypt');
+const saltRounds = 15;
+
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////session check/////////////////////////////////////////
@@ -40,8 +43,8 @@ const checkAdminSession = async (req, res, next) => {
 }
 
 
-router.use('/dashboard',checkSession,  userDashboard);
-router.use('/article',checkSession,  articleRouter);
+router.use('/dashboard', checkSession, userDashboard);
+router.use('/article', checkSession, articleRouter);
 router.use('/admin', checkAdminSession, admin);
 
 
@@ -123,7 +126,7 @@ router.post("/signUp", async (req, res) => {
         //recaptcha request to google 
         let recaptcha_response = await axios.post(`https://www.google.com/recaptcha/api/siteverify?secret=6LcS6bAZAAAAABqvkwvD4oqULb2CLnOy4qO1t_GB&response= ${req.body.recapResponse}`);
         if (recaptcha_response.data.success) {
-
+            req.body.password = await bcrypt.hash(req.body.password, saltRounds);
             const newUser = new User({
                 firstName: req.body.firstName,
                 lastName: req.body.lastName,
@@ -175,50 +178,65 @@ router.post('/signIn', function (req, res) {
             };
             let user = await new Promise((resolve, reject) => {
 
-                User.findOne({ $and: [{ userName: req.body.userName }, { password: req.body.password }] }, (err, data) => {
-
+                User.findOne({ userName: req.body.userName }, (err, data) => {
                     if (err) reject(err);
+                    if (data) {
+                        bcrypt.compare(req.body.password, data.password, function (err, result) {
 
-                    resolve(data);
+                            if (result) {
+                                resolve(data);
+                            }
+                            else {
+                                reject("your password is incorrect")
+                            }
 
-                })
 
+                        });
+
+                    } 
+                    else {
+                        console.log("not found");
+                    }
             })
-            console.log(user);
-            if (user === null) {
-                res.render("pages/signIn", {
-                    message: (req.cookies.lang === "EN") ? "sorry! can not find an user with this informations." : "متاسفانه کاربری با این اطلاعات یافت نشد",
-                    theme: req.cookies.theme,
-                    className: "alert alert-danger",
-                    lang: req.cookies.lang
-                })
-            }
-            if (user.role === "admin") {
-                req.session.user = user;
-                res.redirect("admin")
-
-            }
-            else if (user) {
-
-                req.session.user = user;//issue session for signed in users
-
-                res.redirect("dashboard")
-
-            }
+                   
 
 
-        } catch (error) {
-            console.log(error);
-            res.render("pages/signIn", {
-                message: error.message,
-                theme: req.cookies.theme,
-                className: "alert alert-danger",
-                lang: req.cookies.lang
-            })
-        }
+        })
+    console.log(user);
+    if (user === null) {
+        res.render("pages/signIn", {
+            message: (req.cookies.lang === "EN") ? "sorry! can not find an user with this informations." : "متاسفانه کاربری با این اطلاعات یافت نشد",
+            theme: req.cookies.theme,
+            className: "alert alert-danger",
+            lang: req.cookies.lang
+        })
+    }
+    if (user.role === "admin") {
+        req.session.user = user;
+        res.redirect("admin")
+
+    }
+    else if (user) {
+
+        req.session.user = user;//issue session for signed in users
+
+        res.redirect("dashboard")
+
+    }
 
 
-    })()
+} catch (error) {
+    console.log(error);
+    res.render("pages/signIn", {
+        message: error.message || error,
+        theme: req.cookies.theme,
+        className: "alert alert-danger",
+        lang: req.cookies.lang
+    })
+}
+
+
+    }) ()
 });
 
 
@@ -301,7 +319,7 @@ router.post("/sendEmail", async (req, res) => {
 
         let mailOptions = {
             from: 'amiralamianarticles@gmail.com',
-            to: 'sendsemailfromserver@gmail.com',
+            to: user[0].email,
             subject: 'recovery email',
             text: (req.cookies.lang === "EN") ? emilTextEn : emilTextFa
         };
@@ -327,7 +345,6 @@ router.post("/sendEmail", async (req, res) => {
 
 
 router.post("/verifyCode", (req, res) => {
-    console.log(+req.body.VerificationCode);
     if (+req.body.VerificationCode === verificationCode) {
         permission = true;
         res.status(201).json(new Response(true, "matched", Date.now))
@@ -343,6 +360,7 @@ router.post("/changePassword/:user_id", async (req, res) => {
             if (!req.body.password) {
                 throw new Error("empty input")
             }
+            req.body.password = await bcrypt.hash(req.body.password, saltRounds);
             let user = await User.findByIdAndUpdate(req.params.user_id, req.body, { new: true });
             console.log(user);
             res.status(201).json(new Response(true, user, Date.now))
@@ -362,7 +380,7 @@ router.post("/changePassword/:user_id", async (req, res) => {
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 router.post("/search", async (req, res) => {
-    let result=[];
+    let result = [];
     try {
 
         if (!req.body.search) {
@@ -370,23 +388,22 @@ router.post("/search", async (req, res) => {
         }
 
         let search = req.body.search.split(" ");
-        console.log(search);
 
         let articles = await Article.find();
         for (let i = 0, n = articles.length; i < n; i++) {
             for (let j = 0, n1 = search.length; j < n1; j++) {
-                if(articles[i].title.toLowerCase().includes(search[j].toLowerCase())){
-                    
+                if (articles[i].title.toLowerCase().includes(search[j].toLowerCase())) {
+
                     result.push(articles[i]);
                 }
             }
         }
-        
-        res.render("pages/searchResult",{
-            lang:req.cookies.lang,
-            articles:result,
-            theme:req.cookies.theme,
-            user:(req.session.user)?req.session.user:null
+
+        res.render("pages/searchResult", {
+            lang: req.cookies.lang,
+            articles: result,
+            theme: req.cookies.theme,
+            user: (req.session.user) ? req.session.user : null
         })
     } catch (error) {
 
@@ -402,21 +419,21 @@ router.post("/search", async (req, res) => {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////// search end point ///////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////
-router.get("/aboutUs",(req,res)=>{
-    res.render("pages/aboutUs",{
-        theme:req.cookies.theme,
-        lang:req.cookies.lang,
-        user:null
+router.get("/aboutUs", (req, res) => {
+    res.render("pages/aboutUs", {
+        theme: req.cookies.theme,
+        lang: req.cookies.lang,
+        user: null
     })
 })
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////// change language end point //////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////
-router.post("/changeLang",(req,res)=>{
-    req.cookies.lang=req.body.language
-    res.cookie("lang",req.body.language);
-    res.send(new Response(true,"changed",Date.now()))
+router.post("/changeLang", (req, res) => {
+    req.cookies.lang = req.body.language
+    res.cookie("lang", req.body.language);
+    res.send(new Response(true, "changed", Date.now()))
 })
 
 module.exports = router;

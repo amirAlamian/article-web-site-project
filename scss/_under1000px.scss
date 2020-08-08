@@ -99,7 +99,12 @@
 }
 
 @media only screen and (max-width: 800px){
-   
+  .change-lang{
+    margin-bottom: -20px !important;
+   }
+   .make-center{
+     margin-right: 8px;
+   }
   #FA{
       font-family: IRANSans !important;
   }
@@ -835,6 +840,10 @@
     }
     .author-image-holder{
       margin-top: 7px;
+      height: 40px;
+      width: 40px;
+      min-width: 40px;
+      min-height: 40px;
     }
     &-authorName{
       @include flexstuff(row, flex-start);
@@ -844,7 +853,7 @@
       max-width: 90%;
       border-top-right-radius:10px; 
       border-bottom-right-radius:10px; 
-      font-size: 14px;
+      font-size: 12px;
       padding:  4.3px  15px;
     }
     &-write{
@@ -1001,12 +1010,7 @@
   display: none;
   opacity: 0;
 }
-.change-lang{
- margin-bottom: -20px !important;
-}
-.make-center{
-  margin-right: 8px;
-}
+
 @media only screen and (min-width: 1000px) and (max-width: 1300px){
   .neg-margin{
     margin-top: -175px !important;

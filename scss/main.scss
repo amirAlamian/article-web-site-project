@@ -10,7 +10,9 @@ body{
   background-color: rgb(243, 243, 243);
 }
 
-
+a:hover{
+  text-decoration: none;
+}
 
 @font-face{
   font-family: IRANSans;
@@ -736,6 +738,10 @@ body{
     }
     .author-image-holder{
       margin-top: 7px;
+      height: 40px;
+      width: 40px;
+      min-width: 40px;
+      min-height: 40px;
     }
     &-authorName{
       @include flexstuff(row, flex-start);
@@ -754,13 +760,14 @@ body{
       @include flexstuff(row, center);
       flex-wrap: nowrap;
       .fa-paper-plane{
-        color: black;
+        color: $primary-color;
         margin:0 10px;
         font-size: 18px;
         cursor: pointer;
       }
     }
     &-input{
+      background-color: inherit;
       width: 100%;
       border: none;
       border-bottom: 1px solid lightgray;
@@ -979,7 +986,7 @@ body{
     position: absolute;
     top: 4px;
     width: 28px;
-    height: 26px;
+    height: 27px;
     font-size: 13px;
     font-weight: bold;
     text-align: center;
@@ -1186,6 +1193,7 @@ body{
 .modal-content{
   height: 150px;
 }
+
 
 @import "./under1000px";
 @media only screen and (min-width: 1000px) and (max-width: 1300px){

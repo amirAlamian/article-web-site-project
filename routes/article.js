@@ -313,7 +313,7 @@ try {
     
    let comment= await Comment.findByIdAndRemove(req.params.comment_id);
    console.log(comment);
-    return res.status(201).json( new Response(true,"removed",Date.now))
+    return res.status(201).json( new Response(true,comment,Date.now))
 } catch (error) {
 
     console.log(error.message);

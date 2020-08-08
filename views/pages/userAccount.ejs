@@ -10,6 +10,7 @@
     <%- include("../partials/navbar",{theme,user}) %>
 
     <section class="userAccount">
+        <%- include("../partials/alert") %>
         <aside class="userAccount-aside">
             <article class="userAccount-box-image">
                 <div class="rounded-circle userAccount-image-holder">
@@ -34,7 +35,7 @@
                 </article>
             </article>
         </aside>
-        <p class="alert hide"></p>
+      
 
         <article class="userAccount-box-information align-items-start ">
 
@@ -62,7 +63,7 @@
                     <span>
                         Password:
                     </span>
-                    <input type="text" value="<%= user.password %>" disabled>
+                    <input type="text" value="**************" disabled>
                     <button class="btn btn-light change-information btn-right" data-number="2">
                         Change
                     </button>
@@ -119,7 +120,7 @@
         <%- include("../partials/navbar",{theme,user}) %>
 
         <section class="userAccount">
-
+            <%- include("../partials/alert") %>
             <aside class="userAccount-aside">
 
                 <article class="userAccount-box-image">
@@ -146,10 +147,7 @@
 
                 </article>
             </aside>
-            <p class="alert hide">
-
-            </p>
-
+          
 
 
 
@@ -178,7 +176,7 @@
                         </button>
                     </div>
                     <div class="information-box-holder text-right">
-                        <input type="text" value="<%= user.password %>" disabled class="text-right" dir="rtl">
+                        <input type="text" value="**************" disabled class="text-right" dir="rtl">
                         <span>
                             :رمز عبور
                         </span>

@@ -23,7 +23,6 @@ let user;
 /////////////////////////////////////////////password strength bar function (fills the bar)////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-
 passBar = () => {
   let weekPassword = /^(?=.*\d)(?=.*[a-z])[0-9a-z]{7,36}$/;
   let normalPassword = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,36}$/;
@@ -78,7 +77,34 @@ var onloadCallback = function () {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////click on sign up button///////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+$(".check-language").keyup(function(e){
 
+  if (/^[a-zA-Z0-9-!@#$%^&*_.]+$/.test(this.value) ) {
+    
+  }
+  else{
+
+    if(!$(this).val()){
+      
+    }
+    else{
+      if(e.keyCode===32){
+        (x[1]==="NA")?
+      alert("invalid charakter "):
+      alert("ورودی غیر قابل قبول");
+      $(this).val("")
+      }
+      else{
+        (x[1]==="NA")?
+        alert("please change keyboard to english"):
+        alert("لطفا زبان ورودی را به انگلیسی تغییر بدهید");
+        $(this).val("")
+      }
+      
+    }
+    
+  }
+})
 $(".signUpBTN").click(() => {
 
   for (let i = 0; i < 6; i++) {
@@ -105,7 +131,9 @@ $(".signUpBTN").click(() => {
     if (userInfos[titles[j]] === "") {
       $(".input-box-container").eq(j).css("border-color", "red");
       $("#alertModal").modal("show");
-      $(".alert").addClass("text-danger").text("please fill all of the inputs");
+      (x[1]==="EN")?
+      $(".alert").addClass("text-danger").text("please fill all of the inputs"):
+      $(".alert").addClass("text-danger text-right").text("لطفا تمام بخش ها را پر کنید");
     }
     else {
       $(".input-box-container").eq(j).css("border-color", "rgb(121,82,179)");
@@ -116,16 +144,30 @@ $(".signUpBTN").click(() => {
   if (userInfos[titles[6]] === "") {
     $(".input-box-radio").css("border-color", "red");
     $("#alertModal").modal("show");
-    $(".alert").addClass("text-danger").text("please fill all of the inputs.");
+    (x[1]==="EN")?
+    $(".alert").addClass("text-danger").text("please fill all of the inputs"):
+    $(".alert").addClass("text-danger text-right").text("لطفا تمام بخش ها را پر کنید");
   }
   else {
     $(".input-box-radio").css("border-color", "rgb(121,82,179)");
     permission++;
   }
-
+  if( userInfos.email.includes("@")){
+    permission++;
+  }
+  else{
+    $("#alertModal").modal("show");
+    (x[1]==="EN")?
+    $(".alert").addClass("text-danger").text("invalid email adress"):
+    $(".alert").addClass("text-danger text-right").text("ایمیل ورودی غیر قابل قبول است");
+      
+  }
   if (userInfos.password.length < 8) {
     $("#alertModal").modal("show");
-    $(".alert").addClass("text-danger").text("your password is too short. it must be at least 8 characters.");
+    (x[1]==="EN")?
+    $(".alert").addClass("text-danger").text("your password is too short. it must be at least 8 characters."):
+    $(".alert").addClass("text-danger text-right").text("رمز عبور باید حداقل شامل 8 حرف باشد");
+      
   }
   else {
     permission++;
@@ -133,13 +175,15 @@ $(".signUpBTN").click(() => {
 
   if (userInfos.recapResponse === "") {
     $("#alertModal").modal("show");
-    $(".alert").addClass("text-danger").text("please do the Recaptcha to prove that you are a human.")
+    (x[1]==="EN")?
+    $(".alert").addClass("text-danger").text("please do the Recaptcha to prove that you are a human."):
+    $(".alert").addClass("text-danger text-right").text("لطفا قسمت  recaptcha را انجام دهید")
   }
   else {
     permission++;
   }
 
-  if (permission === 9) {
+  if (permission === 10) {
     $(".alert").removeClass("text-danger").addClass("alert-light").text("please wait");
     $.ajax({// post to sign up
       type: "POST",
@@ -149,10 +193,12 @@ $(".signUpBTN").click(() => {
         if (response === "done") {
           $("#alertModal").modal("show");
           if(x[1]==="FA"){
-            $(".alert").removeClass("text-danger").addClass("text-primary").html("شما با موفقیت ثبت نام کردید. در عرض چند ثانیه به صفحه ورود منتقل می شوید.")
+            $(".alert").removeClass("text-danger").addClass("text-primary").html("شما با موفقیت ثبت نام کردید. در عرض چند ثانیه به صفحه ورود منتقل می شوید.");
+            setTimeout(function ()  { window.location.href="/api/signIn" }, 5000);
           }
           else{
-            $(".alert").removeClass("text-danger").addClass("text-primary").html("you successfully signed up. you will redirect to sign in page in a few seconds")
+            $(".alert").removeClass("text-danger").addClass("text-primary").html("you successfully signed up. you will redirect to sign in page in a few seconds");
+            setTimeout(function ()  { window.location.href="/api/signIn" }, 5000);
           }
       
         }
@@ -261,7 +307,7 @@ $(".sendEmailBTN").click(() => {
       data: { userName },
       async: false,
       success: (response) => {
-        console.log(response);
+    
         if (response.status) {
           user = response.message
           if (flag2 === 0) {
@@ -274,8 +320,8 @@ $(".sendEmailBTN").click(() => {
               if(x[1]==="FA"){
                 $(".input-box").append(`<div class="w-100 VerificationCode-holder ">
               
-                <div class="text-secondary text-center" dir="rtl"> <br> یک ایمیل به آدرس${emailSplited.map((letters, index) => { if (index <= 5) { email += letters; } else { email += '*' } if (index === emailSplited.length - 1) { return (email) } })[emailSplited.length - 1]} @${emailService[1]}    فرستاده شد. لطفا ایمیل مورد نظر را بررسی کنید</div>
-                <div class="input-box-container mb-5 text-right"> <input type="text" dir="rtl" placeholder=" کد تایید" name="code"  class="VerificationCode"></div>
+                <div class="text-secondary text-center" dir="rtl"> <br>  یک ایمیل به آدرس${emailSplited.map((letters, index) => { if (index <= 5) { email += letters; } else { email += '*' } if (index === emailSplited.length - 1) { return (email) } })[emailSplited.length - 1]} @${emailService[1]}    فرستاده شد. لطفا ایمیل مورد نظر را بررسی کنید</div>
+                <div class="input-box-container mb-5 text-right"> <input type="text"  placeholder=" کد تایید" name="code"  class="VerificationCode text-right"></div>
                 <button class="signInBTN sendVeriCodeBTN d-block m-auto">ارسال</button>
                 </div>
                 `)
@@ -295,6 +341,10 @@ $(".sendEmailBTN").click(() => {
             })
           }
           flag2++
+        }
+        else{
+          $("#alertModal").modal("show");
+          $(".alert").addClass("text-danger").text("something went wrong. please try again later");
         }
 
       },
@@ -327,8 +377,8 @@ $(document).on("click", ".sendVeriCodeBTN", () => {
                 $(".input-box").append(`<div class="w-100 changePassword-holder ">
               
                 <div class="text-secondary text-center">لطفا تمام ورودی هارا پر کنید و سپس دکمه ارسال را بزنید.</div>
-                <div class="input-box-container text-right"><div class="input-box-password "><input type="password" placeholder="رمز عبور جدید"  dir="rtl"  class="password-input" name="password" ><i class="fa fa-eye" aria-hidden="true"></i></div> </div>
-                <div class="input-box-container text-right"><div class="input-box-password "><input type="password" placeholder="تکرار رمز عبور" dir="rtl"   class="password-input" name="password" ></div> </div>
+                <div class="input-box-container text-right"><div class="input-box-password "> <i class="fa fa-eye" aria-hidden="true"></i><input type="password" placeholder="رمز عبور جدید"   class="password-input text-right" name="password" ></div> </div>
+                <div class="input-box-container text-right"><div class="input-box-password "><input type="password" placeholder="تکرار رمز عبور"    class="password-input text-right" name="password" ></div> </div>
                 <button class="signInBTN changePasswordBTN d-block m-auto">ارسال</button>
                 </div>
                 `)
@@ -350,6 +400,9 @@ $(document).on("click", ".sendVeriCodeBTN", () => {
             flag2++;
           }
     
+        } else{
+          $("#alertModal").modal("show");
+          $(".alert").addClass("text-danger").text("something went wrong. please try again later");
         }
       },
       erorr: (err) => {
@@ -363,6 +416,7 @@ $(document).on("click", ".sendVeriCodeBTN", () => {
 ////////////////////////////////////////// send code button ///////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////
 $(document).on("click", ".changePasswordBTN", () => {
+  console.log("omad");
   if ($(".password-input").eq(0).val() === $(".password-input").eq(1).val() && $(".password-input").eq(0).val() != "") {
     let password = $(".password-input").eq(0).val();
     $.ajax({// post to send email
@@ -398,6 +452,9 @@ $(document).on("click", ".changePasswordBTN", () => {
            
           }
         
+        } else{
+          $("#alertModal").modal("show");
+          $(".alert").addClass("text-danger").text("something went wrong. please try again later");
         }
       },
       erorr: (err) => {

@@ -66,6 +66,7 @@
             </div>
             <hr>
             <article class="article-not-done">
+                <% counter=0 %> 
                 <% if (articles.length===0) { %>
                     <hr>
                     <div class="article-empty unpublished-one">
@@ -101,12 +102,12 @@
                 <% } %>
     
                 <% } %>
-               
+                <div class="article-showMore">
+                    <a href="/api/dashboard/article/allArticles/nopublished"  class="btn-light btn">Show more</a>
+                </div>
             </article>
             
-            <div class="article-showMore">
-                <a href="/api/dashboard/article/allArticles/nopublished"  class="btn-light btn">Show more</a>
-            </div>
+           
             <hr>
         </section>
     
@@ -178,6 +179,7 @@
             </div>
             <hr>
             <article class="article-not-done">
+                <% counter=0 %> 
                 <% if (articles.length===0) { %>
                     <hr>
                     <div class="article-empty unpublished-one">
@@ -202,7 +204,7 @@
                 <% } %>
     
                 <% } %>
-    
+                     
                 <% if (index===articles.length-1 && counter===0) { %>
                     <hr>
                     <div class="article-empty unpublished-one">
@@ -213,12 +215,12 @@
                 <% } %>
     
                 <% } %>
-           
+                <div class="article-showMore">
+                    <a href="/api/dashboard/article/allArticles/nopublished"  class="btn-light btn">نمایش بیشتر</a>
+                </div>
             </article>
             
-            <div class="article-showMore">
-                <a href="/api/dashboard/article/allArticles/nopublished"  class="btn-light btn">نمایش بیشتر</a>
-            </div>
+           
             <hr>
         </section>
     

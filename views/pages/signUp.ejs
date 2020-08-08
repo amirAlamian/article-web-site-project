@@ -1,15 +1,13 @@
-
 <% if (lang==="EN") { %>
-    <!DOCTYPE html>
-    <html lang="en">
-    
-    <head>
-        <%- include("../partials/header") %>
-    </head>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include("../partials/header") %>
+</head>
+
 <body>
-    <form action="/api/dark/signUp" method="GET">
-        <button class="theme" style="display: inline;">click me</button>
-    </form>
+
     <%- include("../partials/alert") %>
     <% if (theme) { %>
     <section class="signUpBox-<%= theme %>">
@@ -20,25 +18,29 @@
 
             <article class="input-box">
                 <h2>Sign Up</h2>
-                <div class="text-light">
-                    <%= message %> 
-                   </div>
-                <section class="signUpBox-<%= theme %>">
-                <div class="input-box-container"> <input type="text" placeholder="First name"></div>
-                <div class="input-box-container"> <input type="text" placeholder="Last name"></div>
-                <div class="input-box-container"> <input type="text" placeholder="User name"></div>
+                <div class="text-secondary text-center">
+                    <%= message %>
+                </div>
+
+                <div class="input-box-container"> <input type="text" placeholder="First name" class="check-language"></div>
+                <div class="input-box-container"> <input type="text" placeholder="Last name" class="check-language"></div>
+                <div class="input-box-container"> <input type="text" placeholder="User name" class="check-language"></div>
                 <div class="input-box-container">
-                    <div class="input-box-password"><input type="password" class="password-input"
+                    <div class="input-box-password"><input type="password" class="password-input check-language"
                             placeholder="Password(at least 8 characters)" maxlength="36"><i class="fa fa-eye"
                             aria-hidden="true"></i></div>
                 </div>
-                <div class="input-box-container"> <input type="email" placeholder="Email"></div>
-                <div class="input-box-container"> <input type="text" placeholder="Phone number"></div>
+                <div class="input-box-container"> <input type="email" placeholder="Email" class="check-language"></div>
+                <div class="input-box-container"> <input type="text" placeholder="Phone number" class="check-language"></div>
                 <div class="input-box-radio">
 
-                    <div class="d-flex justify-content-start align-items-center"><span class="gender">Male</span> <div class="rounded-circle radio"></div> </div>
-                    <div class="d-flex justify-content-start align-items-center"><span class="gender">Female</span><div class="rounded-circle radio"></div> </div>
-                    
+                    <div class="d-flex justify-content-start align-items-center"><span class="gender">Male</span>
+                        <div class="rounded-circle radio"></div>
+                    </div>
+                    <div class="d-flex justify-content-start align-items-center"><span class="gender">Female</span>
+                        <div class="rounded-circle radio"></div>
+                    </div>
+
                 </div>
                 <div id="recap" class="<%= theme %>"></div>
                 <button class="signUpBTN">Sign Up</button>
@@ -52,16 +54,15 @@
 
 
         <% if (lang==="FA") { %>
-            <!DOCTYPE html>
-            <html lang="fa">
-            
-            <head>
-                <%- include("../partials/header") %>
-            </head>
+        <!DOCTYPE html>
+        <html lang="fa">
+
+        <head>
+            <%- include("../partials/header") %>
+        </head>
+
         <body id="FA">
-            <form action="/api/dark/signUp" method="GET">
-                <button class="theme" style="display: inline;">click me</button>
-            </form>
+
             <%- include("../partials/alert") %>
             <% if (theme) { %>
             <section class="signUpBox-<%= theme %>">
@@ -72,24 +73,24 @@
 
                     <article class="input-box">
                         <h2>ثبت نام</h2>
-                       <div class="text-secondary text-right">
-                        <%= message %> 
-                       </div>
-                        <div class="input-box-container"> <input type="text" placeholder="نام" class="text-right"
-                                dir="rtl"></div>
+                        <div class="text-secondary text-right">
+                            <%= message %>
+                        </div>
+                        <div class="input-box-container"> <input type="text" placeholder="نام" class="text-right check-language"
+                                dir="ltr"></div>
                         <div class="input-box-container"> <input type="text" placeholder="نام خوانوادگی"
-                                class="text-right" dir="rtl"></div>
-                        <div class="input-box-container"> <input type="text" placeholder="نام کاربری" class="text-right"
-                                dir="rtl"></div>
+                                class="text-right check-language" dir="ltr"></div>
+                        <div class="input-box-container"> <input type="text" placeholder="نام کاربری" class="text-right check-language"
+                                dir="ltr"></div>
                         <div class="input-box-container">
                             <div class="input-box-password"><i class="fa fa-eye" aria-hidden="true"></i><input
-                                    type="password" dir="rtl" class="password-input text-right"
+                                    type="password" dir="rtl" class="password-input text-right check-language"
                                     placeholder="رمز عبور(حداقل 8 حرف) " maxlength="36"></div>
                         </div>
-                        <div class="input-box-container"> <input type="email" placeholder="ایمیل" class="text-right"
-                                dir="rtl"></div>
-                        <div class="input-box-container"> <input type="text" placeholder="شماره تلفن" class="text-right"
-                                dir="rtl"></div>
+                        <div class="input-box-container"> <input type="email" placeholder="ایمیل" class="text-right check-language"
+                                dir="ltr"></div>
+                        <div class="input-box-container"> <input type="text" placeholder="شماره تلفن" class="text-right check-language"
+                                dir="ltr"></div>
                         <div class="input-box-radio">
                             <div class="input-box-radio-holder">
                                 <div class="rounded-circle radio"></div> <span>مرد</span>
@@ -116,4 +117,4 @@
 
         </body>
 
-</html>
+        </html>

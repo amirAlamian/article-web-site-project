@@ -6,6 +6,8 @@ const articleRouter = require("./article");
 const multer = require('multer');
 const User = require("../models/blogger");
 const Response = require("../tools/response")
+const bcrypt = require('bcrypt');
+const saltRounds = 15;
 
 
 
@@ -32,7 +34,7 @@ router.get("/", (req, res) => {
                 user: req.session.user,
                 theme: req.cookies.theme,
                 articles: article,
-                lang:req.cookies.lang
+                lang: req.cookies.lang
             })
         } catch (error) {
             console.log(error.message);
@@ -52,7 +54,7 @@ router.get("/userAccount", (req, res) => {
     res.render("pages/userAccount", {
         user: req.session.user,
         theme: req.cookies.theme,
-        lang:req.cookies.lang
+        lang: req.cookies.lang
     })
 
 
@@ -90,13 +92,13 @@ router.post('/uploadAvatar', async (req, res) => {
         upload(req, res, async function (err) {
             if (err) return res.status(400).send('something went wrong.please try again later');
 
-           let user= await User.findByIdAndUpdate(req.session.user._id, { avatar: req.file.filename }, { new: true })
+            let user = await User.findByIdAndUpdate(req.session.user._id, { avatar: req.file.filename }, { new: true })
 
-                if (!user) throw new Error('something went wrong.please try again later');
+            if (!user) throw new Error('something went wrong.please try again later');
 
-                req.session.user.avatar = req.file.filename;
-                res.status(201).send(new Response(true, "updated", Date.now));
-            
+            req.session.user.avatar = req.file.filename;
+            res.status(201).send(new Response(true, "updated", Date.now));
+
 
 
         })
@@ -118,7 +120,7 @@ router.put("/updateUser", async (req, res) => {
         if (!req.body.password || !req.body.firstName || !req.body.lastName || !req.body.email || !req.body.phoneNumber) {
             throw new Error('You have an empty input.')
         };
-
+        req.body.password = await bcrypt.hash(req.body.password, saltRounds);
         let user = await User.findByIdAndUpdate(req.session.user._id, req.body, { new: true });
 
         if (!user) {

@@ -7,9 +7,6 @@
     <%- include("../partials/header") %>
 </head>
     <body>
-        <form action="/api/dark/signIn" method="GET">
-            <button class="theme" style="display: inline;">click me</button>
-        </form>
         <% if (theme) { %>
             <section class="signInbox-<%= theme %>">
         <% } %>
@@ -43,9 +40,7 @@
     <%- include("../partials/header") %>
 </head>
     <body id="FA">
-        <form action="/api/dark/signIn" method="GET">
-            <button class="theme" style="display: inline;">click me</button>
-        </form>
+       
         <% if (theme) { %>
             <section class="signInbox-<%= theme %>">
         <% } %>
@@ -55,12 +50,12 @@
         
             <article class="input-box">
                 <h2>ورود</h2>
-                <div class="<%= className %> text-center " role="alert">
+                <div class="<%= className %> text-right " role="alert">
                     <%= message %> 
                 </div>
                 <form action="/api/signIn" method="POST">
-                <div class="input-box-container"> <input type="text" class="text-right" placeholder="نام کاربری" name="userName" value="amir" dir="rtl"></div>
-                <div class="input-box-container"><div class="input-box-password text-right"><i class="fa fa-eye" aria-hidden="true"></i><input type="password" placeholder="رمز عبور"  dir="rtl" class="password-input" name="password" value="1379amir"></div> </div>
+                <div class="input-box-container"> <input type="text" class="text-right" placeholder="نام کاربری" name="userName" value="amir" ></div>
+                <div class="input-box-container"><div class="input-box-password text-right"><i class="fa fa-eye" aria-hidden="true"></i><input type="password" placeholder="رمز عبور"   class="password-input text-right" name="password" value="1379amir"></div> </div>
                 <button class="signInBTN">ورود</button>
             </form>
     

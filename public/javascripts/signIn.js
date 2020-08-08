@@ -147,7 +147,7 @@ $(".create-btn").click(() => {
 
 $(".change-information").click(function () {
   $('input[type=text]').eq($(this).attr("data-number")).attr("disabled", false).css("border-bottom","1px solid lightgray");
-  $(".save-information-BTN").removeClass("hide")
+  $(".save-information-BTN").removeClass("hide");
 })
 
 $(".chooseFile").click(() => {
@@ -172,10 +172,18 @@ $(".save-information-BTN").click(() => {
       success: response => {
         console.log(response);
         if (response.status) {
-          $(".alert").removeClass("hide").addClass("text-primary").text("your account has been successfully updated")
+          $("#alertModal").modal("show");
+          (x[1]==="EN")?
+          $(".alert").removeClass("hide text-danger").addClass("text-primary").text("your account has been successfully updated"):
+          $(".alert").removeClass("hide text-danger").addClass("text-primary").text("اطلاعات شما با موفقیت ثبت گردید.")
+
         }
         else {
-          $(".alert").removeClass("hide").addClass("text-danger").text(response.message)
+          $("#alertModal").modal("show");
+          (x[1]==="EN")?
+          $(".alert").removeClass("hide text-primary").addClass("text-danger").text(response.message):
+          $(".alert").removeClass("hide text-primary").addClass("text-danger").text("درخواست شما با خطا رو به رو شده است. لطفا بعدا تلاش کنید");
+
         }
 
       },
@@ -204,10 +212,16 @@ $(".save-information-BTN").click(() => {
     success: response => {
       console.log(response);
       if (response.status) {
-        $(".alert").removeClass("hide").addClass("text-primary").text("your account has been successfully updated")
+        $("#alertModal").modal("show");
+        (x[1]==="EN")?
+          $(".alert").removeClass("hide text-danger").addClass("text-primary").text("your account has been successfully updated"):
+          $(".alert").removeClass("hide text-danger").addClass("text-primary").text("اطلاعات شما با موفقیت ثبت گردید.")
       }
       else {
-        $(".alert").removeClass("hide").addClass("text-danger").text(response.message)
+        $("#alertModal").modal("show");
+          (x[1]==="EN")?
+          $(".alert").removeClass("hide text-primary").addClass("text-danger").text(response.message):
+          $(".alert").removeClass("hide text-primary").addClass("text-danger").text("درخواست شما با خطا رو به رو شده است. لطفا بعدا تلاش کنید");
       }
     },
 
