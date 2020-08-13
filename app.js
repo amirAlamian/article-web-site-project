@@ -78,10 +78,13 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 app.use('/api', api);
+app.get("/",(req,res)=>{
+	res.redirect("/api")
+})
 
 
-app.listen(8080);
-console.log(8080);
+// app.listen(8080);
+// console.log(8080);
 
 
-// module.exports = app;
+module.exports = app;
