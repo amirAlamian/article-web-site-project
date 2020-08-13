@@ -4,9 +4,7 @@ const router = express.Router();
 const Response= require("../tools/response")
 const Functions = require("../tools/functions");
 
-///////////////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////// admin end points  ///////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////////////
+
 router.get("/", (req, res) => {
 
     Article.find({ sendToAdmin: true }, (err, data) => {
@@ -14,6 +12,7 @@ router.get("/", (req, res) => {
             articles: data.reverse(),
             lang:req.cookies.lang
         })
+
 
     })
 
@@ -39,6 +38,7 @@ router.get("/edit/:article_id", (req, res) => {
 router.post("/remove/:article_id", (req, res) => {
 
     Functions.removeArticle(req, res)
+
 
 })
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -68,6 +68,7 @@ router.post("/publishArticle/:article_id", (req, res) => {
 
 
 })
+
 
 
 
