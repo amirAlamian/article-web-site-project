@@ -3,9 +3,9 @@
 <head>
     <%- include("../partials/header") %>
 </head>
-<body>
-    <form action="/api/dark/signIn" method="GET">
-        <button class="theme" style="display: inline;">click me</button>
+    <body>
+        <form action="/api/dark/signIn" method="GET">
+            <button class="theme" style="display: inline;">click me</button>
     </form>
     <% if (theme) { %>
         <section class="signInbox-<%= theme %>">
