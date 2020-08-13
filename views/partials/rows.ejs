@@ -1,0 +1,18 @@
+<tr data-id="<%= article._id %>">
+    <th scope="row"><%= index+1 %> </th>
+    <td><a href="/api/admin/read/<%= article._id %>"> <%= article.title %></a></td>
+    <td> <%= article.description %></td>
+    <td> <%= article.createdAt %></td>
+    <td>
+        <% if (!article.published) { %>
+            <i class="fa fa-check" aria-hidden="true" data-id="<%= article._id %>"></i>
+        <% } %>
+         <a class="text-light" href="/api/admin/read/<%= article._id %> "> <i
+                class="fa fa-book" aria-hidden="true"></i></a> <a class="text-light"
+            href="/api/admin/edit/<%= article._id %>"><i class="fa fa-pencil-square-o"
+                aria-hidden="true"></i></a>
+                <i class="fa fa-trash <%= article.published %> <%= index%>" aria-hidden="true"
+            style="font-size:16px; color: red;" data-id="<%= article._id %>"></i>
+           
+            </td>
+</tr>

@@ -10,18 +10,19 @@ const app = express();
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////setting up session/////////////////////////////////////
+////////////////////////////////////////setting up session////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 app.use(session({
 	key:"user_sid",
 	secret:"somerandomstuff",
 	resave: false,
-    saveUninitialized: false,
+	saveUninitialized: false,
     cookie: {
 		expires: 600000,
     }
 }));
+
 
 
 app.use(cookieParser());
@@ -34,15 +35,12 @@ app.use(function(req, res, next) {
 	next();
 });
 
-// app.use((req, res, next) => {
-// 	console.log(req.cookies,"cokkiess");
-// 	console.log(req.session,"sessionABD");
-// 	next();
-// });
-
 
 app.use(function(req, res, next){
-	if(!req.cookies.theme){
+	if(!req.cookies.lang){
+		req.cookies.lang="FA";
+		req.cookies.theme="light"
+		res.cookie("lang","FA")
 		res.cookie('theme',"light" );
 	}
 	
@@ -80,7 +78,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 app.use('/api', api);
-app.use('/admin', admin);
+
 
 
 app.listen("8080",()=>{

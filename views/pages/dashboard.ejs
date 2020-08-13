@@ -1,66 +1,241 @@
-<!DOCTYPE html>
+
+<% if (lang==="EN") { %>
+    <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <%- include("../partials/header") %>
 </head>
-
-<body>
-    <%- include("../partials/navbar",{theme,user}) %>
+    <body>
     
-    <%- include("../partials/modals",{theme,user}) %>
-    <section class="article">
-        <hr>
-        <article class="article-not-done">
-            <% let counter=0 %> 
-            <% for( let index = 0; index <articles.length; index++ ) { %>
-                <% if (articles[index].published) { %>
-                    <%- include("../partials/cards",{article:articles[index]}) %> 
-                    <%  counter++ %> 
-                    <% if (counter===3) { %>
-                        <%  counter=0 %>
-                        <%  break %>  
-                     
-                    <% } %>
-                <% } %>
-
-                
-            <% } %>
-            <div class="showMore">
-                <a href="/api/dashboard/article/allArticles/published" class="btn-light btn">Show more</a>
+        <%- include("../partials/navbar",{theme,user}) %>
+        <div class="add-article">
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"
+            data-whatever="@mdo">add Article</button>
+        </div>
+        <%- include("../partials/modals",{theme,user}) %>
+        
+        <section class="article">
+            <hr>
+            <div class="article-header">
+                <h4>
+                    Your Published Article
+                </h4>
             </div>
-        </article>
-        <hr>
-        <article class="article-done">
-            <% for( let index = 0; index < articles.length; index++ ) { %>
-                <% if (!articles[index].published) { %>
-                    <%- include("../partials/cards",{article:articles[index]}) %> 
-                    <%  counter++ %> 
-                    <% if (counter===3) { %>
-                        <%  counter=0 %>
-                        <%  break %>  
-                     
-                    <% } %>
+    
+            <hr>
+            <article class="article-done">
+                <% let counter=0 %>
+                <% if (articles.length===0 ) { %>
+                    <hr >
+                    <div class="article-empty published-one">
+                        <h2>Let's Write Your First Article </h1>
+                    </div>
                     
+                    <hr >
                 <% } %>
-                
-            <% } %>
-            <div class="showMore">
-                <a href="/api/dashboard/article/allArticles/nopublished" class="btn-light btn">Show more</a>
+                <% for( let index = 0; index <articles.length; index++ ) { %>
+                <% if (articles[index].published) { %>
+                <%- include("../partials/cards",{article:articles[index] ,home :false ,hide:false}) %>
+                <%  counter++ %>
+                <% if (counter===3) { %>
+                <%  counter=0 %>
+                <%  break %>
+    
+                <% } %>
+                <% } %>
+                <% if (index===articles.length-1 && counter===0) { %>
+                    <hr>
+                    <div class="article-empty published-one">
+                        <h2>Let's Write Your First Article </h1>
+                    </div>
+                    
+                    <hr>
+                <% } %>
+              
+                <% } %>
+                <div class="article-showMore">
+                    <a href="/api/dashboard/article/allArticles/published"  class="btn-light btn">Show more</a>
+                </div>
+            </article>
+            <hr>
+            <div class="article-header">
+                <h4>
+                    Your Unpublished Article
+                </h4>
             </div>
-        </article>
-        <hr>
-    </section>
+            <hr>
+            <article class="article-not-done">
+                <% if (articles.length===0) { %>
+                    <hr>
+                    <div class="article-empty unpublished-one">
+                        <h2> You Don't have  Unpublished Article</h1>
+                    </div>
+                    
+                    <hr>
+                <% } %>
+                <% for( let index = 0; index < articles.length; index++ ) { %>
+                    
+                <% if (!articles[index].published) { %>
+    
+                <%- include("../partials/cards",{article:articles[index],home :false , hide:false}) %>
+    
+                <%  counter++ %>
+    
+                <% if (counter===3) { %>
+    
+                <%  counter=0 %>
+                <%  break %>
+    
+                <% } %>
+    
+                <% } %>
+    
+                <% if (index===articles.length-1 && counter===0) { %>
+                    <hr>
+                    <div class="article-empty unpublished-one">
+                        <h2> You Don't have  Unpublished Article</h1>
+                    </div>
+                    
+                    <hr>
+                <% } %>
+    
+                <% } %>
+               
+            </article>
+            
+            <div class="article-showMore">
+                <a href="/api/dashboard/article/allArticles/nopublished"  class="btn-light btn">Show more</a>
+            </div>
+            <hr>
+        </section>
+    
+<% } %>
+<% if (lang==="FA") { %>
+    <!DOCTYPE html>
+<html lang="fa">
+
+<head>
+    <%- include("../partials/header") %>
+</head>
+    <body id="FA">
+    
+        <%- include("../partials/navbar",{theme,user }) %>
+        <div class="add-article">
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"
+            data-whatever="@mdo">نوشتن مقاله</button>
+        </div>
+        <%- include("../partials/modals",{theme,user}) %>
+        
+        <section class="article">
+            <hr>
+            <div class="article-header">
+                <h4>
+                   مقاله های منتشر شده شما
+                </h4>
+            </div>
+    
+            <hr>
+            <article class="article-done">
+                <% let counter=0 %>
+                <% if (articles.length===0 ) { %>
+                    <hr >
+                    <div class="article-empty published-one">
+                        <h2>اولین مقاله خود را بنویسید </h1>
+                    </div>
+                    
+                    <hr >
+                <% } %>
+                <% for( let index = 0; index <articles.length; index++ ) { %>
+                <% if (articles[index].published) { %>
+                <%- include("../partials/cards",{article:articles[index] ,home :false ,hide:false}) %>
+                <%  counter++ %>
+                <% if (counter===3) { %>
+                <%  counter=0 %>
+                <%  break %>
+    
+                <% } %>
+                <% } %>
+                <% if (index===articles.length-1 && counter===0) { %>
+                    <hr>
+                    <div class="article-empty published-one">
+                        <h2>اولین مقاله خود را بنویسید </h1>
+                    </div>
+                    
+                    <hr>
+                <% } %>
+              
+                <% } %>
+                <div class="article-showMore">
+                    <a href="/api/dashboard/article/allArticles/published"  class="btn-light btn">نمایش بیشتر </a>
+                </div>
+            </article>
+            <hr>
+            <div class="article-header">
+                <h4>
+                    مقاله های منتشر نشده شما
+                </h4>
+            </div>
+            <hr>
+            <article class="article-not-done">
+                <% if (articles.length===0) { %>
+                    <hr>
+                    <div class="article-empty unpublished-one">
+                        <h2> شما مقاله منتشر نشده ندارید</h1>
+                    </div>
+                    
+                    <hr>
+                <% } %>
+                <% for( let index = 0; index < articles.length; index++ ) { %>
+                    
+                <% if (!articles[index].published) { %>
+    
+                <%- include("../partials/cards",{article:articles[index],home :false , hide:false}) %>
+    
+                <%  counter++ %>
+    
+                <% if (counter===3) { %>
+    
+                <%  counter=0 %>
+                <%  break %>
+    
+                <% } %>
+    
+                <% } %>
+    
+                <% if (index===articles.length-1 && counter===0) { %>
+                    <hr>
+                    <div class="article-empty unpublished-one">
+                        <h2> شما مقاله منتشر نشده ندارید</h1>
+                    </div>
+                    
+                    <hr>
+                <% } %>
+    
+                <% } %>
+           
+            </article>
+            
+            <div class="article-showMore">
+                <a href="/api/dashboard/article/allArticles/nopublished"  class="btn-light btn">نمایش بیشتر</a>
+            </div>
+            <hr>
+        </section>
+    
+<% } %>
 
 
 
 
 
 
-    <%- include("../partials/footer") %>
+    <%- include("../partials/footer",{home:false}) %>
     <%- include("../partials/scripts") %>
+    <script src="https://cdn.tiny.cloud/1/u27j517s2p7q4urqq9hj7oj047fw98p07hgsqd4kpccg6piz/tinymce/5/tinymce.min.js"
+        referrerpolicy="origin"></script>
     <script src="/javascripts/article.js"></script>
     <script src="/javascripts/signIn.js"></script>
+    <script src="/javascripts/user-account-image.js"></script>
 </body>
 
 </html>

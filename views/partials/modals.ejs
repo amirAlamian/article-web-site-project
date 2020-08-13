@@ -1,65 +1,130 @@
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"
-        data-whatever="@mdo">+</button>
-
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">New Article</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="alert alert-danger hide" role="alert">
-                        
-                    </div>
-                    <form>
-                        <div class="form-group">
-                            <label for="recipient-name" class="col-form-label">Title:</label>
-                            <input type="text" class="form-control" id="passage-name">
-                        </div>
-                        <div class="form-group">
-                            <label for="message-text" class="col-form-label">
-                                Description:</label>
-                            <textarea class="form-control" id="passage-text"></textarea>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary create-btn">Create</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal fade" id="removeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Are you sure about this? if you are, please type <span class="text-danger" ></span> to remove it </h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            
-            <div class="modal-body">
-              <div class="alert alert-danger hide" role="alert">
-                              
-              </div>
-              <form>
-                <div class="form-group">
-                  <input type="text" class="form-control remove-input" id="recipient-name" >
-                </div>
-              </form>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-danger remove-BTN" >remove</button>
-              
-            </div>
-          </div>
-        </div>
+<% if (lang==="EN") { %>
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">New Article</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
       </div>
+      <div class="modal-body">
+        <div class="alert alert-danger hide" role="alert">
+
+        </div>
+        <form>
+          <div class="form-group">
+            <label for="recipient-name" class="col-form-label">Title:</label>
+            <input type="text" class="form-control" id="passage-name">
+          </div>
+          <div class="form-group">
+            <label for="message-text" class="col-form-label">
+              Description:</label>
+            <textarea class="form-control" id="passage-text"></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary create-btn">Create</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="removeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Are you sure about this? if you are, please type <span
+            class="text-danger"></span> to remove it </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <input type="text" class="form-control remove-input" id="recipient-name">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-danger remove-BTN">remove</button>
+
+      </div>
+    </div>
+  </div>
+</div>
+<% } %>
+<% if (lang==="FA") { %>
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header d-flex justify-content-between">
+        <button type="button" class="close close-btn" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h5 class="modal-title" id="exampleModalLabel">مقاله جدید</h5>
+
+      </div>
+      <div class="modal-body">
+        <div class="alert alert-danger hide" role="alert">
+
+        </div>
+        <form>
+          <div class="form-group">
+            <label for="recipient-name" class="col-form-label d-block text-right">:عنوان</label>
+            <input type="text" class="form-control" id="passage-name">
+          </div>
+          <div class="form-group">
+            <label for="message-text" class="col-form-label d-block text-right">
+              :خلاصه</label>
+            <textarea class="form-control" id="passage-text"></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">خروج</button>
+        <button type="button" class="btn btn-primary create-btn">ایجاد</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="removeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title text-right" id="exampleModalLabel " dir="rtl">برای پاک کردن <span
+            class="text-danger"></span> را بنویسید و سپس گزینه پاک کردن را انتخاب کنید </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <div class="alert alert-danger hide" role="alert">
+
+        </div>
+        <form>
+          <div class="form-group">
+            <input type="text" class="form-control remove-input" id="recipient-name">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">خروج</button>
+        <button type="button" class="btn btn-danger remove-BTN">پاک کردن</button>
+
+      </div>
+    </div>
+  </div>
+</div>
+<% } %>

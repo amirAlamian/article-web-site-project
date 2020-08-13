@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<% if (lang==="EN") { %>
+    <html lang="en">
+        <head>
+            <%- include("../partials/header") %>
+        </head>
+        <body>
+            <%- include("../partials/navbar",{theme,user }) %>
+        
+            <section class="w-100 d-flex flex-row justify-content-around align-items-center mt-5 pt-5 flex-wrap"> 
+                <div class="col-lg-3 col-sm-12 col-xs-12 col-md-3 mb-5">
+                    <h5 class="text-primary "> <img src="/images/site-logo.jpg" class="mb-1" width="20px" height="25px"> Welcome! Hope you enjoy using our site.</h5>
+                    <p class="text-secondary text-justify">
+                       
+                        &nbsp;&nbsp; This website is designed by Amir Alamian and you can use our free services
+                        just by signing up. By joining us, you'll have access to our rich article archives
+                        and also you can write some articles and publish them to let other users use it.
+                    </p>
+                    <h6 class="text-secondary">
+                        Good luck. <br>
+                        Amir Alamian Articles Team
+                    </h6>
+                </div>
+                <div  class="d-flex flex-column justify-content-center align-items-center col-sm-12 col-xs-12 col-lg-3 col-md-3 ">
+                    <div class="w-100  m-1">
+                        <i class="text-primary fas fa-phone mr-3"></i ><span class="text-secondary"><a class="text-secondary">+98 9214698677</a></span>
+                        <hr>
+                    </div>
+                    <div class="w-100  m-1">
+                        <i class="fas text-primary fa-envelope mr-3"></i>  <span class="text-secondary">amiralamian10@gmail.com</span>
+                        <hr >
+                    </div>
+                    <div class="w-100 m-1">
+                        <i class="text-primary fas fa-home mr-3"></i>  <span class="text-secondary">Tehran, Iran</span>
+                        <hr >
+                    </div>
+                </div>
+              
+         
+               
+            </section>
+<% } %>
+<% if (lang==="FA") { %>
+    <html lang="fa">
+        <head>
+            <%- include("../partials/header") %>
+        </head>
+        <body>
+            <%- include("../partials/navbar",{theme,user }) %>
+        
+            <section class="w-100 d-flex flex-row justify-content-around align-items-center mt-5 pt-5 flex-wrap"> 
+                <div class="col-lg-3 col-sm-12 col-xs-12 col-md-3 mb-5">
+                    <h5 class="text-primary text-right">  خوش آمدید. امیدوارم از سایت ما لذت برد باشید <img src="/images/site-logo.jpg" class="mb-1" width="20px" height="25px"></h5>
+                    <p class="text-secondary text-justify " dir="rtl">
+                       
+                        این سایت توسط امیر عالمیان طراحی شده است و شما می توانید از امکانات این سایت به صورت رایگان استفاده کنید. فقط کافیست ثبت نام کنید تا 
+                        به کتابخانه غنی مقاله های ما دسترسی داشته باشید. همچنین شما می توانید مقاله ی خودتان را بنویسید 
+                        و آن را به انتشار بگذارید تا دیگران از آن استفاده کنند.&nbsp;&nbsp; 
+                    </p>
+                    <h6 class="text-secondary text-right" dir="rtl">
+                        با آرزوی موفقیت، <br>
+                        تیم مقاله های امیر عالمیان
+                    </h6>
+                </div>
+                <div  class="d-flex flex-column justify-content-center align-items-center col-sm-12 col-xs-12 col-lg-3 col-md-3 " >
+                    <div class="w-100  m-1 text-right" >
+                        <span class="text-secondary"><a class="text-secondary">+98 9214698677</a></span> &nbsp; <i class="text-primary fas fa-phone mr-3"></i >
+                        <hr>
+                    </div>
+                    <div class="w-100  m-1 text-right">
+                          <span class="text-secondary">amiralamian10@gmail.com</span> &nbsp; <i class="fas text-primary fa-envelope mr-3"></i>
+                        <hr >
+                    </div>
+                    <div class="w-100 m-1 text-right">
+                          <span class="text-secondary">ایران، تهران</span> &nbsp; <i class="text-primary fas fa-home mr-3"></i>
+                        <hr >
+                    </div>
+                </div>
+              
+         
+               
+            </section>
+<% } %>
+
+
+
+    <%- include("../partials/footer",{home:false}) %>
+    <%- include("../partials/scripts") %>
+</body>
+
+
+</html>

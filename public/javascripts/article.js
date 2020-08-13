@@ -1,22 +1,70 @@
+let allCookies = document.cookie;
+let lang = allCookies.split(";")
+x = lang[0].split("=")
+
 let articleInfo = {
   title: "",
   description: "",
 }
-let article = {
-  passage: "",
+class article {
+  constructor(body, title, description) {
+    this.body = body,
+      this.title = title,
+      this.description = description
+  }
 }
-$("#passage").append($("#passage-holder").attr("data-article"))
 
+function fixBackground(publish) {
+  if (publish) {
+    if (x[1] === "FA") {
+      $(".article-done").append(`
+      <hr >
+      <div class="article-empty published-one">
+          <h2>اولین مقاله خود را بنویسید </h1>
+      </div>
+      
+      <hr >`)
+    }
+    else {
+      $(".article-done").append(`
+      <hr>
+      <div class="article-empty published-one">
+          <h2>Let's Write Your First Article </h1>
+      </div>
+      
+      <hr>`)
+    }
+  }
+  else {
 
+    if (x[1] === "FA") {
+      $(".article-not-done").append(`
+      <hr>
+      <div class="article-empty unpublished-one">
+          <h2> شما مقاله منتشر نشده ندارید</h1>
+      </div>
+      
+      <hr>`)
+    }
 
-
-
+    else {
+      $(".article-not-done").append(`
+      <hr>
+      <div class="article-empty unpublished-one">
+          <h2> You Don't have  Unpublished Article</h1>
+      </div>
+      
+      <hr>`)
+    }
+  }
+}
 
 $(".btn-remove").click(function () {
 
   $(".text-danger").text($(this).attr("data-article-title"));
 
-  let buttonInfo = this;
+  let buttonInfo = $(this);
+  let title = $(this).attr("data-article-title")
 
   $(".remove-BTN").click(() => {
     if ($(".remove-input").val() === $(buttonInfo).attr("data-article-title")) {
@@ -28,20 +76,42 @@ $(".btn-remove").click(function () {
 
         success: (response) => {
           console.log(response);
-          if (response === "done") {
+          if (response.status) {
 
             for (let i = 0, length = $(".card-title").length; i < length; i++) {
+              if ($(".card-title").eq(i).text().trimLeft() === title) {
 
-              if ($(".card-title").eq(i).text() === $(buttonInfo).attr("data-article-title")) {
                 $(".card").eq(i).remove();
 
+                let counter = 0;
+
+                for (let j = 0, n = $(".card").length; j < n; j++) {
+                  if ($(".card").eq(j).attr("data-published") === "false") {
+                    counter++
+                  }
+                }
+                if (counter === 0) {
+
+                  fixBackground(false);
+
+                }
+                counter = 0;
+                for (let j = 0, n = $(".card").length; j < n; j++) {
+                  if ($(".card").eq(j).attr("data-published") === "true") {
+                    counter++
+                  }
+                }
+                if (counter === 0) {
+
+                  fixBackground(true);
+                }
               }
             }
-
+            $(".remove-input").val("")
             $("#removeModal").modal("hide");
           }
           else {
-            $(".alert").removeClass("hide").html(response)
+            $(".alert").removeClass("hide").html(response.message)
           }
 
         },
@@ -58,21 +128,14 @@ $(".btn-remove").click(function () {
 })
 
 
-
-
-///////////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////// user picture click button ////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////////////
-
-
 ///////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////text editor///////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////
 let passage = $("#article-passage").attr("data-passage");
-
+$("#article-passage").remove()
 tinymce.init({
   selector: '#full-featured-non-premium',
-  
+
   setup: function (editor) {
     editor.on('init', function (e) {
       editor.setContent(passage);
@@ -143,20 +206,63 @@ tinymce.init({
 /////////////////////////////////////////////////////////////////////////////////////////////
 $(".send-article-btn").click(() => {
 
-  article.passage = tinymce.activeEditor.getContent();
+  if ($('.choosePicture').val()) {
+    let file = new FormData();
+    file.append('articlePicture', $('.choosePicture')[0].files[0])
+
+    $.ajax({
+      type: 'POST',
+      url: `/api/article/addPicture/${$(".send-article-btn").attr("data-id")}`,
+      data: file,
+      processData: false,
+      contentType: false,
+
+      success: response => {
+        console.log(response);
+        if (response.status) {
+          $("#alertModal").modal("show")
+          $(".alert").addClass("text-primary").text("your image has been successfully uploaded");
+        }
+        else {
+          $("#alertModal").modal("show")
+          $(".alert").removeClass("text-primary").addClass("text-danger").text(response.message)
+        }
+
+      },
+
+      error: error => {
+        console.log(error);
+      }
+    })
+  }
+
+  let data = new article(tinymce.activeEditor.getContent(), $("textarea").eq(0).val(), $("textarea").eq(1).val())
+  data.published = false
+  data.sendToAdmin = false
+  console.log(data);
 
   $.ajax({// sending article passage into data base
 
     type: "POST",
     url: `/api/dashboard/article/add/${$(".send-article-btn").attr("data-id")}`,
-    data: article,
+    data: data,
     success: (response) => {
       console.log(response);
-      if (response === "done") {
-        $(".alert").removeClass("alert-danger hide").addClass("alert-primary").html("Article has been successfully updated.click <a href='/api/dashboard'>here</a> to go to your dashboard ");
+      if (response.status) {
+        $("#alertModal").modal("show")
+        if (x[1] === "EN") {
+          $(".alert").removeClass("alert-danger").addClass("text-primary").html("Article has been successfully updated.click <a href='/api/dashboard'>here</a> to go to your dashboard ");
+        }
+        else {
+          $(".alert").removeClass("alert-danger").addClass("text-primary text-right").html("مقاله با موفقیت ذخیره شد.");
+        }
+
+        $(".passage-title h1").text(response.message.title)
+        $(".passage-description p").text(response.message.description)
       }
       else {
-        $(".alert").removeClass("hide").html(response)
+        $("#alertModal").modal("show")
+        $(".alert").removeClass("text-primary").addClass("text-danger").html(response.message)
       }
 
     },
@@ -168,7 +274,64 @@ $(".send-article-btn").click(() => {
   })
 })
 
+///////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////// sending article to admin ////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////
+$(".sendToAdmin-article-btn").click(() => {
+  $.ajax({// sending article to admin
 
+    type: "POST",
+    url: `/api/dashboard/article/sendToAdmin/${$(".send-article-btn").attr("data-id")}`,
+    success: (response) => {
+      console.log(response);
+      if (response.status) {
+        $("#alertModal").modal("show");
+        if (x[1] === "EN") {
+          $(".alert").removeClass("text-danger").addClass("text-primary").html("Article has been successfully updated.click <a href='/api/dashboard'>here</a> to go to your dashboard ");
+        }
+        else {
+          $(".alert").removeClass("text-danger").addClass("text-primary text-right").html("مقاله با موفقیت به ادمین ارسال شد. ");
+        }
 
+        $(".passage-title h1").text(response.message.title)
+        $(".passage-description p").text(response.message.description)
+      }
+      else {
+        $("#alertModal").modal("show")
+        $(".alert").removeClass("text-primary").addClass("text-danger").html(response.message)
+      }
 
+    },
+
+    erorr: (err) => {
+
+      console.log(err);
+    }
+  })
+})
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////// responsive //////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////
+// function widthCalculator(class_name) {
+//   let stringWidth = $(class_name).css("width").split("");
+
+//   let width = "";
+
+//   for (let i = 0, n = stringWidth.length; i < n; i++) {
+
+//     if (stringWidth[i] === "p") break;
+
+//     width += stringWidth[i];
+//   }
+
+//   width = +width
+//   return (width)
+// }
+// if (widthCalculator(".passage-details") <= 800) {
+//   $(".passage-details").html("");
+//   for (let i = 0; i < 3; i++) {
+
+//   }
+// }
 
