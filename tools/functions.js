@@ -54,7 +54,7 @@ class aricleOperations {
         try {
             let article= await  Article.findById(req.params.article_id);
             console.log(article);
-            if(article.author===req.session.user.userName){
+            if(article.author===req.session.user.userName || req.session.user.role){
                 await new Promise((resolve, reject) => {
              
                     Article.findByIdAndRemove(req.params.article_id, (err, data) => {
