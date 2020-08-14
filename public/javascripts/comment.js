@@ -185,7 +185,7 @@ $(document).on("click", ".fa-trash", function () {
   let x = $(this);
   console.log($(this));
   $.ajax({
-    type: "POST",
+    type: "DELETE",
     url: `/api/dashboard/article/removeComment/${$(this).attr("data-id")}`,
     success: function (response) {
   

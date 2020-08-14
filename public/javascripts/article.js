@@ -71,7 +71,7 @@ $(".btn-remove").click(function () {
 
       $.ajax({// remove article req
 
-        type: "POST",
+        type: "DELETE",
         url: `/api/dashboard/article/remove/${$(buttonInfo).attr("data-article-id")}`,
 
         success: (response) => {

@@ -148,7 +148,7 @@ router.get("/edit/:article_id", (req, res) => {
 //////////////////////////////////////// remove end points /////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-router.post("/remove/:article_id", (req, res) => {
+router.delete("/remove/:article_id", (req, res) => {
 
     Functions.removeArticle(req, res);
 
@@ -308,7 +308,7 @@ router.post("/addPicture/:article_id", async (req, res) => {
 //////////////////////////////// remove comments end point ///////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-router.post("/removeComment/:comment_id", async (req,res)=>{
+router.delete("/removeComment/:comment_id", async (req,res)=>{
 try {
     
    let comment= await Comment.findByIdAndRemove(req.params.comment_id);

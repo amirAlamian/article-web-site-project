@@ -163,7 +163,7 @@ $(".save-information-BTN").click(() => {
     file.append('avatar', $('input[type=file]')[0].files[0])
 
     $.ajax({
-      type: 'POST',
+      type: 'put',
       url: "/api/dashboard/uploadAvatar",
       data: file,
       processData: false,

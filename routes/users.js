@@ -83,7 +83,7 @@ const storage = multer.diskStorage({
 const uploadAvatar = multer({ storage: storage });
 
 
-router.post('/uploadAvatar', async (req, res) => {
+router.put('/uploadAvatar', async (req, res) => {
 
     try {
 
