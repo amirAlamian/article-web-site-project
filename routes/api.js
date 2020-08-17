@@ -9,6 +9,8 @@ const admin = require("./admin")
 const Response = require("../tools/response");
 const sendEmail = require("../tools/sendEmail")
 const bcrypt = require('bcrypt');
+const fs =require("fs");
+const path =require("path")
 const saltRounds = 15;
 const createAdmin =require("../tools/createAdmin")
 
@@ -66,7 +68,7 @@ const isLogin = (req, res, next) => {
 
 router.get("/", async (req, res) => {
     try {
-        let mostViewedArticles = await Article.find().sort({ "view.number": -1 })
+        let mostViewedArticles = await Article.find({published:true}).sort({ "view.number": -1 })
         if (!mostViewedArticles) {
             throw new Error("something went wrong.")
         }
@@ -189,7 +191,7 @@ router.post('/signIn', function (req, res) {
                                 resolve(data);
                             }
                             else {
-                                reject("your password is incorrect")
+                               (req.cookies.lang==="EN")? reject("your password is incorrect"):reject("رمز عبور شما اشتباه است")
                             }
 
 
@@ -290,6 +292,7 @@ router.get("/forgetPassword", (req, res) => {
 let verificationCode = Math.floor(Math.random() * Math.pow(10, 6));
 let permission = false;
 router.post("/sendEmail", async (req, res) => {
+    console.log("amir");
     try {
         if (!req.body.userName) {
             throw new Error("empty input")
@@ -299,31 +302,32 @@ router.post("/sendEmail", async (req, res) => {
 
         console.log(verificationCode);
         let emilTextEn =
-            `hey ${user[0].userName}!\n
-        A password recovery attempt requires further verification. To complete the password recovery enter the verification code in the recovery page input \n
+            `hey ${user[0].userName}!<br>
+        A password recovery attempt requires further verification. To complete the password recovery enter the verification code in the recovery page input <br>
         and hit the send button.    
-        Verification code: ${verificationCode}\n\n
-        If you did not attempt to recover your password, it will  expire in 5 minutes.\n
+        Verification code: ${verificationCode}<br><br>
+        If you did not attempt to recover your password, it will  expire in 5 minutes.<br>
 
-        Thanks,\n
+        Thanks,<br>
         Amir alamian Articles Team.
         `
 
         let emilTextFa =
-            `!${user[0].userName} سلام\n
-         برای بازیابی رمز عبورتان به یک مرحله دیگر نیازمندید. برای بازیابی رمز عبور خود کدی که در پایین قرار دارد را در صفحه بازیابی رمز عبور وارد کنید و دکمه ارسال را بزنید.\n
-         ${verificationCode}:کد\n\n
-         کد مربوطه بعد از 5 دقیقه باطل خواهد شد.\n
-         ،با تشکر\n
+          `<div dir="rtl" style="font-size:17px color:gray">
+            <h3 dir="rtl"> سلام ${user[0].userName} !</h3>
+         برای بازیابی رمز عبورتان به یک مرحله دیگر نیازمندید. برای بازیابی رمز عبور خود کدی که در پایین قرار دارد را در صفحه بازیابی رمز عبور وارد کنید و دکمه ارسال را بزنید.<br><br>
+         کد: ${verificationCode}<br><br>
+         کد مربوطه بعد از 5 دقیقه باطل خواهد شد.<br>
+         با تشکر،<br>
          تیم مقاله های امیر عالمیان
+         </div>
         `
-
 
         let mailOptions = {
             from: 'amiralamianarticles@gmail.com',
             to: user[0].email,
             subject: 'recovery email',
-            text: (req.cookies.lang === "EN") ? emilTextEn : emilTextFa
+            html:(req.cookies.lang==="EN")?emilTextEn:emilTextFa
         };
 
         sendEmail.sendMail(mailOptions, function (error, info) {

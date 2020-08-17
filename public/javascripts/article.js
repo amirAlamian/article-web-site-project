@@ -19,7 +19,7 @@ function fixBackground(publish) {
     if (x[1] === "FA") {
       $(".article-done").append(`
       <hr >
-      <div class="article-empty published-one">
+      <div class="article-empty published-one text-center">
           <h2>اولین مقاله خود را بنویسید </h1>
       </div>
       
@@ -28,7 +28,7 @@ function fixBackground(publish) {
     else {
       $(".article-done").append(`
       <hr>
-      <div class="article-empty published-one">
+      <div class="article-empty published-one text-center">
           <h2>Let's Write Your First Article </h1>
       </div>
       
@@ -40,7 +40,7 @@ function fixBackground(publish) {
     if (x[1] === "FA") {
       $(".article-not-done").append(`
       <hr>
-      <div class="article-empty unpublished-one">
+      <div class="article-empty unpublished-one text-center">
           <h2> شما مقاله منتشر نشده ندارید</h1>
       </div>
       
@@ -50,7 +50,7 @@ function fixBackground(publish) {
     else {
       $(".article-not-done").append(`
       <hr>
-      <div class="article-empty unpublished-one">
+      <div class="article-empty unpublished-one text-center">
           <h2> You Don't have  Unpublished Article</h1>
       </div>
       
@@ -205,10 +205,23 @@ tinymce.init({
 ////////////////////////////////////////sending passsage to data base/////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////
 $(".send-article-btn").click(() => {
-
-  if ($('.choosePicture').val()) {
+  console.log($('.choosePicture').eq(1).val(),$('.choosePicture').eq(0).val());
+  if ($('.choosePicture').eq(0).val() ||$('.choosePicture').eq(1).val()) {
+    console.log("omad");
     let file = new FormData();
-    file.append('articlePicture', $('.choosePicture')[0].files[0])
+
+    if($('.choosePicture').eq(0).val()){
+
+      file.append('articlePicture', $('.choosePicture')[0].files[0])
+
+    }
+    if($('.choosePicture').eq(1).val()){
+      
+      file.append('articlePicture', $('.choosePicture')[1].files[0])
+
+    }
+
+   
 
     $.ajax({
       type: 'POST',

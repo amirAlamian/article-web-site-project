@@ -1,9 +1,16 @@
 
 
 allCookies = document.cookie;
+console.log(allCookies);
 lang = allCookies.split(";")
-x = lang[0].split("=")
+for (let i = 0, n = lang.length; i < n; i++) {
+  if(lang[i].includes("lang")){
+    console.log(lang[i]);
+    x = lang[i].split("=")
+  }
+}
 
+console.log(x[1]);
 let counter = 0;
 
 class userInfo {
@@ -22,8 +29,7 @@ let i;
 ////////////////////////////////////////add article button////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-function AddCard(response ,lang) {
-  console.log(lang[4]);
+function AddCard(response, lang) {
   $(".article-not-done").append(`<div class=" card-holder"><div class="card" style="width: 18rem;" data-published="${response.message.published}">
   <div class="holder">
     <div class="inner">
@@ -93,13 +99,13 @@ $(".create-btn").click(() => {
       success: response => {
         console.log(response);
         if (response.status) {
-          if(x[1]==="FA"){
-            $(".alert").eq(0).removeClass("alert-danger hide").addClass("alert-primary text-right").html(`مقاله مورد نظر ایجاد شد. برای تکمیل آن <a href='/api/article/add/${response._id}'>اینجا</a> را کلیک کنید`);
-          }
-          else{
+          if (x[1] === "EN") {
             $(".alert").eq(0).removeClass("alert-danger hide").addClass("alert-primary").html(`Article has been successfully created.to compelete your article click <a href='/api/article/add/${response._id}'>here</a>`);
           }
-         
+          else {
+            $(".alert").eq(0).removeClass("alert-danger hide").addClass("alert-primary text-right").html(`مقاله مورد نظر ایجاد شد. برای تکمیل آن <a href='/api/article/add/${response.message._id}'>اینجا</a> را کلیک کنید`);
+          }
+
           let counter = 0;
           for (let i = 0, n = $(".card").length; i < n; i++) {
             console.log(i);
@@ -113,11 +119,11 @@ $(".create-btn").click(() => {
               $(".unpublished-one").remove()
             }
             if (x[1] === "FA") {
-              AddCard(response ,["بازدید:","خواندن","تغییر","حذف کردن","text-right"])
+              AddCard(response, ["بازدید:", "خواندن", "تغییر", "حذف کردن", "text-right"])
             }
 
             else {
-              AddCard(response,["View:","Read","Edit","Remove" ,"text-left"])
+              AddCard(response, ["View:", "Read", "Edit", "Remove", "text-left"])
             }
 
           }
@@ -146,7 +152,10 @@ $(".create-btn").click(() => {
 
 
 $(".change-information").click(function () {
-  $('input[type=text]').eq($(this).attr("data-number")).attr("disabled", false).css("border-bottom","1px solid lightgray");
+  if ($(this).attr("data-number") === "2") {
+    $('.change-info').eq(2).attr({ "type": "text", "placeholder": "" })
+  }
+  $('.change-info').eq($(this).attr("data-number")).attr("disabled", false).css("border-bottom", "1px solid lightgray");
   $(".save-information-BTN").removeClass("hide");
 })
 
@@ -170,19 +179,19 @@ $(".save-information-BTN").click(() => {
       contentType: false,
 
       success: response => {
-        console.log(response);
+
         if (response.status) {
           $("#alertModal").modal("show");
-          (x[1]==="EN")?
-          $(".alert").removeClass("hide text-danger").addClass("text-primary").text("your account has been successfully updated"):
-          $(".alert").removeClass("hide text-danger").addClass("text-primary").text("اطلاعات شما با موفقیت ثبت گردید.")
+          (x[1] === "EN") ?
+            $(".alert").removeClass("hide text-danger").addClass("text-primary").text("your account has been successfully updated") :
+            $(".alert").removeClass("hide text-danger").addClass("text-primary").text("اطلاعات شما با موفقیت ثبت گردید.")
 
         }
         else {
           $("#alertModal").modal("show");
-          (x[1]==="EN")?
-          $(".alert").removeClass("hide text-primary").addClass("text-danger").text(response.message):
-          $(".alert").removeClass("hide text-primary").addClass("text-danger").text("درخواست شما با خطا رو به رو شده است. لطفا بعدا تلاش کنید");
+          (x[1] === "EN") ?
+            $(".alert").removeClass("hide text-primary").addClass("text-danger").text(response.message) :
+            $(".alert").removeClass("hide text-primary").addClass("text-danger").text("درخواست شما با خطا رو به رو شده است. لطفا بعدا تلاش کنید");
 
         }
 
@@ -199,28 +208,29 @@ $(".save-information-BTN").click(() => {
 
   let infos = [];
   for (let i = 0; i < 5; i++) {
-    infos.push($('input[type=text]').eq(i).val().trim());
+    if ($('.change-info').eq(i).val()) {
+      infos.push($('.change-info').eq(i).val().trim());
+    }
+
   }
 
   let data = new userInfo(infos[0], infos[1], infos[2], infos[3], infos[4])
-  console.log(data);
-
   $.ajax({
     type: 'PUT',
     url: "/api/dashboard/updateUser",
     data: data,
     success: response => {
-      console.log(response);
+
       if (response.status) {
         $("#alertModal").modal("show");
-        (x[1]==="EN")?
-          $(".alert").removeClass("hide text-danger").addClass("text-primary").text("your account has been successfully updated"):
+        (x[1] === "EN") ?
+          $(".alert").removeClass("hide text-danger").addClass("text-primary").text("your account has been successfully updated") :
           $(".alert").removeClass("hide text-danger").addClass("text-primary").text("اطلاعات شما با موفقیت ثبت گردید.")
       }
       else {
         $("#alertModal").modal("show");
-          (x[1]==="EN")?
-          $(".alert").removeClass("hide text-primary").addClass("text-danger").text(response.message):
+        (x[1] === "EN") ?
+          $(".alert").removeClass("hide text-primary").addClass("text-danger").text(response.message) :
           $(".alert").removeClass("hide text-primary").addClass("text-danger").text("درخواست شما با خطا رو به رو شده است. لطفا بعدا تلاش کنید");
       }
     },

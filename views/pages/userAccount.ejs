@@ -45,7 +45,7 @@
                     <span>
                         First name:
                     </span>
-                    <input type="text" value="<%= user.firstName %>" disabled>
+                    <input type="text" value="<%= user.firstName %>" class='change-info'disabled>
                     <button class="btn btn-light change-information btn-right" data-number="0">
                         Change
                     </button>
@@ -54,10 +54,21 @@
                     <span>
                         Last name:
                     </span>
-                    <input type="text" value="<%= user.lastName %>" disabled>
+                    <input type="text" value="<%= user.lastName %>" class='change-info'disabled>
                     <button class="btn btn-light change-information btn-right" data-number="1">
                         Change
                     </button>
+                </div>
+                <div class="information-box-holder text-right">
+                    <span>
+                        password:
+                    </span>
+                    <input type="password" placeholder="*********" disabled class=" change-info" dir="rtl">
+                
+                    <button class="btn btn-light btn-left change-information" data-number="2">
+                        Change
+                    </button>
+
                 </div>
               
 
@@ -66,9 +77,9 @@
                         Email:
                     </span>
 
-                    <input type="text" value="<%= user.email %>" disabled>
+                    <input type="text" value="<%= user.email %>" class='change-info'disabled>
 
-                    <button class="btn btn-light change-information btn-right" data-number="2">
+                    <button class="btn btn-light change-information btn-right" data-number="3">
                         Change
                     </button>
 
@@ -78,9 +89,9 @@
                         Phone number:
                     </span>
 
-                    <input type="text" value="<%= user.phoneNumber %>" disabled>
+                    <input type="text" value="<%= user.phoneNumber %>" class='change-info'disabled>
 
-                    <button class="btn btn-light change-information btn-right" data-number="3">
+                    <button class="btn btn-light change-information btn-right" data-number="4">
                         Change
                     </button>
                 </div>
@@ -149,7 +160,7 @@
 
                     <div class="information-box-holder text-right">
 
-                        <input type="text" value="<%= user.firstName %>" disabled class="text-right" dir="rtl">
+                        <input type="text" value="<%= user.firstName %>" disabled class="text-right change-info" dir="rtl">
                         <span>
                             :نام
                         </span>
@@ -158,7 +169,7 @@
                         </button>
                     </div>
                     <div class="information-box-holder  text-right">
-                        <input type="text" value="<%= user.lastName %>" disabled class="text-right" dir="rtl">
+                        <input type="text" value="<%= user.lastName %>" disabled class="text-right change-info" dir="rtl">
                         <span>
                             :نام خانوادگی
                         </span>
@@ -167,14 +178,11 @@
                             تغییر
                         </button>
                     </div>
-              
-
-
 
                     <div class="information-box-holder text-right">
-                        <input type="text" value="<%= user.email %>" disabled class="text-right" dir="rtl">
+                        <input type="password" placeholder="*********" disabled class="text-right change-info" dir="rtl">
                         <span>
-                            :ایمیل
+                            :رمز عبور
                         </span>
 
 
@@ -184,15 +192,32 @@
                         </button>
 
                     </div>
+              
+
+
+
                     <div class="information-box-holder text-right">
-                        <input type="text" value="<%= user.phoneNumber %>" disabled class="text-right" dir="rtl">
+                        <input type="text" value="<%= user.email %>" disabled class="text-right change-info" dir="rtl">
+                        <span>
+                            :ایمیل
+                        </span>
+
+
+
+                        <button class="btn btn-light btn-left change-information" data-number="3">
+                            تغییر
+                        </button>
+
+                    </div>
+                    <div class="information-box-holder text-right">
+                        <input type="text" value="<%= user.phoneNumber %>" disabled class="text-right change-info" dir="rtl">
                         <span>
                             :شماره تلفن
                         </span>
 
 
 
-                        <button class="btn btn-light btn-left change-information" data-number="3">
+                        <button class="btn btn-light btn-left change-information" data-number="4">
                             تغییر
                         </button>
                     </div>
@@ -212,7 +237,7 @@
         <%- include("../partials/footer",{home:false}) %>
         <%- include("../partials/scripts") %>
         <script src="/javascripts/user-account-image.js"></script>
-        <script src="/javascripts/signin.js"></script>
+        <script src="/javascripts/signIn.js"></script>
     </body>
 
     </html>

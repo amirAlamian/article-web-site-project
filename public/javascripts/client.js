@@ -226,11 +226,11 @@ $(".signUpBTN").click(() => {
 //////////////////////////// inputs ontype event for password strength bar ////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-$(".input-box input[type='password'").keypress((e) => {
+$(".input-box .pass_bar").keypress((e) => {
   if (flag) {
     $(".input-box-container").eq(3).append('<div class="passwordStrength"><small>password strength:</small></div>').css({ "border": "none" });
 
-    $(".input-box input[type='password'").css("padding-bottom", 0)
+    $(".input-box .pass_bar").css("padding-bottom", 0)
 
     $("small").css("color", "rgb(129,129,129")
 
@@ -243,8 +243,9 @@ $(".input-box input[type='password'").keypress((e) => {
 
   let size = "";
   for (let i = 0; i < 3; i++) {
-    size += $(".passwordStrength").css("width")[i];
 
+    size += $(".passwordStrength").css("width")[i];
+  
   }
   size /= 36;
 
@@ -260,7 +261,7 @@ $(".input-box input[type='password'").keypress((e) => {
 
 
 })
-$(".input-box input[type='password'").keydown((e) => {
+$(".input-box .pass_bar").keydown((e) => {
 
   if (e.keyCode === 8) {
     let size = "";
@@ -367,7 +368,6 @@ $(document).on("click", ".sendVeriCodeBTN", () => {
       url: `/api/verifyCode`,
       data: { VerificationCode },
       success: (response) => {
-        console.log(response);
         if (response.status) {
           if(flag2===1){
             $(".VerificationCode-holder").animate({ "opacity": 0 }, 500, "linear", function () {
@@ -416,7 +416,6 @@ $(document).on("click", ".sendVeriCodeBTN", () => {
 ////////////////////////////////////////// send code button ///////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////
 $(document).on("click", ".changePasswordBTN", () => {
-  console.log("omad");
   if ($(".password-input").eq(0).val() === $(".password-input").eq(1).val() && $(".password-input").eq(0).val() != "") {
     let password = $(".password-input").eq(0).val();
     $.ajax({// post to send email

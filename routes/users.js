@@ -117,10 +117,17 @@ router.put('/uploadAvatar', async (req, res) => {
 
 router.put("/updateUser", async (req, res) => {
     try {
-        if (!req.body.password || !req.body.firstName || !req.body.lastName || !req.body.email || !req.body.phoneNumber) {
+        if ( !req.body.firstName || !req.body.lastName || !req.body.email || !req.body.phoneNumber) {
             throw new Error('You have an empty input.')
         };
-        req.body.password = await bcrypt.hash(req.body.password, saltRounds);
+        if(!req.body.password ){
+            
+            req.body.password=req.session.user.password;
+        }
+        else{
+            req.body.password = await bcrypt.hash(req.body.password, saltRounds);
+        }
+       
         let user = await User.findByIdAndUpdate(req.session.user._id, req.body, { new: true });
 
         if (!user) {

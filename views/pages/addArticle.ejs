@@ -48,7 +48,7 @@
        </thead>
        <tbody class="hide2">
            <tr>
-            <td><textarea><%= article.title%></textarea></td>
+            <td><textarea class=" hide2"><%= article.title%></textarea></td>
            </tr>
        </tbody>
 
@@ -62,7 +62,7 @@
     </thead>
     <tbody class="hide2">
         <tr>
-            <td><textarea><%= article.description%></textarea></td>
+            <td><textarea class=" hide2"><%= article.description%></textarea></td>
         </tr>
     </tbody>
 
@@ -75,7 +75,7 @@
     </thead>
     <tbody class="hide2">
         <tr>
-       <td> <input type="file" name="avatar" class="btn btn-light choosePicture "
+       <td> <input type="file" name="avatar" class="btn btn-light choosePicture  hide2 "
                         data-id="<%= article._id%>">
                 </td>
             </tr>
@@ -88,9 +88,9 @@
 
         <tbody class="hide-800px">
             <tr>
-                <td><textarea><%= article.title%></textarea></td>
-                <td><textarea><%= article.description%></textarea></td>
-                <td> <input type="file" name="avatar" class="btn btn-light choosePicture "
+                <td><textarea class="hide-800px"><%= article.title%></textarea></td>
+                <td><textarea class="hide-800px"><%= article.description%></textarea></td>
+                <td> <input type="file" name="avatar" class="btn btn-light  hide-800px "
                         data-id="<%= article._id%>">
                 </td>
             </tr>
